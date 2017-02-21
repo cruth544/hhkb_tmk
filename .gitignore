@@ -1,7 +1,7 @@
 # This is a list of rules for ignoring files in every Git repositories on your computer.
 # See https://help.github.com/articles/ignoring-files
-#.dep
-#obj_hhkb
+.dep
+obj_hhkb
 
 # Compiled source #
 ###################
