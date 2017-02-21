@@ -15,7 +15,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      * |-----------------------------------------------------------|
      * |Tab  |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|Backs|
      * |-----------------------------------------------------------|
-     * |Fn2   |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|Enter   |
+     * |Fn3   |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|Enter   |
      * |-----------------------------------------------------------|
      * |Shift   |  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /|Shift |Fn1|
      * `-----------------------------------------------------------'
@@ -25,7 +25,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     [0] = \
     KEYMAP(ESC, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSLS,GRV, \
            TAB ,   Q,   W,   E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,BSPC, \
-           FN2  ,   A,   S,   D,   F,   G,   H,   J,   K,   L, SCLN, QUOT,ENT, \
+           FN3  ,   A,   S,   D,   F,   G,   H,   J,   K,   L, SCLN, QUOT,ENT, \
            LSFT  ,   Z,   X,   C,   V,   B,   N,   M, COMM, DOT, SLSH, RSFT,FN1, \
                 LALT,LGUI,           SPC           , RGUI, RALT),
 
@@ -49,7 +49,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
            LSFT,NO,  NO,  NO,  NO,  NO,  PPLS,PMNS,END, PGDN,DOWN,RSFT,TRNS, \
                 LALT,LGUI,          TRNS,               RGUI,RALT),
 
-    /* Layer 2: Fn2 Vi mode[Slash]
+    /* Layer 2: Fn2 Vi mode
      * ,-----------------------------------------------------------.
      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
      * |-----------------------------------------------------------|
@@ -65,10 +65,32 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     [2] = \
     KEYMAP(GRV, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, INS, DEL, \
            TAB , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, BSPC, \
+           FN3  , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, \
+           LSFT  , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, RSFT, TRNS, \
+                LALT, LGUI,            SPC             , RGUI, RALT),
+
+
+    /* Layer 3: Fn3 Vi mode[Slash]
+     * ,-----------------------------------------------------------.
+     * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
+     * |-----------------------------------------------------------|
+     * |Tab  |   |   |   |   |   |   |   |   |   |   |   |    Backs|
+     * |-----------------------------------------------------------|
+     * |Fn2   |   |   |  |BSPC|   |Lef|Dow|Up |Rig|   |   |Return  |
+     * |-----------------------------------------------------------|
+     * |Shift   |   |   |   |   |   |   |   |   |   |   Shift |    |
+     * `-----------------------------------------------------------'
+     *       |Alt|Gui  |          Space        |Gui  |Alt|
+     *       `-------------------------------------------`
+     */
+    [3] = \
+    KEYMAP(GRV, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, INS, DEL, \
+           TAB , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, BSPC, \
            FN2  , TRNS, TRNS, TRNS, BSPC, TRNS, LEFT, DOWN,  UP , RGHT, TRNS, TRNS, TRNS, \
            LSFT  , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, RSFT, TRNS, \
                 LALT, LGUI,            SPC             , RGUI, RALT),
 
+#if 0
     /* Layer 3: Fn3 Mouse mode(IJKL)[Semicolon]
      * ,-----------------------------------------------------------.
      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
@@ -110,7 +132,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
            LCTL,VOLD,VOLU,MUTE,NO,  NO,  NO,  MS_L,MS_D,MS_R,BTN1,NO,  ENT, \
            LSFT,NO,  NO,  NO,  NO,  BTN3,BTN2,BTN1,FN9, FN10,NO,  RSFT,TRNS, \
                 LALT,LGUI,          TRNS,               TRNS,TRNS),
-
+#endif
 #if 0
     /* Layer 3: Mouse mode(HJKL)[Semicolon]
      * ,-----------------------------------------------------------.
@@ -198,15 +220,17 @@ const action_t fn_actions[] PROGMEM = {
 #endif
     [0] = ACTION_DEFAULT_LAYER_SET(0),                // Default layer(not used)
     [1] = ACTION_LAYER_TAP_TOGGLE(1),                 // HHKB layer(toggle with 5 taps)
-    [2] = ACTION_LAYER_TAP_KEY(2, KC_SLASH),          // Cursor layer with Slash*
-    [3] = ACTION_LAYER_TAP_KEY(3, KC_SCLN),           // Mousekey layer with Semicolon*
-    [4] = ACTION_LAYER_TAP_KEY(4, KC_SPC),            // Mousekey layer with Space
-    [5] = ACTION_LAYER_MOMENTARY(4),                  // Mousekey layer(IJKL)
-    [6] = ACTION_MODS_TAP_KEY(MOD_RCTL, KC_ENT),      // RControl with tap Enter
-    [7] = ACTION_MODS_ONESHOT(MOD_LSFT),              // Oneshot Shift
-    [8] = ACTION_MACRO(ALT_TAB),                      // Application switching
-    [9] = ACTION_MODS_KEY(MOD_LALT, KC_LEFT),
-   [10] = ACTION_MODS_KEY(MOD_LALT, KC_RIGHT),
+    [2] = ACTION_LAYER_MODS(3, MOD_LCTL),             // Cursor layer with Slash* /*KC_SLASH*/
+    [3] = ACTION_LAYER_MOMENTARY(2)
+
+    // [3] = ACTION_LAYER_TAP_KEY(3, KC_SCLN),           // Mousekey layer with Semicolon*
+    // [4] = ACTION_LAYER_TAP_KEY(4, KC_SPC),            // Mousekey layer with Space
+   //  [5] = ACTION_LAYER_MOMENTARY(4),                  // Mousekey layer(IJKL)
+   //  [6] = ACTION_MODS_TAP_KEY(MOD_RCTL, KC_ENT),      // RControl with tap Enter
+   //  [7] = ACTION_MODS_ONESHOT(MOD_LSFT),              // Oneshot Shift
+   //  [8] = ACTION_MACRO(ALT_TAB),                      // Application switching
+   //  [9] = ACTION_MODS_KEY(MOD_LALT, KC_LEFT),
+   // [10] = ACTION_MODS_KEY(MOD_LALT, KC_RIGHT),
 
 //  [x] = ACTION_LMOD_TAP_KEY(KC_LCTL, KC_BSPC),        // LControl with tap Backspace
 //  [x] = ACTION_LMOD_TAP_KEY(KC_LCTL, KC_ESC),         // LControl with tap Esc
