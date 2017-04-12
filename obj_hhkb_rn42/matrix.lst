@@ -1,0 +1,1095 @@
+   1               		.file	"matrix.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               		.section	.text.KEY_POWER_OFF,"ax",@progbits
+  12               	KEY_POWER_OFF:
+  13               	.LFB13:
+  14               		.file 1 "hhkb_avr.h"
+   1:hhkb_avr.h    **** #ifndef HHKB_AVR_H
+   2:hhkb_avr.h    **** #define HHKB_AVR_H
+   3:hhkb_avr.h    **** 
+   4:hhkb_avr.h    **** #include <stdint.h>
+   5:hhkb_avr.h    **** #include <stdbool.h>
+   6:hhkb_avr.h    **** #include <avr/io.h>
+   7:hhkb_avr.h    **** #include <avr/interrupt.h>
+   8:hhkb_avr.h    **** #include <util/delay.h>
+   9:hhkb_avr.h    **** 
+  10:hhkb_avr.h    **** 
+  11:hhkb_avr.h    **** // Timer resolution check
+  12:hhkb_avr.h    **** #if (1000000/TIMER_RAW_FREQ > 20)
+  13:hhkb_avr.h    **** #   error "Timer resolution(>20us) is not enough for HHKB matrix scan tweak on V-USB."
+  14:hhkb_avr.h    **** #endif
+  15:hhkb_avr.h    **** 
+  16:hhkb_avr.h    **** 
+  17:hhkb_avr.h    **** /*
+  18:hhkb_avr.h    ****  * HHKB Matrix I/O
+  19:hhkb_avr.h    ****  *
+  20:hhkb_avr.h    ****  * row:     HC4051[A,B,C]  selects scan row0-7
+  21:hhkb_avr.h    ****  * row-ext: [En0,En1] row extention for JP
+  22:hhkb_avr.h    ****  * col:     LS145[A,B,C,D] selects scan col0-7 and enable(D)
+  23:hhkb_avr.h    ****  * key:     on: 0/off: 1
+  24:hhkb_avr.h    ****  * prev:    hysteresis control: assert(1) when previous key state is on
+  25:hhkb_avr.h    ****  */
+  26:hhkb_avr.h    **** 
+  27:hhkb_avr.h    **** 
+  28:hhkb_avr.h    **** #if defined(__AVR_ATmega32U4__)
+  29:hhkb_avr.h    **** /*
+  30:hhkb_avr.h    ****  * For TMK HHKB alt controller(ATMega32U4)
+  31:hhkb_avr.h    ****  *
+  32:hhkb_avr.h    ****  * row:     PB0-2
+  33:hhkb_avr.h    ****  * col:     PB3-5,6
+  34:hhkb_avr.h    ****  * key:     PD7(pull-uped)
+  35:hhkb_avr.h    ****  * prev:    PB7
+  36:hhkb_avr.h    ****  * power:   PD4(L:off/H:on)
+  37:hhkb_avr.h    ****  * row-ext: PC6,7 for HHKB JP(active low)
+  38:hhkb_avr.h    ****  */
+  39:hhkb_avr.h    **** static inline void KEY_ENABLE(void) { (PORTB &= ~(1<<6)); }
+  40:hhkb_avr.h    **** static inline void KEY_UNABLE(void) { (PORTB |=  (1<<6)); }
+  41:hhkb_avr.h    **** static inline bool KEY_STATE(void) { return (PIND & (1<<7)); }
+  42:hhkb_avr.h    **** static inline void KEY_PREV_ON(void) { (PORTB |=  (1<<7)); }
+  43:hhkb_avr.h    **** static inline void KEY_PREV_OFF(void) { (PORTB &= ~(1<<7)); }
+  44:hhkb_avr.h    **** #ifdef HHKB_POWER_SAVING
+  45:hhkb_avr.h    **** static inline void KEY_POWER_ON(void) {
+  46:hhkb_avr.h    ****     DDRB = 0xFF; PORTB = 0x40;          // change pins output
+  47:hhkb_avr.h    ****     DDRD |= (1<<4); PORTD |= (1<<4);    // MOS FET switch on
+  48:hhkb_avr.h    ****     /* Without this wait you will miss or get false key events. */
+  49:hhkb_avr.h    ****     _delay_ms(5);                       // wait for powering up
+  50:hhkb_avr.h    **** }
+  51:hhkb_avr.h    **** static inline void KEY_POWER_OFF(void) {
+  15               		.loc 1 51 0
+  16               		.cfi_startproc
+  17               	/* prologue: function */
+  18               	/* frame size = 0 */
+  19               	/* stack size = 0 */
+  20               	.L__stack_usage = 0
+  52:hhkb_avr.h    ****     /* input with pull-up consumes less than without it when pin is open. */
+  53:hhkb_avr.h    ****     DDRB = 0x00; PORTB = 0xFF;          // change pins input with pull-up
+  21               		.loc 1 53 0
+  22 0000 14B8      		out 0x4,__zero_reg__
+  23 0002 8FEF      		ldi r24,lo8(-1)
+  24 0004 85B9      		out 0x5,r24
+  54:hhkb_avr.h    ****     DDRD |= (1<<4); PORTD &= ~(1<<4);   // MOS FET switch off
+  25               		.loc 1 54 0
+  26 0006 549A      		sbi 0xa,4
+  27 0008 5C98      		cbi 0xb,4
+  28 000a 0895      		ret
+  29               		.cfi_endproc
+  30               	.LFE13:
+  32               		.section	.text.KEY_POWER_ON,"ax",@progbits
+  34               	KEY_POWER_ON:
+  35               	.LFB12:
+  45:hhkb_avr.h    **** static inline void KEY_POWER_ON(void) {
+  36               		.loc 1 45 0
+  37               		.cfi_startproc
+  38               	/* prologue: function */
+  39               	/* frame size = 0 */
+  40               	/* stack size = 0 */
+  41               	.L__stack_usage = 0
+  46:hhkb_avr.h    ****     DDRB = 0xFF; PORTB = 0x40;          // change pins output
+  42               		.loc 1 46 0
+  43 0000 8FEF      		ldi r24,lo8(-1)
+  44 0002 84B9      		out 0x4,r24
+  45 0004 80E4      		ldi r24,lo8(64)
+  46 0006 85B9      		out 0x5,r24
+  47:hhkb_avr.h    ****     DDRD |= (1<<4); PORTD |= (1<<4);    // MOS FET switch on
+  47               		.loc 1 47 0
+  48 0008 549A      		sbi 0xa,4
+  49 000a 5C9A      		sbi 0xb,4
+  50               	.LVL0:
+  51               	.LBB17:
+  52               	.LBB18:
+  53               		.file 2 "/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h"
+   1:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    All rights reserved.
+   5:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+   6:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+   9:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  12:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      distribution.
+  16:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  17:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  21:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  33:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /* $Id$ */
+  34:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  35:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  38:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #ifndef __HAS_DELAY_CYCLES
+  39:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #define __HAS_DELAY_CYCLES 1
+  40:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #endif
+  41:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  42:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #include <inttypes.h>
+  43:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #include <util/delay_basic.h>
+  44:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #include <math.h>
+  45:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  46:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /** \file */
+  47:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  48:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     \code
+  49:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  50:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  51:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     #include <util/delay.h>
+  52:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     \endcode
+  53:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  54:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  55:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  56:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  57:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     used.
+  58:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  59:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  60:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  61:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  62:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  63:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  64:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  65:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  66:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  67:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  68:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  69:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  70:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  71:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  72:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  73:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  74:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  75:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     routines linked into the application.
+  76:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  77:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  78:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  79:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  80:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  81:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** */
+  82:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  83:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  84:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  85:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  86:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #endif
+  87:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  88:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #ifndef F_CPU
+  89:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  90:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  91:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** # define F_CPU 1000000UL
+  92:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #endif
+  93:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  94:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+  95:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+  96:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #endif
+  97:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  98:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+  99:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 100:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 101:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #  include <math.h>
+ 102:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #endif
+ 103:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 104:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /**
+ 105:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    \ingroup util_delay
+ 106:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 107:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+ 108:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 109:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 110:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 111:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 112:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 113:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 114:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 115:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 116:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 117:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 118:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 119:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 120:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles(unsigned long)
+ 121:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 ms/ F_CPU in MHz. For
+ 122:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    values greater than the maximal possible delay, overflows results in
+ 123:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    no delay i.e., 0ms.
+ 124:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 125:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Conversion of __us into clock cycles may not always result in integer.
+ 126:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    By default, the clock cycles rounded up to next integer. This ensures that
+ 127:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    the user gets atleast __us microseconds of delay.
+ 128:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 129:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Alternatively, user can define __DELAY_ROUND_DOWN__ and __DELAY_ROUND_CLOSEST__
+ 130:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    to round down and round to closest integer.
+ 131:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 132:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Note: The new implementation of _delay_ms(double __ms) with 
+ 133:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     __builtin_avr_delay_cycles(unsigned long) support is not backward compatible. 
+ 134:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    User can define __DELAY_BACKWARD_COMPATIBLE__ to get a backward compatible delay.
+ 135:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Also, the backward compatible
+ 136:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    algorithm will be chosen if the code is compiled in a <em>freestanding
+ 137:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    environment</em> (GCC option \c -ffreestanding), as the math functions
+ 138:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    required for rounding are not available to the compiler then.
+ 139:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 140:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****  */
+ 141:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** void
+ 142:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** _delay_ms(double __ms)
+ 143:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** {
+ 144:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	double __tmp ; 
+ 145:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 146:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 147:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 148:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 149:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 150:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 151:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 152:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 153:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 154:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 155:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 156:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 157:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 158:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#else
+ 159:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		//round up by default
+ 160:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 161:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#endif
+ 162:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 163:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+  54               		.loc 2 163 0
+  55 000c 8FE1      		ldi r24,lo8(19999)
+  56 000e 9EE4      		ldi r25,hi8(19999)
+  57 0010 0197      		1: sbiw r24,1
+  58 0012 01F4      		brne 1b
+  59 0014 00C0      		rjmp .
+  60 0016 0000      		nop
+  61 0018 0895      		ret
+  62               	.LBE18:
+  63               	.LBE17:
+  64               		.cfi_endproc
+  65               	.LFE12:
+  67               		.section	.text.matrix_init,"ax",@progbits
+  68               	.global	matrix_init
+  70               	matrix_init:
+  71               	.LFB111:
+  72               		.file 3 "matrix.c"
+   1:matrix.c      **** /*
+   2:matrix.c      **** Copyright 2011 Jun Wako <wakojun@gmail.com>
+   3:matrix.c      **** 
+   4:matrix.c      **** This program is free software: you can redistribute it and/or modify
+   5:matrix.c      **** it under the terms of the GNU General Public License as published by
+   6:matrix.c      **** the Free Software Foundation, either version 2 of the License, or
+   7:matrix.c      **** (at your option) any later version.
+   8:matrix.c      **** 
+   9:matrix.c      **** This program is distributed in the hope that it will be useful,
+  10:matrix.c      **** but WITHOUT ANY WARRANTY; without even the implied warranty of
+  11:matrix.c      **** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  12:matrix.c      **** GNU General Public License for more details.
+  13:matrix.c      **** 
+  14:matrix.c      **** You should have received a copy of the GNU General Public License
+  15:matrix.c      **** along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  16:matrix.c      **** */
+  17:matrix.c      **** 
+  18:matrix.c      **** /*
+  19:matrix.c      ****  * scan matrix
+  20:matrix.c      ****  */
+  21:matrix.c      **** #include <stdint.h>
+  22:matrix.c      **** #include <stdbool.h>
+  23:matrix.c      **** #include <util/delay.h>
+  24:matrix.c      **** #include "print.h"
+  25:matrix.c      **** #include "debug.h"
+  26:matrix.c      **** #include "util.h"
+  27:matrix.c      **** #include "timer.h"
+  28:matrix.c      **** #include "matrix.h"
+  29:matrix.c      **** #include "hhkb_avr.h"
+  30:matrix.c      **** #include <avr/wdt.h>
+  31:matrix.c      **** #include "suspend.h"
+  32:matrix.c      **** #include "lufa.h"
+  33:matrix.c      **** 
+  34:matrix.c      **** 
+  35:matrix.c      **** // matrix power saving
+  36:matrix.c      **** #define MATRIX_POWER_SAVE       10000
+  37:matrix.c      **** static uint32_t matrix_last_modified = 0;
+  38:matrix.c      **** 
+  39:matrix.c      **** // matrix state buffer(1:on, 0:off)
+  40:matrix.c      **** static matrix_row_t *matrix;
+  41:matrix.c      **** static matrix_row_t *matrix_prev;
+  42:matrix.c      **** static matrix_row_t _matrix0[MATRIX_ROWS];
+  43:matrix.c      **** static matrix_row_t _matrix1[MATRIX_ROWS];
+  44:matrix.c      **** 
+  45:matrix.c      **** 
+  46:matrix.c      **** void matrix_init(void)
+  47:matrix.c      **** {
+  73               		.loc 3 47 0
+  74               		.cfi_startproc
+  75               	/* prologue: function */
+  76               	/* frame size = 0 */
+  77               	/* stack size = 0 */
+  78               	.L__stack_usage = 0
+  79               	.LBB27:
+  80               	.LBB28:
+  55:hhkb_avr.h    **** }
+  56:hhkb_avr.h    **** static inline bool KEY_POWER_STATE(void) { return PORTD & (1<<4); }
+  57:hhkb_avr.h    **** #else
+  58:hhkb_avr.h    **** static inline void KEY_POWER_ON(void) {}
+  59:hhkb_avr.h    **** static inline void KEY_POWER_OFF(void) {}
+  60:hhkb_avr.h    **** static inline bool KEY_POWER_STATE(void) { return true; }
+  61:hhkb_avr.h    **** #endif
+  62:hhkb_avr.h    **** static inline void KEY_INIT(void)
+  63:hhkb_avr.h    **** {
+  64:hhkb_avr.h    ****     /* row,col,prev: output */
+  65:hhkb_avr.h    ****     DDRB  = 0xFF;
+  81               		.loc 1 65 0
+  82 0000 8FEF      		ldi r24,lo8(-1)
+  83 0002 84B9      		out 0x4,r24
+  66:hhkb_avr.h    ****     PORTB = 0x40;   // unable
+  84               		.loc 1 66 0
+  85 0004 80E4      		ldi r24,lo8(64)
+  86 0006 85B9      		out 0x5,r24
+  67:hhkb_avr.h    ****     /* key: input with pull-up */
+  68:hhkb_avr.h    ****     DDRD  &= ~0x80;
+  87               		.loc 1 68 0
+  88 0008 5798      		cbi 0xa,7
+  69:hhkb_avr.h    ****     PORTD |=  0x80;
+  89               		.loc 1 69 0
+  90 000a 5F9A      		sbi 0xb,7
+  70:hhkb_avr.h    **** #ifdef HHKB_JP
+  71:hhkb_avr.h    ****     /* row extention for HHKB JP */
+  72:hhkb_avr.h    ****     DDRC  |= (1<<6|1<<7);
+  73:hhkb_avr.h    ****     PORTC |= (1<<6|1<<7);
+  74:hhkb_avr.h    **** #else
+  75:hhkb_avr.h    ****     /* input with pull up to save power */
+  76:hhkb_avr.h    ****     DDRC  &= ~(1<<6|1<<7);
+  91               		.loc 1 76 0
+  92 000c 87B1      		in r24,0x7
+  93 000e 8F73      		andi r24,lo8(63)
+  94 0010 87B9      		out 0x7,r24
+  77:hhkb_avr.h    ****     PORTC |=  (1<<6|1<<7);
+  95               		.loc 1 77 0
+  96 0012 88B1      		in r24,0x8
+  97 0014 806C      		ori r24,lo8(-64)
+  98 0016 88B9      		out 0x8,r24
+  99               	.LBB29:
+ 100               	.LBB30:
+  40:hhkb_avr.h    **** static inline void KEY_UNABLE(void) { (PORTB |=  (1<<6)); }
+ 101               		.loc 1 40 0
+ 102 0018 2E9A      		sbi 0x5,6
+ 103               	.LBE30:
+ 104               	.LBE29:
+ 105               	.LBB31:
+ 106               	.LBB32:
+  43:hhkb_avr.h    **** static inline void KEY_PREV_OFF(void) { (PORTB &= ~(1<<7)); }
+ 107               		.loc 1 43 0
+ 108 001a 2F98      		cbi 0x5,7
+ 109               	.LBE32:
+ 110               	.LBE31:
+  78:hhkb_avr.h    **** #endif
+  79:hhkb_avr.h    ****     KEY_UNABLE();
+  80:hhkb_avr.h    ****     KEY_PREV_OFF();
+  81:hhkb_avr.h    **** 
+  82:hhkb_avr.h    ****     KEY_POWER_OFF();
+ 111               		.loc 1 82 0
+ 112 001c 0E94 0000 		call KEY_POWER_OFF
+ 113               	.LVL1:
+ 114 0020 E0E0      		ldi r30,lo8(_matrix0)
+ 115 0022 F0E0      		ldi r31,hi8(_matrix0)
+ 116               	.LVL2:
+ 117               	.L5:
+ 118               	.LBE28:
+ 119               	.LBE27:
+ 120               	.LBB33:
+  48:matrix.c      **** #ifdef DEBUG
+  49:matrix.c      ****     debug_enable = true;
+  50:matrix.c      ****     debug_keyboard = true;
+  51:matrix.c      **** #endif
+  52:matrix.c      **** 
+  53:matrix.c      ****     KEY_INIT();
+  54:matrix.c      **** 
+  55:matrix.c      ****     // initialize matrix state: all keys off
+  56:matrix.c      ****     for (uint8_t i=0; i < MATRIX_ROWS; i++) _matrix0[i] = 0x00;
+ 121               		.loc 3 56 0 discriminator 2
+ 122 0024 1192      		st Z+,__zero_reg__
+ 123               	.LVL3:
+ 124 0026 80E0      		ldi r24,hi8(_matrix0+8)
+ 125 0028 E030      		cpi r30,lo8(_matrix0+8)
+ 126 002a F807      		cpc r31,r24
+ 127 002c 01F4      		brne .L5
+ 128 002e E0E0      		ldi r30,lo8(_matrix1)
+ 129 0030 F0E0      		ldi r31,hi8(_matrix1)
+ 130               	.LVL4:
+ 131               	.L7:
+ 132               	.LBE33:
+ 133               	.LBB34:
+  57:matrix.c      ****     for (uint8_t i=0; i < MATRIX_ROWS; i++) _matrix1[i] = 0x00;
+ 134               		.loc 3 57 0 discriminator 2
+ 135 0032 1192      		st Z+,__zero_reg__
+ 136               	.LVL5:
+ 137 0034 80E0      		ldi r24,hi8(_matrix1+8)
+ 138 0036 E030      		cpi r30,lo8(_matrix1+8)
+ 139 0038 F807      		cpc r31,r24
+ 140 003a 01F4      		brne .L7
+ 141               	.LBE34:
+  58:matrix.c      ****     matrix = _matrix0;
+ 142               		.loc 3 58 0
+ 143 003c 80E0      		ldi r24,lo8(_matrix0)
+ 144 003e 90E0      		ldi r25,hi8(_matrix0)
+ 145 0040 9093 0000 		sts matrix+1,r25
+ 146 0044 8093 0000 		sts matrix,r24
+  59:matrix.c      ****     matrix_prev = _matrix1;
+ 147               		.loc 3 59 0
+ 148 0048 80E0      		ldi r24,lo8(_matrix1)
+ 149 004a 90E0      		ldi r25,hi8(_matrix1)
+ 150 004c 9093 0000 		sts matrix_prev+1,r25
+ 151 0050 8093 0000 		sts matrix_prev,r24
+ 152 0054 0895      		ret
+ 153               		.cfi_endproc
+ 154               	.LFE111:
+ 156               		.section	.text.matrix_scan,"ax",@progbits
+ 157               	.global	matrix_scan
+ 159               	matrix_scan:
+ 160               	.LFB112:
+  60:matrix.c      **** }
+  61:matrix.c      **** 
+  62:matrix.c      **** uint8_t matrix_scan(void)
+  63:matrix.c      **** {
+ 161               		.loc 3 63 0
+ 162               		.cfi_startproc
+ 163 0000 0F93      		push r16
+ 164               	.LCFI0:
+ 165               		.cfi_def_cfa_offset 3
+ 166               		.cfi_offset 16, -2
+ 167 0002 1F93      		push r17
+ 168               	.LCFI1:
+ 169               		.cfi_def_cfa_offset 4
+ 170               		.cfi_offset 17, -3
+ 171 0004 CF93      		push r28
+ 172               	.LCFI2:
+ 173               		.cfi_def_cfa_offset 5
+ 174               		.cfi_offset 28, -4
+ 175 0006 DF93      		push r29
+ 176               	.LCFI3:
+ 177               		.cfi_def_cfa_offset 6
+ 178               		.cfi_offset 29, -5
+ 179               	/* prologue: function */
+ 180               	/* frame size = 0 */
+ 181               	/* stack size = 4 */
+ 182               	.L__stack_usage = 4
+  64:matrix.c      ****     uint8_t *tmp;
+  65:matrix.c      **** 
+  66:matrix.c      ****     tmp = matrix_prev;
+ 183               		.loc 3 66 0
+ 184 0008 8091 0000 		lds r24,matrix_prev
+ 185 000c 9091 0000 		lds r25,matrix_prev+1
+ 186               	.LVL6:
+  67:matrix.c      ****     matrix_prev = matrix;
+ 187               		.loc 3 67 0
+ 188 0010 2091 0000 		lds r18,matrix
+ 189 0014 3091 0000 		lds r19,matrix+1
+ 190 0018 3093 0000 		sts matrix_prev+1,r19
+ 191 001c 2093 0000 		sts matrix_prev,r18
+  68:matrix.c      ****     matrix = tmp;
+ 192               		.loc 3 68 0
+ 193 0020 9093 0000 		sts matrix+1,r25
+ 194 0024 8093 0000 		sts matrix,r24
+  69:matrix.c      **** 
+  70:matrix.c      ****     // power on
+  71:matrix.c      ****     if (!KEY_POWER_STATE()) KEY_POWER_ON();
+ 195               		.loc 3 71 0
+ 196 0028 5C9B      		sbis 0xb,4
+ 197               		.loc 3 71 0 is_stmt 0 discriminator 1
+ 198 002a 0E94 0000 		call KEY_POWER_ON
+ 199               	.LVL7:
+ 200               	.L10:
+  63:matrix.c      **** {
+ 201               		.loc 3 63 0 is_stmt 1 discriminator 1
+ 202 002e C0E0      		ldi r28,0
+ 203 0030 D0E0      		ldi r29,0
+ 204               	.LBB64:
+ 205               	.LBB65:
+ 206               	.LBB66:
+  72:matrix.c      ****     for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+  73:matrix.c      ****         for (uint8_t col = 0; col < MATRIX_COLS; col++) {
+  74:matrix.c      ****             KEY_SELECT(row, col);
+  75:matrix.c      ****             _delay_us(5);
+  76:matrix.c      **** 
+  77:matrix.c      ****             // Not sure this is needed. This just emulates HHKB controller's behaviour.
+  78:matrix.c      ****             if (matrix_prev[row] & (1<<col)) {
+  79:matrix.c      ****                 KEY_PREV_ON();
+  80:matrix.c      ****             }
+  81:matrix.c      ****             _delay_us(10);
+  82:matrix.c      **** 
+  83:matrix.c      ****             // NOTE: KEY_STATE is valid only in 20us after KEY_ENABLE.
+  84:matrix.c      ****             // If V-USB interrupts in this section we could lose 40us or so
+  85:matrix.c      ****             // and would read invalid value from KEY_STATE.
+  86:matrix.c      ****             uint8_t last = TIMER_RAW;
+  87:matrix.c      **** 
+  88:matrix.c      ****             KEY_ENABLE();
+  89:matrix.c      **** 
+  90:matrix.c      ****             // Wait for KEY_STATE outputs its value.
+  91:matrix.c      ****             // 1us was ok on one HHKB, but not worked on another.
+  92:matrix.c      ****             // no   wait doesn't work on Teensy++ with pro(1us works)
+  93:matrix.c      ****             // no   wait does    work on tmk PCB(8MHz) with pro2
+  94:matrix.c      ****             // 1us  wait does    work on both of above
+  95:matrix.c      ****             // 1us  wait doesn't work on tmk(16MHz)
+  96:matrix.c      ****             // 5us  wait does    work on tmk(16MHz)
+  97:matrix.c      ****             // 5us  wait does    work on tmk(16MHz/2)
+  98:matrix.c      ****             // 5us  wait does    work on tmk(8MHz)
+  99:matrix.c      ****             // 10us wait does    work on Teensy++ with pro
+ 100:matrix.c      ****             // 10us wait does    work on 328p+iwrap with pro
+ 101:matrix.c      ****             // 10us wait doesn't work on tmk PCB(8MHz) with pro2(very lagged scan)
+ 102:matrix.c      ****             _delay_us(5);
+ 103:matrix.c      **** 
+ 104:matrix.c      ****             if (KEY_STATE()) {
+ 105:matrix.c      ****                 matrix[row] &= ~(1<<col);
+ 106:matrix.c      ****             } else {
+ 107:matrix.c      ****                 matrix[row] |= (1<<col);
+ 207               		.loc 3 107 0 discriminator 1
+ 208 0032 01E0      		ldi r16,lo8(1)
+ 209 0034 10E0      		ldi r17,0
+ 210               	.LVL8:
+ 211               	.L11:
+ 212               	.LBE66:
+ 213               	.LBE65:
+ 214               	.LBE64:
+  63:matrix.c      **** {
+ 215               		.loc 3 63 0 discriminator 1
+ 216 0036 80E0      		ldi r24,0
+ 217 0038 90E0      		ldi r25,0
+ 218               	.LVL9:
+ 219               	.L23:
+ 220               	.LBB89:
+ 221               	.LBB88:
+ 222               	.LBB87:
+ 223               	.LBB67:
+ 224               	.LBB68:
+  83:hhkb_avr.h    **** }
+  84:hhkb_avr.h    **** static inline void KEY_SELECT(uint8_t ROW, uint8_t COL)
+  85:hhkb_avr.h    **** {
+  86:hhkb_avr.h    ****     PORTB = (PORTB & 0xC0) | (((COL) & 0x07)<<3) | ((ROW) & 0x07);
+ 225               		.loc 1 86 0
+ 226 003a 45B1      		in r20,0x5
+ 227 003c 407C      		andi r20,lo8(-64)
+ 228 003e 4C2B      		or r20,r28
+ 229 0040 9C01      		movw r18,r24
+ 230 0042 53E0      		ldi r21,3
+ 231               		1:
+ 232 0044 220F      		lsl r18
+ 233 0046 331F      		rol r19
+ 234 0048 5A95      		dec r21
+ 235 004a 01F4      		brne 1b
+ 236 004c 422B      		or r20,r18
+ 237 004e 45B9      		out 0x5,r20
+ 238               	.LVL10:
+ 239               	.LBE68:
+ 240               	.LBE67:
+ 241               	.LBB69:
+ 242               	.LBB70:
+ 164:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 165:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #else
+ 166:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	uint16_t __ticks;
+ 167:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 4e3) * __ms;
+ 168:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 169:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks = 1;
+ 170:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 171:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	{
+ 172:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		//	__ticks = requested delay in 1/10 ms
+ 173:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks = (uint16_t) (__ms * 10.0);
+ 174:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		while(__ticks)
+ 175:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		{
+ 176:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 			// wait 1/10 ms
+ 177:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 			_delay_loop_2(((F_CPU) / 4e3) / 10);
+ 178:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 			__ticks --;
+ 179:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		}
+ 180:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		return;
+ 181:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	}
+ 182:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	else
+ 183:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks = (uint16_t)__tmp;
+ 184:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 185:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #endif
+ 186:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** }
+ 187:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 188:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /**
+ 189:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    \ingroup util_delay
+ 190:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 191:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Perform a delay of \c __us microseconds, using _delay_loop_1().
+ 192:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 193:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 194:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 195:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 196:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    The maximal possible delay is 768 us / F_CPU in MHz.
+ 197:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 198:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    If the user requests a delay greater than the maximal possible one,
+ 199:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    _delay_us() will automatically call _delay_ms() instead.  The user
+ 200:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    will not be informed about this case.
+ 201:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 202:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles(unsigned long)
+ 203:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 us/ F_CPU in MHz. For
+ 204:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    values greater than the maximal possible delay, overflow results in
+ 205:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    no delay i.e., 0us.
+ 206:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   
+ 207:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Conversion of __us into clock cycles may not always result in integer.
+ 208:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    By default, the clock cycles rounded up to next integer. This ensures that
+ 209:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    the user gets atleast __us microseconds of delay.
+ 210:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 211:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Alternatively, user can define __DELAY_ROUND_DOWN__ and __DELAY_ROUND_CLOSEST__
+ 212:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    to round down and round to closest integer.
+ 213:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****  
+ 214:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Note: The new implementation of _delay_us(double __us) with 
+ 215:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     __builtin_avr_delay_cycles(unsigned long) support is not backward compatible.
+ 216:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    User can define __DELAY_BACKWARD_COMPATIBLE__ to get a backward compatible delay.
+ 217:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Also, the backward compatible
+ 218:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    algorithm will be chosen if the code is compiled in a <em>freestanding
+ 219:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    environment</em> (GCC option \c -ffreestanding), as the math functions
+ 220:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    required for rounding are not available to the compiler then.
+ 221:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 222:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****  */
+ 223:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** void
+ 224:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** _delay_us(double __us)
+ 225:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** {
+ 226:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	double __tmp ; 
+ 227:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 228:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 229:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 230:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 231:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 232:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e6) * __us;
+ 233:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 234:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 235:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 236:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 237:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 238:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 239:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 240:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#else
+ 241:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		//round up by default
+ 242:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 243:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#endif
+ 244:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 245:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 243               		.loc 2 245 0
+ 244 0050 EAE1      		ldi r30,lo8(26)
+ 245 0052 EA95      		1: dec r30
+ 246 0054 01F4      		brne 1b
+ 247 0056 00C0      		rjmp .
+ 248               	.LBE70:
+ 249               	.LBE69:
+  78:matrix.c      ****             if (matrix_prev[row] & (1<<col)) {
+ 250               		.loc 3 78 0
+ 251 0058 E091 0000 		lds r30,matrix_prev
+ 252 005c F091 0000 		lds r31,matrix_prev+1
+ 253 0060 EC0F      		add r30,r28
+ 254 0062 FD1F      		adc r31,r29
+ 255 0064 2081      		ld r18,Z
+ 256 0066 30E0      		ldi r19,0
+ 257 0068 082E      		mov r0,r24
+ 258 006a 00C0      		rjmp 2f
+ 259               		1:
+ 260 006c 3595      		asr r19
+ 261 006e 2795      		ror r18
+ 262               		2:
+ 263 0070 0A94      		dec r0
+ 264 0072 02F4      		brpl 1b
+ 265 0074 20FD      		sbrc r18,0
+ 266               	.LBB71:
+ 267               	.LBB72:
+  42:hhkb_avr.h    **** static inline void KEY_PREV_ON(void) { (PORTB |=  (1<<7)); }
+ 268               		.loc 1 42 0
+ 269 0076 2F9A      		sbi 0x5,7
+ 270               	.L12:
+ 271               	.LVL11:
+ 272               	.LBE72:
+ 273               	.LBE71:
+ 274               	.LBB73:
+ 275               	.LBB74:
+ 276               		.loc 2 245 0
+ 277 0078 F5E3      		ldi r31,lo8(53)
+ 278 007a FA95      		1: dec r31
+ 279 007c 01F4      		brne 1b
+ 280 007e 0000      		nop
+ 281               	.LBE74:
+ 282               	.LBE73:
+  86:matrix.c      ****             uint8_t last = TIMER_RAW;
+ 283               		.loc 3 86 0
+ 284 0080 A6B5      		in r26,0x26
+ 285               	.LVL12:
+ 286               	.LBB75:
+ 287               	.LBB76:
+  39:hhkb_avr.h    **** static inline void KEY_ENABLE(void) { (PORTB &= ~(1<<6)); }
+ 288               		.loc 1 39 0
+ 289 0082 2E98      		cbi 0x5,6
+ 290               	.LVL13:
+ 291               	.LBE76:
+ 292               	.LBE75:
+ 293               	.LBB77:
+ 294               	.LBB78:
+ 295               		.loc 2 245 0
+ 296 0084 2AE1      		ldi r18,lo8(26)
+ 297 0086 2A95      		1: dec r18
+ 298 0088 01F4      		brne 1b
+ 299 008a 00C0      		rjmp .
+ 300 008c 2091 0000 		lds r18,matrix
+ 301 0090 3091 0000 		lds r19,matrix+1
+ 302               	.LBE78:
+ 303               	.LBE77:
+ 104:matrix.c      ****             if (KEY_STATE()) {
+ 304               		.loc 3 104 0
+ 305 0094 4F9B      		sbis 0x9,7
+ 306 0096 00C0      		rjmp .L13
+ 105:matrix.c      ****                 matrix[row] &= ~(1<<col);
+ 307               		.loc 3 105 0
+ 308 0098 A801      		movw r20,r16
+ 309 009a 082E      		mov r0,r24
+ 310 009c 00C0      		rjmp 2f
+ 311               		1:
+ 312 009e 440F      		lsl r20
+ 313               		2:
+ 314 00a0 0A94      		dec r0
+ 315 00a2 02F4      		brpl 1b
+ 316 00a4 4095      		com r20
+ 317 00a6 F901      		movw r30,r18
+ 318 00a8 EC0F      		add r30,r28
+ 319 00aa FD1F      		adc r31,r29
+ 320 00ac 5081      		ld r21,Z
+ 321 00ae 5423      		and r21,r20
+ 322 00b0 5083      		st Z,r21
+ 323 00b2 00C0      		rjmp .L14
+ 324               	.L13:
+ 325               		.loc 3 107 0
+ 326 00b4 F901      		movw r30,r18
+ 327 00b6 EC0F      		add r30,r28
+ 328 00b8 FD1F      		adc r31,r29
+ 329 00ba 6081      		ld r22,Z
+ 330 00bc A801      		movw r20,r16
+ 331 00be 082E      		mov r0,r24
+ 332 00c0 00C0      		rjmp 2f
+ 333               		1:
+ 334 00c2 440F      		lsl r20
+ 335               		2:
+ 336 00c4 0A94      		dec r0
+ 337 00c6 02F4      		brpl 1b
+ 338 00c8 642B      		or r22,r20
+ 339 00ca 6083      		st Z,r22
+ 340               	.L14:
+ 108:matrix.c      ****             }
+ 109:matrix.c      **** 
+ 110:matrix.c      ****             // Ignore if this code region execution time elapses more than 20us.
+ 111:matrix.c      ****             // MEMO: 20[us] * (TIMER_RAW_FREQ / 1000000)[count per us]
+ 112:matrix.c      ****             // MEMO: then change above using this rule: a/(b/c) = a*1/(b/c) = a*(c/b)
+ 113:matrix.c      ****             if (TIMER_DIFF_RAW(TIMER_RAW, last) > 20/(1000000/TIMER_RAW_FREQ)) {
+ 341               		.loc 3 113 0
+ 342 00cc 46B5      		in r20,0x26
+ 343 00ce 6A2F      		mov r22,r26
+ 344 00d0 70E0      		ldi r23,0
+ 345 00d2 4A17      		cp r20,r26
+ 346 00d4 00F0      		brlo .L15
+ 347               	.LVL14:
+ 348               		.loc 3 113 0 is_stmt 0 discriminator 1
+ 349 00d6 46B5      		in r20,0x26
+ 350 00d8 50E0      		ldi r21,0
+ 351 00da 00C0      		rjmp .L36
+ 352               	.L15:
+ 353               		.loc 3 113 0 discriminator 2
+ 354 00dc 46B5      		in r20,0x26
+ 355 00de 50E0      		ldi r21,0
+ 356 00e0 4150      		subi r20,1
+ 357 00e2 5F4F      		sbci r21,-1
+ 358               	.L36:
+ 359 00e4 461B      		sub r20,r22
+ 360 00e6 570B      		sbc r21,r23
+ 361 00e8 4630      		cpi r20,6
+ 362 00ea 5105      		cpc r21,__zero_reg__
+ 363 00ec 00F0      		brlo .L19
+ 114:matrix.c      ****                 matrix[row] = matrix_prev[row];
+ 364               		.loc 3 114 0 is_stmt 1
+ 365 00ee E091 0000 		lds r30,matrix_prev
+ 366 00f2 F091 0000 		lds r31,matrix_prev+1
+ 367 00f6 EC0F      		add r30,r28
+ 368 00f8 FD1F      		adc r31,r29
+ 369 00fa 4081      		ld r20,Z
+ 370 00fc F901      		movw r30,r18
+ 371 00fe EC0F      		add r30,r28
+ 372 0100 FD1F      		adc r31,r29
+ 373 0102 4083      		st Z,r20
+ 374               	.L19:
+ 375               	.LVL15:
+ 376               	.LBB79:
+ 377               	.LBB80:
+ 378               		.loc 2 245 0
+ 379 0104 EAE1      		ldi r30,lo8(26)
+ 380 0106 EA95      		1: dec r30
+ 381 0108 01F4      		brne 1b
+ 382 010a 00C0      		rjmp .
+ 383               	.LBE80:
+ 384               	.LBE79:
+ 385               	.LBB81:
+ 386               	.LBB82:
+  43:hhkb_avr.h    **** static inline void KEY_PREV_OFF(void) { (PORTB &= ~(1<<7)); }
+ 387               		.loc 1 43 0
+ 388 010c 2F98      		cbi 0x5,7
+ 389               	.LBE82:
+ 390               	.LBE81:
+ 391               	.LBB83:
+ 392               	.LBB84:
+  40:hhkb_avr.h    **** static inline void KEY_UNABLE(void) { (PORTB |=  (1<<6)); }
+ 393               		.loc 1 40 0
+ 394 010e 2E9A      		sbi 0x5,6
+ 395               	.LVL16:
+ 396               	.LBE84:
+ 397               	.LBE83:
+ 398               	.LBB85:
+ 399               	.LBB86:
+ 400               		.loc 2 245 0
+ 401 0110 EBE2      		ldi r30,lo8(299)
+ 402 0112 F1E0      		ldi r31,hi8(299)
+ 403 0114 3197      		1: sbiw r30,1
+ 404 0116 01F4      		brne 1b
+ 405 0118 00C0      		rjmp .
+ 406 011a 0000      		nop
+ 407               	.LVL17:
+ 408 011c 0196      		adiw r24,1
+ 409               	.LVL18:
+ 410               	.LBE86:
+ 411               	.LBE85:
+ 412               	.LBE87:
+  73:matrix.c      ****         for (uint8_t col = 0; col < MATRIX_COLS; col++) {
+ 413               		.loc 3 73 0
+ 414 011e 8830      		cpi r24,8
+ 415 0120 9105      		cpc r25,__zero_reg__
+ 416 0122 01F0      		breq .+2
+ 417 0124 00C0      		rjmp .L23
+ 418               	.LBE88:
+ 115:matrix.c      ****             }
+ 116:matrix.c      **** 
+ 117:matrix.c      ****             _delay_us(5);
+ 118:matrix.c      ****             KEY_PREV_OFF();
+ 119:matrix.c      ****             KEY_UNABLE();
+ 120:matrix.c      **** 
+ 121:matrix.c      ****             // NOTE: KEY_STATE keep its state in 20us after KEY_ENABLE.
+ 122:matrix.c      ****             // This takes 25us or more to make sure KEY_STATE returns to idle state.
+ 123:matrix.c      **** #ifdef HHKB_JP
+ 124:matrix.c      ****             // Looks like JP needs faster scan due to its twice larger matrix
+ 125:matrix.c      ****             // or it can drop keys in fast key typing
+ 126:matrix.c      ****             _delay_us(30);
+ 127:matrix.c      **** #else
+ 128:matrix.c      ****             _delay_us(75);
+ 129:matrix.c      **** #endif
+ 130:matrix.c      ****         }
+ 131:matrix.c      ****         if (matrix[row] ^ matrix_prev[row]) matrix_last_modified = timer_read32();
+ 419               		.loc 3 131 0
+ 420 0126 A091 0000 		lds r26,matrix
+ 421 012a B091 0000 		lds r27,matrix+1
+ 422 012e AC0F      		add r26,r28
+ 423 0130 BD1F      		adc r27,r29
+ 424 0132 E091 0000 		lds r30,matrix_prev
+ 425 0136 F091 0000 		lds r31,matrix_prev+1
+ 426 013a EC0F      		add r30,r28
+ 427 013c FD1F      		adc r31,r29
+ 428 013e 9C91      		ld r25,X
+ 429 0140 8081      		ld r24,Z
+ 430               	.LVL19:
+ 431 0142 9817      		cp r25,r24
+ 432 0144 01F0      		breq .L21
+ 433               		.loc 3 131 0 is_stmt 0 discriminator 1
+ 434 0146 0E94 0000 		call timer_read32
+ 435               	.LVL20:
+ 436 014a 6093 0000 		sts matrix_last_modified,r22
+ 437 014e 7093 0000 		sts matrix_last_modified+1,r23
+ 438 0152 8093 0000 		sts matrix_last_modified+2,r24
+ 439 0156 9093 0000 		sts matrix_last_modified+3,r25
+ 440               	.L21:
+ 441               	.LVL21:
+ 442 015a 2196      		adiw r28,1
+ 443               	.LVL22:
+  72:matrix.c      ****     for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+ 444               		.loc 3 72 0 is_stmt 1
+ 445 015c C830      		cpi r28,8
+ 446 015e D105      		cpc r29,__zero_reg__
+ 447 0160 01F0      		breq .+2
+ 448 0162 00C0      		rjmp .L11
+ 449               	.LBE89:
+ 132:matrix.c      ****     }
+ 133:matrix.c      ****     // power off
+ 134:matrix.c      ****     if (KEY_POWER_STATE() &&
+ 450               		.loc 3 134 0
+ 451 0164 5C9B      		sbis 0xb,4
+ 452 0166 00C0      		rjmp .L25
+ 135:matrix.c      ****             (USB_DeviceState == DEVICE_STATE_Suspended ||
+ 453               		.loc 3 135 0 discriminator 1
+ 454 0168 8091 0000 		lds r24,USB_DeviceState
+ 134:matrix.c      ****     if (KEY_POWER_STATE() &&
+ 455               		.loc 3 134 0 discriminator 1
+ 456 016c 8530      		cpi r24,lo8(5)
+ 457 016e 01F0      		breq .L26
+ 136:matrix.c      ****              USB_DeviceState == DEVICE_STATE_Unattached ) &&
+ 458               		.loc 3 136 0
+ 459 0170 8091 0000 		lds r24,USB_DeviceState
+ 135:matrix.c      ****             (USB_DeviceState == DEVICE_STATE_Suspended ||
+ 460               		.loc 3 135 0
+ 461 0174 8111      		cpse r24,__zero_reg__
+ 462 0176 00C0      		rjmp .L25
+ 463               	.L26:
+ 137:matrix.c      ****             timer_elapsed32(matrix_last_modified) > MATRIX_POWER_SAVE) {
+ 464               		.loc 3 137 0
+ 465 0178 6091 0000 		lds r22,matrix_last_modified
+ 466 017c 7091 0000 		lds r23,matrix_last_modified+1
+ 467 0180 8091 0000 		lds r24,matrix_last_modified+2
+ 468 0184 9091 0000 		lds r25,matrix_last_modified+3
+ 469 0188 0E94 0000 		call timer_elapsed32
+ 470               	.LVL23:
+ 136:matrix.c      ****              USB_DeviceState == DEVICE_STATE_Unattached ) &&
+ 471               		.loc 3 136 0
+ 472 018c 6131      		cpi r22,17
+ 473 018e 7742      		sbci r23,39
+ 474 0190 8105      		cpc r24,__zero_reg__
+ 475 0192 9105      		cpc r25,__zero_reg__
+ 476 0194 00F0      		brlo .L25
+ 138:matrix.c      ****         KEY_POWER_OFF();
+ 477               		.loc 3 138 0
+ 478 0196 0E94 0000 		call KEY_POWER_OFF
+ 479               	.LVL24:
+ 139:matrix.c      ****         suspend_power_down();
+ 480               		.loc 3 139 0
+ 481 019a 0E94 0000 		call suspend_power_down
+ 482               	.LVL25:
+ 483               	.L25:
+ 140:matrix.c      ****     }
+ 141:matrix.c      ****     return 1;
+ 142:matrix.c      **** }
+ 484               		.loc 3 142 0
+ 485 019e 81E0      		ldi r24,lo8(1)
+ 486               	/* epilogue start */
+ 487 01a0 DF91      		pop r29
+ 488 01a2 CF91      		pop r28
+ 489               	.LVL26:
+ 490 01a4 1F91      		pop r17
+ 491 01a6 0F91      		pop r16
+ 492 01a8 0895      		ret
+ 493               		.cfi_endproc
+ 494               	.LFE112:
+ 496               		.section	.text.matrix_get_row,"ax",@progbits
+ 497               	.global	matrix_get_row
+ 499               	matrix_get_row:
+ 500               	.LFB113:
+ 143:matrix.c      **** 
+ 144:matrix.c      **** inline
+ 145:matrix.c      **** matrix_row_t matrix_get_row(uint8_t row)
+ 146:matrix.c      **** {
+ 501               		.loc 3 146 0
+ 502               		.cfi_startproc
+ 503               	.LVL27:
+ 504               	/* prologue: function */
+ 505               	/* frame size = 0 */
+ 506               	/* stack size = 0 */
+ 507               	.L__stack_usage = 0
+ 147:matrix.c      ****     return matrix[row];
+ 508               		.loc 3 147 0
+ 509 0000 E091 0000 		lds r30,matrix
+ 510 0004 F091 0000 		lds r31,matrix+1
+ 511 0008 E80F      		add r30,r24
+ 512 000a F11D      		adc r31,__zero_reg__
+ 148:matrix.c      **** }
+ 513               		.loc 3 148 0
+ 514 000c 8081      		ld r24,Z
+ 515               	.LVL28:
+ 516 000e 0895      		ret
+ 517               		.cfi_endproc
+ 518               	.LFE113:
+ 520               		.section	.text.matrix_power_up,"ax",@progbits
+ 521               	.global	matrix_power_up
+ 523               	matrix_power_up:
+ 524               	.LFB114:
+ 149:matrix.c      **** 
+ 150:matrix.c      **** void matrix_power_up(void) {
+ 525               		.loc 3 150 0
+ 526               		.cfi_startproc
+ 527               	/* prologue: function */
+ 528               	/* frame size = 0 */
+ 529               	/* stack size = 0 */
+ 530               	.L__stack_usage = 0
+ 151:matrix.c      ****     KEY_POWER_ON();
+ 531               		.loc 3 151 0
+ 532 0000 0C94 0000 		jmp KEY_POWER_ON
+ 533               	.LVL29:
+ 534               		.cfi_endproc
+ 535               	.LFE114:
+ 537               		.section	.text.matrix_power_down,"ax",@progbits
+ 538               	.global	matrix_power_down
+ 540               	matrix_power_down:
+ 541               	.LFB115:
+ 152:matrix.c      **** }
+ 153:matrix.c      **** void matrix_power_down(void) {
+ 542               		.loc 3 153 0
+ 543               		.cfi_startproc
+ 544               	/* prologue: function */
+ 545               	/* frame size = 0 */
+ 546               	/* stack size = 0 */
+ 547               	.L__stack_usage = 0
+ 154:matrix.c      ****     KEY_POWER_OFF();
+ 548               		.loc 3 154 0
+ 549 0000 0C94 0000 		jmp KEY_POWER_OFF
+ 550               	.LVL30:
+ 551               		.cfi_endproc
+ 552               	.LFE115:
+ 554               		.section	.bss._matrix1,"aw",@nobits
+ 557               	_matrix1:
+ 558 0000 0000 0000 		.zero	8
+ 558      0000 0000 
+ 559               		.section	.bss._matrix0,"aw",@nobits
+ 562               	_matrix0:
+ 563 0000 0000 0000 		.zero	8
+ 563      0000 0000 
+ 564               		.section	.bss.matrix_prev,"aw",@nobits
+ 567               	matrix_prev:
+ 568 0000 0000      		.zero	2
+ 569               		.section	.bss.matrix,"aw",@nobits
+ 572               	matrix:
+ 573 0000 0000      		.zero	2
+ 574               		.section	.bss.matrix_last_modified,"aw",@nobits
+ 577               	matrix_last_modified:
+ 578 0000 0000 0000 		.zero	4
+ 579               		.text
+ 580               	.Letext0:
+ 581               		.file 4 "/usr/local/CrossPack-AVR-20131216/avr/include/stdint.h"
+ 582               		.file 5 "./tmk_core/common/matrix.h"
+ 583               		.file 6 "./tmk_core/common/suspend.h"
+ 584               		.file 7 "./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/../Device.h"
+ 585               		.file 8 "./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/USBTask.h"
+ 586               		.file 9 "./tmk_core/common/timer.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 matrix.c
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:2      *ABS*:0000003e __SP_H__
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:3      *ABS*:0000003d __SP_L__
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:4      *ABS*:0000003f __SREG__
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:12     .text.KEY_POWER_OFF:00000000 KEY_POWER_OFF
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:34     .text.KEY_POWER_ON:00000000 KEY_POWER_ON
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:70     .text.matrix_init:00000000 matrix_init
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:562    .bss._matrix0:00000000 _matrix0
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:557    .bss._matrix1:00000000 _matrix1
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:572    .bss.matrix:00000000 matrix
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:567    .bss.matrix_prev:00000000 matrix_prev
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:159    .text.matrix_scan:00000000 matrix_scan
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:577    .bss.matrix_last_modified:00000000 matrix_last_modified
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:499    .text.matrix_get_row:00000000 matrix_get_row
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:523    .text.matrix_power_up:00000000 matrix_power_up
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccUfOk7F.s:540    .text.matrix_power_down:00000000 matrix_power_down
+
+UNDEFINED SYMBOLS
+timer_read32
+USB_DeviceState
+timer_elapsed32
+suspend_power_down
+__do_clear_bss
