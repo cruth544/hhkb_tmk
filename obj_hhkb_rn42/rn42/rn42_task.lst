@@ -1,0 +1,3429 @@
+   1               		.file	"rn42_task.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               		.section	.text.enter_command_mode,"ax",@progbits
+  12               	enter_command_mode:
+  13               	.LFB107:
+  14               		.file 1 "rn42/rn42_task.c"
+   1:rn42/rn42_task.c **** #include <stdint.h>
+   2:rn42/rn42_task.c **** #include <string.h>
+   3:rn42/rn42_task.c **** #include <avr/pgmspace.h>
+   4:rn42/rn42_task.c **** #include <avr/eeprom.h>
+   5:rn42/rn42_task.c **** #include "keycode.h"
+   6:rn42/rn42_task.c **** #include "serial.h"
+   7:rn42/rn42_task.c **** #include "host.h"
+   8:rn42/rn42_task.c **** #include "action.h"
+   9:rn42/rn42_task.c **** #include "action_util.h"
+  10:rn42/rn42_task.c **** #include "lufa.h"
+  11:rn42/rn42_task.c **** #include "rn42_task.h"
+  12:rn42/rn42_task.c **** #include "print.h"
+  13:rn42/rn42_task.c **** #include "debug.h"
+  14:rn42/rn42_task.c **** #include "timer.h"
+  15:rn42/rn42_task.c **** #include "wait.h"
+  16:rn42/rn42_task.c **** #include "command.h"
+  17:rn42/rn42_task.c **** #include "battery.h"
+  18:rn42/rn42_task.c **** 
+  19:rn42/rn42_task.c **** static bool config_mode = false;
+  20:rn42/rn42_task.c **** static bool force_usb = false;
+  21:rn42/rn42_task.c **** 
+  22:rn42/rn42_task.c **** static void status_led(bool on)
+  23:rn42/rn42_task.c **** {
+  24:rn42/rn42_task.c ****     if (on) {
+  25:rn42/rn42_task.c ****         DDRE  |=  (1<<6);
+  26:rn42/rn42_task.c ****         PORTE &= ~(1<<6);
+  27:rn42/rn42_task.c ****     } else {
+  28:rn42/rn42_task.c ****         DDRE  |=  (1<<6);
+  29:rn42/rn42_task.c ****         PORTE |=  (1<<6);
+  30:rn42/rn42_task.c ****     }
+  31:rn42/rn42_task.c **** }
+  32:rn42/rn42_task.c **** 
+  33:rn42/rn42_task.c **** void rn42_task_init(void)
+  34:rn42/rn42_task.c **** {
+  35:rn42/rn42_task.c ****     battery_init();
+  36:rn42/rn42_task.c **** }
+  37:rn42/rn42_task.c **** 
+  38:rn42/rn42_task.c **** void rn42_task(void)
+  39:rn42/rn42_task.c **** {
+  40:rn42/rn42_task.c ****     int16_t c;
+  41:rn42/rn42_task.c ****     // Raw mode: interpret output report of LED state
+  42:rn42/rn42_task.c ****     while ((c = rn42_getc()) != -1) {
+  43:rn42/rn42_task.c ****         // LED Out report: 0xFE, 0x02, 0x01, <leds>
+  44:rn42/rn42_task.c ****         // To get the report over UART set bit3 with SH, command.
+  45:rn42/rn42_task.c ****         static enum {LED_INIT, LED_FE, LED_02, LED_01} state = LED_INIT;
+  46:rn42/rn42_task.c ****         switch (state) {
+  47:rn42/rn42_task.c ****             case LED_INIT:
+  48:rn42/rn42_task.c ****                 if (c == 0xFE) state = LED_FE;
+  49:rn42/rn42_task.c ****                 else {
+  50:rn42/rn42_task.c ****                     if (0x0 <= c && c <= 0x7f) xprintf("%c", c);
+  51:rn42/rn42_task.c ****                     else xprintf(" %02X", c);
+  52:rn42/rn42_task.c ****                 }
+  53:rn42/rn42_task.c ****                 break;
+  54:rn42/rn42_task.c ****             case LED_FE:
+  55:rn42/rn42_task.c ****                 if (c == 0x02) state = LED_02;
+  56:rn42/rn42_task.c ****                 else           state = LED_INIT;
+  57:rn42/rn42_task.c ****                 break;
+  58:rn42/rn42_task.c ****             case LED_02:
+  59:rn42/rn42_task.c ****                 if (c == 0x01) state = LED_01;
+  60:rn42/rn42_task.c ****                 else           state = LED_INIT;
+  61:rn42/rn42_task.c ****                 break;
+  62:rn42/rn42_task.c ****             case LED_01:
+  63:rn42/rn42_task.c ****                 dprintf("LED status: %02X\n", c);
+  64:rn42/rn42_task.c ****                 rn42_set_leds(c);
+  65:rn42/rn42_task.c ****                 state = LED_INIT;
+  66:rn42/rn42_task.c ****                 break;
+  67:rn42/rn42_task.c ****             default:
+  68:rn42/rn42_task.c ****                 state = LED_INIT;
+  69:rn42/rn42_task.c ****         }
+  70:rn42/rn42_task.c ****     }
+  71:rn42/rn42_task.c **** 
+  72:rn42/rn42_task.c ****     /* Bluetooth mode when ready */
+  73:rn42/rn42_task.c ****     if (!config_mode && !force_usb) {
+  74:rn42/rn42_task.c ****         if (!rn42_rts() && host_get_driver() != &rn42_driver) {
+  75:rn42/rn42_task.c ****             clear_keyboard();
+  76:rn42/rn42_task.c ****             host_set_driver(&rn42_driver);
+  77:rn42/rn42_task.c ****         } else if (rn42_rts() && host_get_driver() != &lufa_driver) {
+  78:rn42/rn42_task.c ****             clear_keyboard();
+  79:rn42/rn42_task.c ****             host_set_driver(&lufa_driver);
+  80:rn42/rn42_task.c ****         }
+  81:rn42/rn42_task.c ****     }
+  82:rn42/rn42_task.c **** 
+  83:rn42/rn42_task.c **** 
+  84:rn42/rn42_task.c ****     static uint16_t prev_timer = 0;
+  85:rn42/rn42_task.c ****     uint16_t e = timer_elapsed(prev_timer);
+  86:rn42/rn42_task.c ****     if (e > 1000) {
+  87:rn42/rn42_task.c ****         /* every second */
+  88:rn42/rn42_task.c ****         prev_timer += e/1000*1000;
+  89:rn42/rn42_task.c **** 
+  90:rn42/rn42_task.c ****         /* Low voltage alert */
+  91:rn42/rn42_task.c ****         uint8_t bs = battery_status();
+  92:rn42/rn42_task.c ****         if (bs == LOW_VOLTAGE) {
+  93:rn42/rn42_task.c ****             battery_led(LED_ON);
+  94:rn42/rn42_task.c ****         } else {
+  95:rn42/rn42_task.c ****             battery_led(LED_CHARGER);
+  96:rn42/rn42_task.c ****         }
+  97:rn42/rn42_task.c **** 
+  98:rn42/rn42_task.c ****         /* every minute */
+  99:rn42/rn42_task.c ****         uint32_t t = timer_read32()/1000;
+ 100:rn42/rn42_task.c ****         if (t%60 == 0) {
+ 101:rn42/rn42_task.c ****             uint16_t v = battery_voltage();
+ 102:rn42/rn42_task.c ****             uint8_t h = t/3600;
+ 103:rn42/rn42_task.c ****             uint8_t m = t%3600/60;
+ 104:rn42/rn42_task.c ****             uint8_t s = t%60;
+ 105:rn42/rn42_task.c ****             dprintf("%02u:%02u:%02u\t%umV\n", h, m, s, v);
+ 106:rn42/rn42_task.c ****             /* TODO: xprintf doesn't work for this.
+ 107:rn42/rn42_task.c ****             xprintf("%02u:%02u:%02u\t%umV\n", (t/3600), (t%3600/60), (t%60), v);
+ 108:rn42/rn42_task.c ****             */
+ 109:rn42/rn42_task.c ****         }
+ 110:rn42/rn42_task.c ****     }
+ 111:rn42/rn42_task.c **** 
+ 112:rn42/rn42_task.c **** 
+ 113:rn42/rn42_task.c ****     /* Connection monitor */
+ 114:rn42/rn42_task.c ****     if (!rn42_rts() && rn42_linked()) {
+ 115:rn42/rn42_task.c ****         status_led(true);
+ 116:rn42/rn42_task.c ****     } else {
+ 117:rn42/rn42_task.c ****         status_led(false);
+ 118:rn42/rn42_task.c ****     }
+ 119:rn42/rn42_task.c **** }
+ 120:rn42/rn42_task.c **** 
+ 121:rn42/rn42_task.c **** 
+ 122:rn42/rn42_task.c **** 
+ 123:rn42/rn42_task.c **** /******************************************************************************
+ 124:rn42/rn42_task.c ****  * Command
+ 125:rn42/rn42_task.c ****  ******************************************************************************/
+ 126:rn42/rn42_task.c **** static host_driver_t *prev_driver = &rn42_driver;
+ 127:rn42/rn42_task.c **** 
+ 128:rn42/rn42_task.c **** static void enter_command_mode(void)
+ 129:rn42/rn42_task.c **** {
+  15               		.loc 1 129 0
+  16               		.cfi_startproc
+  17               	/* prologue: function */
+  18               	/* frame size = 0 */
+  19               	/* stack size = 0 */
+  20               	.L__stack_usage = 0
+ 130:rn42/rn42_task.c ****     prev_driver = host_get_driver();
+  21               		.loc 1 130 0
+  22 0000 0E94 0000 		call host_get_driver
+  23               	.LVL0:
+  24 0004 9093 0000 		sts prev_driver+1,r25
+  25 0008 8093 0000 		sts prev_driver,r24
+ 131:rn42/rn42_task.c ****     clear_keyboard();
+  26               		.loc 1 131 0
+  27 000c 0E94 0000 		call clear_keyboard
+  28               	.LVL1:
+ 132:rn42/rn42_task.c ****     host_set_driver(&rn42_config_driver);   // null driver; not to send a key to host
+  29               		.loc 1 132 0
+  30 0010 80E0      		ldi r24,lo8(rn42_config_driver)
+  31 0012 90E0      		ldi r25,hi8(rn42_config_driver)
+  32 0014 0E94 0000 		call host_set_driver
+  33               	.LVL2:
+ 133:rn42/rn42_task.c ****     rn42_disconnect();
+  34               		.loc 1 133 0
+  35 0018 0E94 0000 		call rn42_disconnect
+  36               	.LVL3:
+  37               	.L3:
+ 134:rn42/rn42_task.c ****     while (rn42_linked()) ;
+  38               		.loc 1 134 0 discriminator 1
+  39 001c 0E94 0000 		call rn42_linked
+  40               	.LVL4:
+  41 0020 8111      		cpse r24,__zero_reg__
+  42 0022 00C0      		rjmp .L3
+ 135:rn42/rn42_task.c **** 
+ 136:rn42/rn42_task.c ****     print("Entering config mode ...\n");
+  43               		.loc 1 136 0
+  44 0024 80E0      		ldi r24,lo8(__c.4795)
+  45 0026 90E0      		ldi r25,hi8(__c.4795)
+  46 0028 0E94 0000 		call xputs
+  47               	.LVL5:
+  48               	.LBB10:
+  49               	.LBB11:
+  50               		.file 2 "/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h"
+   1:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    All rights reserved.
+   5:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+   6:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+   9:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  12:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      distribution.
+  16:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  17:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  21:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  33:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /* $Id$ */
+  34:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  35:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  38:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #ifndef __HAS_DELAY_CYCLES
+  39:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #define __HAS_DELAY_CYCLES 1
+  40:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #endif
+  41:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  42:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #include <inttypes.h>
+  43:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #include <util/delay_basic.h>
+  44:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #include <math.h>
+  45:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  46:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /** \file */
+  47:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  48:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     \code
+  49:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  50:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  51:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     #include <util/delay.h>
+  52:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     \endcode
+  53:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  54:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  55:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  56:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  57:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     used.
+  58:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  59:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  60:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  61:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  62:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  63:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  64:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  65:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  66:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  67:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  68:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  69:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  70:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  71:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  72:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  73:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  74:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  75:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     routines linked into the application.
+  76:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  77:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  78:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  79:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  80:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  81:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** */
+  82:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  83:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  84:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  85:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  86:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #endif
+  87:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  88:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #ifndef F_CPU
+  89:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  90:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  91:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** # define F_CPU 1000000UL
+  92:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #endif
+  93:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  94:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+  95:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+  96:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #endif
+  97:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+  98:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+  99:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 100:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 101:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #  include <math.h>
+ 102:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #endif
+ 103:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 104:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /**
+ 105:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    \ingroup util_delay
+ 106:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 107:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+ 108:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 109:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 110:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 111:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 112:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 113:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 114:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 115:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 116:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 117:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 118:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 119:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 120:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles(unsigned long)
+ 121:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 ms/ F_CPU in MHz. For
+ 122:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    values greater than the maximal possible delay, overflows results in
+ 123:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    no delay i.e., 0ms.
+ 124:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 125:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Conversion of __us into clock cycles may not always result in integer.
+ 126:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    By default, the clock cycles rounded up to next integer. This ensures that
+ 127:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    the user gets atleast __us microseconds of delay.
+ 128:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 129:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Alternatively, user can define __DELAY_ROUND_DOWN__ and __DELAY_ROUND_CLOSEST__
+ 130:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    to round down and round to closest integer.
+ 131:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 132:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Note: The new implementation of _delay_ms(double __ms) with 
+ 133:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****     __builtin_avr_delay_cycles(unsigned long) support is not backward compatible. 
+ 134:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    User can define __DELAY_BACKWARD_COMPATIBLE__ to get a backward compatible delay.
+ 135:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Also, the backward compatible
+ 136:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    algorithm will be chosen if the code is compiled in a <em>freestanding
+ 137:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    environment</em> (GCC option \c -ffreestanding), as the math functions
+ 138:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    required for rounding are not available to the compiler then.
+ 139:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 140:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****  */
+ 141:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** void
+ 142:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** _delay_ms(double __ms)
+ 143:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** {
+ 144:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	double __tmp ; 
+ 145:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 146:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 147:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 148:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 149:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 150:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 151:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 152:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 153:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 154:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 155:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 156:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 157:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 158:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#else
+ 159:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		//round up by default
+ 160:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 161:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#endif
+ 162:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
+ 163:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+  51               		.loc 2 163 0
+  52 002c 2FEF      		ldi r18,lo8(3519999)
+  53 002e 85EB      		ldi r24,hi8(3519999)
+  54 0030 95E3      		ldi r25,hlo8(3519999)
+  55 0032 2150      		1: subi r18,1
+  56 0034 8040      		sbci r24,0
+  57 0036 9040      		sbci r25,0
+  58 0038 01F4      		brne 1b
+  59 003a 00C0      		rjmp .
+  60 003c 0000      		nop
+  61               	.LBE11:
+  62               	.LBE10:
+ 137:rn42/rn42_task.c ****     wait_ms(1100);          // need 1 sec
+ 138:rn42/rn42_task.c ****     SEND_COMMAND("$$$");
+  63               		.loc 1 138 0
+  64 003e 80E0      		ldi r24,lo8(__c.4797)
+  65 0040 90E0      		ldi r25,hi8(__c.4797)
+  66 0042 0E94 0000 		call rn42_send_command
+  67               	.LVL6:
+  68               	.LBB12:
+  69               	.LBB13:
+  70               		.loc 2 163 0
+  71 0046 EFEF      		ldi r30,lo8(1919999)
+  72 0048 FBE4      		ldi r31,hi8(1919999)
+  73 004a 2DE1      		ldi r18,hlo8(1919999)
+  74 004c E150      		1: subi r30,1
+  75 004e F040      		sbci r31,0
+  76 0050 2040      		sbci r18,0
+  77 0052 01F4      		brne 1b
+  78 0054 00C0      		rjmp .
+  79 0056 0000      		nop
+  80               	.LBE13:
+  81               	.LBE12:
+ 139:rn42/rn42_task.c ****     wait_ms(600);           // need 1 sec
+ 140:rn42/rn42_task.c ****     rn42_print_response();
+  82               		.loc 1 140 0
+  83 0058 0E94 0000 		call rn42_print_response
+  84               	.LVL7:
+ 141:rn42/rn42_task.c ****     const char *s = SEND_COMMAND("v\r\n");
+  85               		.loc 1 141 0
+  86 005c 80E0      		ldi r24,lo8(__c.4800)
+  87 005e 90E0      		ldi r25,hi8(__c.4800)
+  88 0060 0E94 0000 		call rn42_send_command
+  89               	.LVL8:
+ 142:rn42/rn42_task.c ****     if (strncmp("v", s, 1) != 0) SEND_COMMAND("+\r\n"); // local echo on
+  90               		.loc 1 142 0
+  91 0064 FC01      		movw r30,r24
+  92 0066 8081      		ld r24,Z
+  93               	.LVL9:
+  94 0068 8637      		cpi r24,lo8(118)
+  95 006a 01F0      		breq .L1
+  96               		.loc 1 142 0 is_stmt 0 discriminator 1
+  97 006c 80E0      		ldi r24,lo8(__c.4802)
+  98 006e 90E0      		ldi r25,hi8(__c.4802)
+  99 0070 0C94 0000 		jmp rn42_send_command
+ 100               	.LVL10:
+ 101               	.L1:
+ 102 0074 0895      		ret
+ 103               		.cfi_endproc
+ 104               	.LFE107:
+ 106               		.section	.text.exit_command_mode,"ax",@progbits
+ 108               	exit_command_mode:
+ 109               	.LFB108:
+ 143:rn42/rn42_task.c **** }
+ 144:rn42/rn42_task.c **** 
+ 145:rn42/rn42_task.c **** static void exit_command_mode(void)
+ 146:rn42/rn42_task.c **** {
+ 110               		.loc 1 146 0 is_stmt 1
+ 111               		.cfi_startproc
+ 112               	/* prologue: function */
+ 113               	/* frame size = 0 */
+ 114               	/* stack size = 0 */
+ 115               	.L__stack_usage = 0
+ 147:rn42/rn42_task.c ****     print("Exiting config mode ...\n");
+ 116               		.loc 1 147 0
+ 117 0000 80E0      		ldi r24,lo8(__c.4807)
+ 118 0002 90E0      		ldi r25,hi8(__c.4807)
+ 119 0004 0E94 0000 		call xputs
+ 120               	.LVL11:
+ 148:rn42/rn42_task.c ****     SEND_COMMAND("---\r\n");    // exit
+ 121               		.loc 1 148 0
+ 122 0008 80E0      		ldi r24,lo8(__c.4809)
+ 123 000a 90E0      		ldi r25,hi8(__c.4809)
+ 124 000c 0E94 0000 		call rn42_send_command
+ 125               	.LVL12:
+ 149:rn42/rn42_task.c **** 
+ 150:rn42/rn42_task.c ****     rn42_autoconnect();
+ 126               		.loc 1 150 0
+ 127 0010 0E94 0000 		call rn42_autoconnect
+ 128               	.LVL13:
+ 151:rn42/rn42_task.c ****     clear_keyboard();
+ 129               		.loc 1 151 0
+ 130 0014 0E94 0000 		call clear_keyboard
+ 131               	.LVL14:
+ 152:rn42/rn42_task.c ****     host_set_driver(prev_driver);
+ 132               		.loc 1 152 0
+ 133 0018 8091 0000 		lds r24,prev_driver
+ 134 001c 9091 0000 		lds r25,prev_driver+1
+ 135 0020 0C94 0000 		jmp host_set_driver
+ 136               	.LVL15:
+ 137               		.cfi_endproc
+ 138               	.LFE108:
+ 140               		.section	.text.rn42_task_init,"ax",@progbits
+ 141               	.global	rn42_task_init
+ 143               	rn42_task_init:
+ 144               	.LFB105:
+  34:rn42/rn42_task.c **** {
+ 145               		.loc 1 34 0
+ 146               		.cfi_startproc
+ 147               	/* prologue: function */
+ 148               	/* frame size = 0 */
+ 149               	/* stack size = 0 */
+ 150               	.L__stack_usage = 0
+  35:rn42/rn42_task.c ****     battery_init();
+ 151               		.loc 1 35 0
+ 152 0000 0C94 0000 		jmp battery_init
+ 153               	.LVL16:
+ 154               		.cfi_endproc
+ 155               	.LFE105:
+ 157               		.section	.text.rn42_task,"ax",@progbits
+ 158               	.global	rn42_task
+ 160               	rn42_task:
+ 161               	.LFB106:
+  39:rn42/rn42_task.c **** {
+ 162               		.loc 1 39 0
+ 163               		.cfi_startproc
+ 164 0000 8F92      		push r8
+ 165               	.LCFI0:
+ 166               		.cfi_def_cfa_offset 3
+ 167               		.cfi_offset 8, -2
+ 168 0002 9F92      		push r9
+ 169               	.LCFI1:
+ 170               		.cfi_def_cfa_offset 4
+ 171               		.cfi_offset 9, -3
+ 172 0004 AF92      		push r10
+ 173               	.LCFI2:
+ 174               		.cfi_def_cfa_offset 5
+ 175               		.cfi_offset 10, -4
+ 176 0006 BF92      		push r11
+ 177               	.LCFI3:
+ 178               		.cfi_def_cfa_offset 6
+ 179               		.cfi_offset 11, -5
+ 180 0008 CF92      		push r12
+ 181               	.LCFI4:
+ 182               		.cfi_def_cfa_offset 7
+ 183               		.cfi_offset 12, -6
+ 184 000a DF92      		push r13
+ 185               	.LCFI5:
+ 186               		.cfi_def_cfa_offset 8
+ 187               		.cfi_offset 13, -7
+ 188 000c EF92      		push r14
+ 189               	.LCFI6:
+ 190               		.cfi_def_cfa_offset 9
+ 191               		.cfi_offset 14, -8
+ 192 000e FF92      		push r15
+ 193               	.LCFI7:
+ 194               		.cfi_def_cfa_offset 10
+ 195               		.cfi_offset 15, -9
+ 196 0010 0F93      		push r16
+ 197               	.LCFI8:
+ 198               		.cfi_def_cfa_offset 11
+ 199               		.cfi_offset 16, -10
+ 200 0012 1F93      		push r17
+ 201               	.LCFI9:
+ 202               		.cfi_def_cfa_offset 12
+ 203               		.cfi_offset 17, -11
+ 204 0014 CF93      		push r28
+ 205               	.LCFI10:
+ 206               		.cfi_def_cfa_offset 13
+ 207               		.cfi_offset 28, -12
+ 208 0016 DF93      		push r29
+ 209               	.LCFI11:
+ 210               		.cfi_def_cfa_offset 14
+ 211               		.cfi_offset 29, -13
+ 212               	/* prologue: function */
+ 213               	/* frame size = 0 */
+ 214               	/* stack size = 12 */
+ 215               	.L__stack_usage = 12
+ 216               	.LBB25:
+  55:rn42/rn42_task.c ****                 if (c == 0x02) state = LED_02;
+ 217               		.loc 1 55 0
+ 218 0018 92E0      		ldi r25,lo8(2)
+ 219 001a B92E      		mov r11,r25
+  51:rn42/rn42_task.c ****                     else xprintf(" %02X", c);
+ 220               		.loc 1 51 0
+ 221 001c C0E0      		ldi r28,lo8(__c.4766)
+ 222 001e D0E0      		ldi r29,hi8(__c.4766)
+  50:rn42/rn42_task.c ****                     if (0x0 <= c && c <= 0x7f) xprintf("%c", c);
+ 223               		.loc 1 50 0
+ 224 0020 00E0      		ldi r16,lo8(__c.4764)
+ 225 0022 10E0      		ldi r17,hi8(__c.4764)
+  48:rn42/rn42_task.c ****                 if (c == 0xFE) state = LED_FE;
+ 226               		.loc 1 48 0
+ 227 0024 AA24      		clr r10
+ 228 0026 A394      		inc r10
+  59:rn42/rn42_task.c ****                 if (c == 0x01) state = LED_01;
+ 229               		.loc 1 59 0
+ 230 0028 23E0      		ldi r18,lo8(3)
+ 231 002a 922E      		mov r9,r18
+  63:rn42/rn42_task.c ****                 dprintf("LED status: %02X\n", c);
+ 232               		.loc 1 63 0
+ 233 002c 30E0      		ldi r19,lo8(__c.4772)
+ 234 002e C32E      		mov r12,r19
+ 235 0030 30E0      		ldi r19,hi8(__c.4772)
+ 236 0032 D32E      		mov r13,r19
+ 237               	.L9:
+ 238               	.LBE25:
+  42:rn42/rn42_task.c ****     while ((c = rn42_getc()) != -1) {
+ 239               		.loc 1 42 0
+ 240 0034 0E94 0000 		call rn42_getc
+ 241 0038 7C01      		movw r14,r24
+ 242 003a 8F3F      		cpi r24,-1
+ 243 003c 2FEF      		ldi r18,-1
+ 244 003e 9207      		cpc r25,r18
+ 245 0040 01F4      		brne .+2
+ 246 0042 00C0      		rjmp .L10
+ 247               	.LBB26:
+  46:rn42/rn42_task.c ****         switch (state) {
+ 248               		.loc 1 46 0
+ 249 0044 8091 0000 		lds r24,state.4762
+ 250 0048 8130      		cpi r24,lo8(1)
+ 251 004a 01F0      		breq .L12
+ 252 004c 00F0      		brlo .L13
+ 253 004e 8230      		cpi r24,lo8(2)
+ 254 0050 01F0      		breq .L14
+ 255 0052 8330      		cpi r24,lo8(3)
+ 256 0054 01F0      		breq .L15
+ 257 0056 00C0      		rjmp .L50
+ 258               	.L13:
+  48:rn42/rn42_task.c ****                 if (c == 0xFE) state = LED_FE;
+ 259               		.loc 1 48 0
+ 260 0058 8EEF      		ldi r24,-2
+ 261 005a E816      		cp r14,r24
+ 262 005c F104      		cpc r15,__zero_reg__
+ 263 005e 01F4      		brne .L16
+  48:rn42/rn42_task.c ****                 if (c == 0xFE) state = LED_FE;
+ 264               		.loc 1 48 0 is_stmt 0 discriminator 1
+ 265 0060 A092 0000 		sts state.4762,r10
+ 266 0064 00C0      		rjmp .L9
+ 267               	.L16:
+  50:rn42/rn42_task.c ****                     if (0x0 <= c && c <= 0x7f) xprintf("%c", c);
+ 268               		.loc 1 50 0 is_stmt 1
+ 269 0066 90E8      		ldi r25,-128
+ 270 0068 E916      		cp r14,r25
+ 271 006a F104      		cpc r15,__zero_reg__
+ 272 006c 00F4      		brsh .L18
+  50:rn42/rn42_task.c ****                     if (0x0 <= c && c <= 0x7f) xprintf("%c", c);
+ 273               		.loc 1 50 0 is_stmt 0 discriminator 1
+ 274 006e FF92      		push r15
+ 275               	.LCFI12:
+ 276               		.cfi_remember_state
+ 277               		.cfi_def_cfa_offset 15
+ 278 0070 EF92      		push r14
+ 279               	.LCFI13:
+ 280               		.cfi_def_cfa_offset 16
+ 281 0072 1F93      		push r17
+ 282               	.LCFI14:
+ 283               		.cfi_def_cfa_offset 17
+ 284 0074 0F93      		push r16
+ 285               	.LCFI15:
+ 286               		.cfi_def_cfa_offset 18
+ 287 0076 00C0      		rjmp .L51
+ 288               	.L18:
+ 289               	.LCFI16:
+ 290               		.cfi_restore_state
+  51:rn42/rn42_task.c ****                     else xprintf(" %02X", c);
+ 291               		.loc 1 51 0 is_stmt 1
+ 292 0078 FF92      		push r15
+ 293               	.LCFI17:
+ 294               		.cfi_def_cfa_offset 15
+ 295 007a EF92      		push r14
+ 296               	.LCFI18:
+ 297               		.cfi_def_cfa_offset 16
+ 298 007c DF93      		push r29
+ 299               	.LCFI19:
+ 300               		.cfi_def_cfa_offset 17
+ 301 007e CF93      		push r28
+ 302               	.LCFI20:
+ 303               		.cfi_def_cfa_offset 18
+ 304               	.L51:
+ 305 0080 0E94 0000 		call __xprintf
+ 306 0084 0F90      		pop __tmp_reg__
+ 307 0086 0F90      		pop __tmp_reg__
+ 308 0088 0F90      		pop __tmp_reg__
+ 309 008a 0F90      		pop __tmp_reg__
+ 310               	.LCFI21:
+ 311               		.cfi_def_cfa_offset 14
+ 312 008c 00C0      		rjmp .L9
+ 313               	.L12:
+  55:rn42/rn42_task.c ****                 if (c == 0x02) state = LED_02;
+ 314               		.loc 1 55 0
+ 315 008e 92E0      		ldi r25,2
+ 316 0090 E916      		cp r14,r25
+ 317 0092 F104      		cpc r15,__zero_reg__
+ 318 0094 01F4      		brne .L50
+  55:rn42/rn42_task.c ****                 if (c == 0x02) state = LED_02;
+ 319               		.loc 1 55 0 is_stmt 0 discriminator 1
+ 320 0096 B092 0000 		sts state.4762,r11
+ 321 009a 00C0      		rjmp .L9
+ 322               	.L14:
+  59:rn42/rn42_task.c ****                 if (c == 0x01) state = LED_01;
+ 323               		.loc 1 59 0 is_stmt 1
+ 324 009c EA94      		dec r14
+ 325 009e EF28      		or r14,r15
+ 326 00a0 01F4      		brne .L50
+  59:rn42/rn42_task.c ****                 if (c == 0x01) state = LED_01;
+ 327               		.loc 1 59 0 is_stmt 0 discriminator 1
+ 328 00a2 9092 0000 		sts state.4762,r9
+ 329 00a6 00C0      		rjmp .L9
+ 330               	.L15:
+  63:rn42/rn42_task.c ****                 dprintf("LED status: %02X\n", c);
+ 331               		.loc 1 63 0 is_stmt 1
+ 332 00a8 8091 0000 		lds r24,debug_config
+ 333 00ac 80FF      		sbrs r24,0
+ 334 00ae 00C0      		rjmp .L20
+  63:rn42/rn42_task.c ****                 dprintf("LED status: %02X\n", c);
+ 335               		.loc 1 63 0 is_stmt 0 discriminator 1
+ 336 00b0 FF92      		push r15
+ 337               	.LCFI22:
+ 338               		.cfi_def_cfa_offset 15
+ 339 00b2 EF92      		push r14
+ 340               	.LCFI23:
+ 341               		.cfi_def_cfa_offset 16
+ 342 00b4 DF92      		push r13
+ 343               	.LCFI24:
+ 344               		.cfi_def_cfa_offset 17
+ 345 00b6 CF92      		push r12
+ 346               	.LCFI25:
+ 347               		.cfi_def_cfa_offset 18
+ 348 00b8 0E94 0000 		call __xprintf
+ 349 00bc 0F90      		pop __tmp_reg__
+ 350 00be 0F90      		pop __tmp_reg__
+ 351 00c0 0F90      		pop __tmp_reg__
+ 352 00c2 0F90      		pop __tmp_reg__
+ 353               	.LCFI26:
+ 354               		.cfi_def_cfa_offset 14
+ 355               	.L20:
+  64:rn42/rn42_task.c ****                 rn42_set_leds(c);
+ 356               		.loc 1 64 0 is_stmt 1
+ 357 00c4 8E2D      		mov r24,r14
+ 358 00c6 0E94 0000 		call rn42_set_leds
+ 359               	.L50:
+  68:rn42/rn42_task.c ****                 state = LED_INIT;
+ 360               		.loc 1 68 0
+ 361 00ca 1092 0000 		sts state.4762,__zero_reg__
+ 362 00ce 00C0      		rjmp .L9
+ 363               	.L10:
+ 364               	.LBE26:
+  73:rn42/rn42_task.c ****     if (!config_mode && !force_usb) {
+ 365               		.loc 1 73 0
+ 366 00d0 8091 0000 		lds r24,config_mode
+ 367 00d4 8111      		cpse r24,__zero_reg__
+ 368 00d6 00C0      		rjmp .L22
+  73:rn42/rn42_task.c ****     if (!config_mode && !force_usb) {
+ 369               		.loc 1 73 0 is_stmt 0 discriminator 1
+ 370 00d8 8091 0000 		lds r24,force_usb
+ 371 00dc 8111      		cpse r24,__zero_reg__
+ 372 00de 00C0      		rjmp .L22
+  74:rn42/rn42_task.c ****         if (!rn42_rts() && host_get_driver() != &rn42_driver) {
+ 373               		.loc 1 74 0 is_stmt 1
+ 374 00e0 0E94 0000 		call rn42_rts
+ 375 00e4 8111      		cpse r24,__zero_reg__
+ 376 00e6 00C0      		rjmp .L24
+  74:rn42/rn42_task.c ****         if (!rn42_rts() && host_get_driver() != &rn42_driver) {
+ 377               		.loc 1 74 0 is_stmt 0 discriminator 1
+ 378 00e8 0E94 0000 		call host_get_driver
+ 379 00ec 8050      		subi r24,lo8(rn42_driver)
+ 380 00ee 9040      		sbci r25,hi8(rn42_driver)
+ 381 00f0 01F0      		breq .L24
+  75:rn42/rn42_task.c ****             clear_keyboard();
+ 382               		.loc 1 75 0 is_stmt 1
+ 383 00f2 0E94 0000 		call clear_keyboard
+  76:rn42/rn42_task.c ****             host_set_driver(&rn42_driver);
+ 384               		.loc 1 76 0
+ 385 00f6 80E0      		ldi r24,lo8(rn42_driver)
+ 386 00f8 90E0      		ldi r25,hi8(rn42_driver)
+ 387 00fa 00C0      		rjmp .L52
+ 388               	.L24:
+  77:rn42/rn42_task.c ****         } else if (rn42_rts() && host_get_driver() != &lufa_driver) {
+ 389               		.loc 1 77 0
+ 390 00fc 0E94 0000 		call rn42_rts
+ 391 0100 8823      		tst r24
+ 392 0102 01F0      		breq .L22
+  77:rn42/rn42_task.c ****         } else if (rn42_rts() && host_get_driver() != &lufa_driver) {
+ 393               		.loc 1 77 0 is_stmt 0 discriminator 1
+ 394 0104 0E94 0000 		call host_get_driver
+ 395 0108 8050      		subi r24,lo8(lufa_driver)
+ 396 010a 9040      		sbci r25,hi8(lufa_driver)
+ 397 010c 01F0      		breq .L22
+  78:rn42/rn42_task.c ****             clear_keyboard();
+ 398               		.loc 1 78 0 is_stmt 1
+ 399 010e 0E94 0000 		call clear_keyboard
+  79:rn42/rn42_task.c ****             host_set_driver(&lufa_driver);
+ 400               		.loc 1 79 0
+ 401 0112 80E0      		ldi r24,lo8(lufa_driver)
+ 402 0114 90E0      		ldi r25,hi8(lufa_driver)
+ 403               	.L52:
+ 404 0116 0E94 0000 		call host_set_driver
+ 405               	.L22:
+  85:rn42/rn42_task.c ****     uint16_t e = timer_elapsed(prev_timer);
+ 406               		.loc 1 85 0
+ 407 011a 8091 0000 		lds r24,prev_timer.4778
+ 408 011e 9091 0000 		lds r25,prev_timer.4778+1
+ 409 0122 0E94 0000 		call timer_elapsed
+  86:rn42/rn42_task.c ****     if (e > 1000) {
+ 410               		.loc 1 86 0
+ 411 0126 893E      		cpi r24,-23
+ 412 0128 23E0      		ldi r18,3
+ 413 012a 9207      		cpc r25,r18
+ 414 012c 00F4      		brsh .+2
+ 415 012e 00C0      		rjmp .L26
+ 416               	.LBB27:
+  88:rn42/rn42_task.c ****         prev_timer += e/1000*1000;
+ 417               		.loc 1 88 0
+ 418 0130 28EE      		ldi r18,lo8(-24)
+ 419 0132 33E0      		ldi r19,lo8(3)
+ 420 0134 B901      		movw r22,r18
+ 421 0136 0E94 0000 		call __udivmodhi4
+ 422 013a 629F      		mul r22,r18
+ 423 013c A001      		movw r20,r0
+ 424 013e 639F      		mul r22,r19
+ 425 0140 500D      		add r21,r0
+ 426 0142 729F      		mul r23,r18
+ 427 0144 500D      		add r21,r0
+ 428 0146 1124      		clr r1
+ 429 0148 8091 0000 		lds r24,prev_timer.4778
+ 430 014c 9091 0000 		lds r25,prev_timer.4778+1
+ 431 0150 840F      		add r24,r20
+ 432 0152 951F      		adc r25,r21
+ 433 0154 9093 0000 		sts prev_timer.4778+1,r25
+ 434 0158 8093 0000 		sts prev_timer.4778,r24
+  91:rn42/rn42_task.c ****         uint8_t bs = battery_status();
+ 435               		.loc 1 91 0
+ 436 015c 0E94 0000 		call battery_status
+  92:rn42/rn42_task.c ****         if (bs == LOW_VOLTAGE) {
+ 437               		.loc 1 92 0
+ 438 0160 8330      		cpi r24,lo8(3)
+ 439 0162 01F4      		brne .L27
+  93:rn42/rn42_task.c ****             battery_led(LED_ON);
+ 440               		.loc 1 93 0
+ 441 0164 81E0      		ldi r24,lo8(1)
+ 442 0166 00C0      		rjmp .L53
+ 443               	.L27:
+  95:rn42/rn42_task.c ****             battery_led(LED_CHARGER);
+ 444               		.loc 1 95 0
+ 445 0168 80E0      		ldi r24,0
+ 446               	.L53:
+ 447 016a 0E94 0000 		call battery_led
+  99:rn42/rn42_task.c ****         uint32_t t = timer_read32()/1000;
+ 448               		.loc 1 99 0
+ 449 016e 0E94 0000 		call timer_read32
+ 450 0172 28EE      		ldi r18,lo8(-24)
+ 451 0174 33E0      		ldi r19,lo8(3)
+ 452 0176 40E0      		ldi r20,0
+ 453 0178 50E0      		ldi r21,0
+ 454 017a 0E94 0000 		call __udivmodsi4
+ 455 017e 4901      		movw r8,r18
+ 456 0180 5A01      		movw r10,r20
+ 100:rn42/rn42_task.c ****         if (t%60 == 0) {
+ 457               		.loc 1 100 0
+ 458 0182 8CE3      		ldi r24,lo8(60)
+ 459 0184 C82E      		mov r12,r24
+ 460 0186 D12C      		mov r13,__zero_reg__
+ 461 0188 E12C      		mov r14,__zero_reg__
+ 462 018a F12C      		mov r15,__zero_reg__
+ 463 018c CA01      		movw r24,r20
+ 464 018e B901      		movw r22,r18
+ 465 0190 A701      		movw r20,r14
+ 466 0192 9601      		movw r18,r12
+ 467 0194 0E94 0000 		call __udivmodsi4
+ 468 0198 672B      		or r22,r23
+ 469 019a 682B      		or r22,r24
+ 470 019c 692B      		or r22,r25
+ 471 019e 01F4      		brne .L26
+ 472               	.LBB28:
+ 101:rn42/rn42_task.c ****             uint16_t v = battery_voltage();
+ 473               		.loc 1 101 0
+ 474 01a0 0E94 0000 		call battery_voltage
+ 105:rn42/rn42_task.c ****             dprintf("%02u:%02u:%02u\t%umV\n", h, m, s, v);
+ 475               		.loc 1 105 0
+ 476 01a4 2091 0000 		lds r18,debug_config
+ 477 01a8 20FF      		sbrs r18,0
+ 478 01aa 00C0      		rjmp .L26
+ 105:rn42/rn42_task.c ****             dprintf("%02u:%02u:%02u\t%umV\n", h, m, s, v);
+ 479               		.loc 1 105 0 is_stmt 0 discriminator 1
+ 480 01ac 9F93      		push r25
+ 481               	.LCFI27:
+ 482               		.cfi_def_cfa_offset 15
+ 483 01ae 8F93      		push r24
+ 484               	.LCFI28:
+ 485               		.cfi_def_cfa_offset 16
+ 486 01b0 1F92      		push __zero_reg__
+ 487               	.LCFI29:
+ 488               		.cfi_def_cfa_offset 17
+ 489 01b2 1F92      		push __zero_reg__
+ 490               	.LCFI30:
+ 491               		.cfi_def_cfa_offset 18
+ 103:rn42/rn42_task.c ****             uint8_t m = t%3600/60;
+ 492               		.loc 1 103 0 is_stmt 1 discriminator 1
+ 493 01b4 C501      		movw r24,r10
+ 494 01b6 B401      		movw r22,r8
+ 495 01b8 20E1      		ldi r18,lo8(16)
+ 496 01ba 3EE0      		ldi r19,lo8(14)
+ 497 01bc 40E0      		ldi r20,0
+ 498 01be 50E0      		ldi r21,0
+ 499 01c0 0E94 0000 		call __udivmodsi4
+ 500 01c4 C22F      		mov r28,r18
+ 501 01c6 A701      		movw r20,r14
+ 502 01c8 9601      		movw r18,r12
+ 503 01ca 0E94 0000 		call __udivmodsi4
+ 105:rn42/rn42_task.c ****             dprintf("%02u:%02u:%02u\t%umV\n", h, m, s, v);
+ 504               		.loc 1 105 0 discriminator 1
+ 505 01ce 3F93      		push r19
+ 506               	.LCFI31:
+ 507               		.cfi_def_cfa_offset 19
+ 508 01d0 2F93      		push r18
+ 509               	.LCFI32:
+ 510               		.cfi_def_cfa_offset 20
+ 511 01d2 1F92      		push __zero_reg__
+ 512               	.LCFI33:
+ 513               		.cfi_def_cfa_offset 21
+ 514 01d4 CF93      		push r28
+ 515               	.LCFI34:
+ 516               		.cfi_def_cfa_offset 22
+ 517 01d6 80E0      		ldi r24,lo8(__c.4786)
+ 518 01d8 90E0      		ldi r25,hi8(__c.4786)
+ 519 01da 9F93      		push r25
+ 520               	.LCFI35:
+ 521               		.cfi_def_cfa_offset 23
+ 522 01dc 8F93      		push r24
+ 523               	.LCFI36:
+ 524               		.cfi_def_cfa_offset 24
+ 525 01de 0E94 0000 		call __xprintf
+ 526 01e2 8DB7      		in r24,__SP_L__
+ 527 01e4 9EB7      		in r25,__SP_H__
+ 528 01e6 0A96      		adiw r24,10
+ 529 01e8 0FB6      		in __tmp_reg__,__SREG__
+ 530 01ea F894      		cli
+ 531 01ec 9EBF      		out __SP_H__,r25
+ 532 01ee 0FBE      		out __SREG__,__tmp_reg__
+ 533 01f0 8DBF      		out __SP_L__,r24
+ 534               	.LCFI37:
+ 535               		.cfi_def_cfa_offset 14
+ 536               	.L26:
+ 537               	.LBE28:
+ 538               	.LBE27:
+ 114:rn42/rn42_task.c ****     if (!rn42_rts() && rn42_linked()) {
+ 539               		.loc 1 114 0
+ 540 01f2 0E94 0000 		call rn42_rts
+ 541 01f6 8111      		cpse r24,__zero_reg__
+ 542 01f8 00C0      		rjmp .L30
+ 114:rn42/rn42_task.c ****     if (!rn42_rts() && rn42_linked()) {
+ 543               		.loc 1 114 0 is_stmt 0 discriminator 1
+ 544 01fa 0E94 0000 		call rn42_linked
+ 545 01fe 8823      		tst r24
+ 546 0200 01F0      		breq .L30
+ 547               	.LBB29:
+ 548               	.LBB30:
+  25:rn42/rn42_task.c ****         DDRE  |=  (1<<6);
+ 549               		.loc 1 25 0 is_stmt 1
+ 550 0202 6E9A      		sbi 0xd,6
+  26:rn42/rn42_task.c ****         PORTE &= ~(1<<6);
+ 551               		.loc 1 26 0
+ 552 0204 7698      		cbi 0xe,6
+ 553 0206 00C0      		rjmp .L8
+ 554               	.L30:
+ 555               	.LBE30:
+ 556               	.LBE29:
+ 557               	.LBB31:
+ 558               	.LBB32:
+  28:rn42/rn42_task.c ****         DDRE  |=  (1<<6);
+ 559               		.loc 1 28 0
+ 560 0208 6E9A      		sbi 0xd,6
+  29:rn42/rn42_task.c ****         PORTE |=  (1<<6);
+ 561               		.loc 1 29 0
+ 562 020a 769A      		sbi 0xe,6
+ 563               	.L8:
+ 564               	/* epilogue start */
+ 565               	.LBE32:
+ 566               	.LBE31:
+ 119:rn42/rn42_task.c **** }
+ 567               		.loc 1 119 0
+ 568 020c DF91      		pop r29
+ 569 020e CF91      		pop r28
+ 570 0210 1F91      		pop r17
+ 571 0212 0F91      		pop r16
+ 572 0214 FF90      		pop r15
+ 573 0216 EF90      		pop r14
+ 574 0218 DF90      		pop r13
+ 575 021a CF90      		pop r12
+ 576 021c BF90      		pop r11
+ 577 021e AF90      		pop r10
+ 578 0220 9F90      		pop r9
+ 579 0222 8F90      		pop r8
+ 580 0224 0895      		ret
+ 581               		.cfi_endproc
+ 582               	.LFE106:
+ 584               		.section	.rodata.str1.1,"aMS",@progbits,1
+ 585               	.LC0:
+ 586 0000 524E 2D34 		.string	"RN-42"
+ 586      3200 
+ 587               	.LC1:
+ 588 0006 4C55 4641 		.string	"LUFA"
+ 588      00
+ 589               	.LC2:
+ 590 000b 4F46 4600 		.string	"OFF"
+ 591               	.LC3:
+ 592 000f 4F4E 00   		.string	"ON"
+ 593               	.LC4:
+ 594 0012 434F 4E4E 		.string	"CONN"
+ 594      00
+ 595               	.LC5:
+ 596 0017 506F 7765 		.string	"Powered"
+ 596      7265 6400 
+ 597               	.LC6:
+ 598 001f 556E 6174 		.string	"Unattached"
+ 598      7461 6368 
+ 598      6564 00
+ 599               	.LC7:
+ 600 002a 4465 6661 		.string	"Default"
+ 600      756C 7400 
+ 601               	.LC8:
+ 602 0032 4164 6472 		.string	"Addressed"
+ 602      6573 7365 
+ 602      6400 
+ 603               	.LC9:
+ 604 003c 436F 6E66 		.string	"Configured"
+ 604      6967 7572 
+ 604      6564 00
+ 605               	.LC10:
+ 606 0047 3F00      		.string	"?"
+ 607               	.LC11:
+ 608 0049 5375 7370 		.string	"Suspended"
+ 608      656E 6465 
+ 608      6400 
+ 609               		.section	.text.command_extra,"ax",@progbits
+ 610               	.global	command_extra
+ 612               	command_extra:
+ 613               	.LFB111:
+ 153:rn42/rn42_task.c **** }
+ 154:rn42/rn42_task.c **** 
+ 155:rn42/rn42_task.c **** static void init_rn42(void)
+ 156:rn42/rn42_task.c **** {
+ 157:rn42/rn42_task.c ****     // RN-42 configure
+ 158:rn42/rn42_task.c ****     if (!config_mode) enter_command_mode();
+ 159:rn42/rn42_task.c ****     SEND_COMMAND("SF,1\r\n");  // factory defaults
+ 160:rn42/rn42_task.c ****     SEND_COMMAND("S-,TmkBT\r\n");
+ 161:rn42/rn42_task.c ****     SEND_COMMAND("SS,Keyboard/Mouse\r\n");
+ 162:rn42/rn42_task.c ****     SEND_COMMAND("SM,4\r\n");  // auto connect(DTR)
+ 163:rn42/rn42_task.c ****     SEND_COMMAND("SW,8000\r\n");   // Sniff disable
+ 164:rn42/rn42_task.c ****     SEND_COMMAND("S~,6\r\n");   // HID profile
+ 165:rn42/rn42_task.c ****     SEND_COMMAND("SH,003C\r\n");   // combo device, out-report, 4-reconnect
+ 166:rn42/rn42_task.c ****     SEND_COMMAND("SY,FFF4\r\n");   // transmit power -12
+ 167:rn42/rn42_task.c ****     SEND_COMMAND("R,1\r\n");
+ 168:rn42/rn42_task.c ****     if (!config_mode) exit_command_mode();
+ 169:rn42/rn42_task.c **** }
+ 170:rn42/rn42_task.c **** 
+ 171:rn42/rn42_task.c **** #if 0
+ 172:rn42/rn42_task.c **** // Switching connections
+ 173:rn42/rn42_task.c **** // NOTE: Remote Address doesn't work in the way manual says.
+ 174:rn42/rn42_task.c **** // EEPROM address for link store
+ 175:rn42/rn42_task.c **** #define RN42_LINK0  (uint8_t *)128
+ 176:rn42/rn42_task.c **** #define RN42_LINK1  (uint8_t *)140
+ 177:rn42/rn42_task.c **** #define RN42_LINK2  (uint8_t *)152
+ 178:rn42/rn42_task.c **** #define RN42_LINK3  (uint8_t *)164
+ 179:rn42/rn42_task.c **** static void store_link(uint8_t *eeaddr)
+ 180:rn42/rn42_task.c **** {
+ 181:rn42/rn42_task.c ****     enter_command_mode();
+ 182:rn42/rn42_task.c ****     SEND_STR("GR\r\n"); // remote address
+ 183:rn42/rn42_task.c ****     const char *s = rn42_gets(500);
+ 184:rn42/rn42_task.c ****     if (strcmp("GR", s) == 0) s = rn42_gets(500);   // ignore local echo
+ 185:rn42/rn42_task.c ****     xprintf("%s(%d)\r\n", s, strlen(s));
+ 186:rn42/rn42_task.c ****     if (strlen(s) == 12) {
+ 187:rn42/rn42_task.c ****         for (int i = 0; i < 12; i++) {
+ 188:rn42/rn42_task.c ****             eeprom_write_byte(eeaddr+i, *(s+i));
+ 189:rn42/rn42_task.c ****             dprintf("%c ", *(s+i));
+ 190:rn42/rn42_task.c ****         }
+ 191:rn42/rn42_task.c ****         dprint("\r\n");
+ 192:rn42/rn42_task.c ****     }
+ 193:rn42/rn42_task.c ****     exit_command_mode();
+ 194:rn42/rn42_task.c **** }
+ 195:rn42/rn42_task.c **** 
+ 196:rn42/rn42_task.c **** static void restore_link(const uint8_t *eeaddr)
+ 197:rn42/rn42_task.c **** {
+ 198:rn42/rn42_task.c ****     enter_command_mode();
+ 199:rn42/rn42_task.c ****     SEND_COMMAND("SR,Z\r\n");   // remove remote address
+ 200:rn42/rn42_task.c ****     SEND_STR("SR,");            // set remote address from EEPROM
+ 201:rn42/rn42_task.c ****     for (int i = 0; i < 12; i++) {
+ 202:rn42/rn42_task.c ****         uint8_t c = eeprom_read_byte(eeaddr+i);
+ 203:rn42/rn42_task.c ****         rn42_putc(c);
+ 204:rn42/rn42_task.c ****         dprintf("%c ", c);
+ 205:rn42/rn42_task.c ****     }
+ 206:rn42/rn42_task.c ****     dprintf("\r\n");
+ 207:rn42/rn42_task.c ****     SEND_COMMAND("\r\n");
+ 208:rn42/rn42_task.c ****     SEND_COMMAND("R,1\r\n");    // reboot
+ 209:rn42/rn42_task.c ****     exit_command_mode();
+ 210:rn42/rn42_task.c **** }
+ 211:rn42/rn42_task.c **** 
+ 212:rn42/rn42_task.c **** static const char *get_link(uint8_t * eeaddr)
+ 213:rn42/rn42_task.c **** {
+ 214:rn42/rn42_task.c ****     static char s[13];
+ 215:rn42/rn42_task.c ****     for (int i = 0; i < 12; i++) {
+ 216:rn42/rn42_task.c ****         uint8_t c = eeprom_read_byte(eeaddr+i);
+ 217:rn42/rn42_task.c ****         s[i] = c;
+ 218:rn42/rn42_task.c ****     }
+ 219:rn42/rn42_task.c ****     s[12] = '\0';
+ 220:rn42/rn42_task.c ****     return s;
+ 221:rn42/rn42_task.c **** }
+ 222:rn42/rn42_task.c **** #endif
+ 223:rn42/rn42_task.c **** 
+ 224:rn42/rn42_task.c **** static void pairing(void)
+ 225:rn42/rn42_task.c **** {
+ 226:rn42/rn42_task.c ****     enter_command_mode();
+ 227:rn42/rn42_task.c ****     SEND_COMMAND("SR,Z\r\n");   // remove remote address
+ 228:rn42/rn42_task.c ****     SEND_COMMAND("R,1\r\n");    // reboot
+ 229:rn42/rn42_task.c ****     exit_command_mode();
+ 230:rn42/rn42_task.c **** }
+ 231:rn42/rn42_task.c **** 
+ 232:rn42/rn42_task.c **** bool command_extra(uint8_t code)
+ 233:rn42/rn42_task.c **** {
+ 614               		.loc 1 233 0
+ 615               		.cfi_startproc
+ 616               	.LVL17:
+ 617 0000 8F92      		push r8
+ 618               	.LCFI38:
+ 619               		.cfi_def_cfa_offset 3
+ 620               		.cfi_offset 8, -2
+ 621 0002 9F92      		push r9
+ 622               	.LCFI39:
+ 623               		.cfi_def_cfa_offset 4
+ 624               		.cfi_offset 9, -3
+ 625 0004 AF92      		push r10
+ 626               	.LCFI40:
+ 627               		.cfi_def_cfa_offset 5
+ 628               		.cfi_offset 10, -4
+ 629 0006 BF92      		push r11
+ 630               	.LCFI41:
+ 631               		.cfi_def_cfa_offset 6
+ 632               		.cfi_offset 11, -5
+ 633 0008 CF92      		push r12
+ 634               	.LCFI42:
+ 635               		.cfi_def_cfa_offset 7
+ 636               		.cfi_offset 12, -6
+ 637 000a DF92      		push r13
+ 638               	.LCFI43:
+ 639               		.cfi_def_cfa_offset 8
+ 640               		.cfi_offset 13, -7
+ 641 000c EF92      		push r14
+ 642               	.LCFI44:
+ 643               		.cfi_def_cfa_offset 9
+ 644               		.cfi_offset 14, -8
+ 645 000e FF92      		push r15
+ 646               	.LCFI45:
+ 647               		.cfi_def_cfa_offset 10
+ 648               		.cfi_offset 15, -9
+ 649 0010 1F93      		push r17
+ 650               	.LCFI46:
+ 651               		.cfi_def_cfa_offset 11
+ 652               		.cfi_offset 17, -10
+ 653 0012 CF93      		push r28
+ 654               	.LCFI47:
+ 655               		.cfi_def_cfa_offset 12
+ 656               		.cfi_offset 28, -11
+ 657 0014 DF93      		push r29
+ 658               	.LCFI48:
+ 659               		.cfi_def_cfa_offset 13
+ 660               		.cfi_offset 29, -12
+ 661 0016 00D0      		rcall .
+ 662 0018 00D0      		rcall .
+ 663               	.LCFI49:
+ 664               		.cfi_def_cfa_offset 17
+ 665 001a CDB7      		in r28,__SP_L__
+ 666 001c DEB7      		in r29,__SP_H__
+ 667               	.LCFI50:
+ 668               		.cfi_def_cfa_register 28
+ 669               	/* prologue: function */
+ 670               	/* frame size = 4 */
+ 671               	/* stack size = 15 */
+ 672               	.L__stack_usage = 15
+ 234:rn42/rn42_task.c ****     uint32_t t;
+ 235:rn42/rn42_task.c ****     uint16_t b;
+ 236:rn42/rn42_task.c ****     switch (code) {
+ 673               		.loc 1 236 0
+ 674 001e 8331      		cpi r24,lo8(19)
+ 675 0020 01F4      		brne .+2
+ 676 0022 00C0      		rjmp .L56
+ 677 0024 00F0      		brlo .+2
+ 678 0026 00C0      		rjmp .L57
+ 679 0028 8B30      		cpi r24,lo8(11)
+ 680 002a 01F4      		brne .+2
+ 681 002c 00C0      		rjmp .L58
+ 682 002e 8C30      		cpi r24,lo8(12)
+ 683 0030 01F4      		brne .+2
+ 684 0032 00C0      		rjmp .L59
+ 685 0034 8530      		cpi r24,lo8(5)
+ 686 0036 01F0      		breq .+2
+ 687 0038 00C0      		rjmp .L55
+ 688               	.LBB79:
+ 237:rn42/rn42_task.c ****         case KC_H:
+ 238:rn42/rn42_task.c ****         case KC_SLASH: /* ? */
+ 239:rn42/rn42_task.c ****             print("\n\n----- Bluetooth RN-42 Help -----\n");
+ 240:rn42/rn42_task.c ****             print("i:       RN-42 info\n");
+ 241:rn42/rn42_task.c ****             print("b:       battery voltage\n");
+ 242:rn42/rn42_task.c ****             print("Del:     enter/exit RN-42 config mode\n");
+ 243:rn42/rn42_task.c ****             print("Slck:    RN-42 initialize\n");
+ 244:rn42/rn42_task.c **** #if 0
+ 245:rn42/rn42_task.c ****             print("1-4:     restore link\n");
+ 246:rn42/rn42_task.c ****             print("F1-F4:   store link\n");
+ 247:rn42/rn42_task.c **** #endif
+ 248:rn42/rn42_task.c ****             print("p:       pairing\n");
+ 249:rn42/rn42_task.c **** 
+ 250:rn42/rn42_task.c ****             if (config_mode) {
+ 251:rn42/rn42_task.c ****                 return true;
+ 252:rn42/rn42_task.c ****             } else {
+ 253:rn42/rn42_task.c ****                 print("u:       toggle Force USB mode\n");
+ 254:rn42/rn42_task.c ****                 return false;   // to display default command help
+ 255:rn42/rn42_task.c ****             }
+ 256:rn42/rn42_task.c ****         case KC_P:
+ 257:rn42/rn42_task.c ****             pairing();
+ 258:rn42/rn42_task.c ****             return true;
+ 259:rn42/rn42_task.c **** #if 0
+ 260:rn42/rn42_task.c ****         /* Store link address to EEPROM */
+ 261:rn42/rn42_task.c ****         case KC_F1:
+ 262:rn42/rn42_task.c ****             store_link(RN42_LINK0);
+ 263:rn42/rn42_task.c ****             return true;
+ 264:rn42/rn42_task.c ****         case KC_F2:
+ 265:rn42/rn42_task.c ****             store_link(RN42_LINK1);
+ 266:rn42/rn42_task.c ****             return true;
+ 267:rn42/rn42_task.c ****         case KC_F3:
+ 268:rn42/rn42_task.c ****             store_link(RN42_LINK2);
+ 269:rn42/rn42_task.c ****             return true;
+ 270:rn42/rn42_task.c ****         case KC_F4:
+ 271:rn42/rn42_task.c ****             store_link(RN42_LINK3);
+ 272:rn42/rn42_task.c ****             return true;
+ 273:rn42/rn42_task.c ****         /* Restore link address to EEPROM */
+ 274:rn42/rn42_task.c ****         case KC_1:
+ 275:rn42/rn42_task.c ****             restore_link(RN42_LINK0);
+ 276:rn42/rn42_task.c ****             return true;
+ 277:rn42/rn42_task.c ****         case KC_2:
+ 278:rn42/rn42_task.c ****             restore_link(RN42_LINK1);
+ 279:rn42/rn42_task.c ****             return true;
+ 280:rn42/rn42_task.c ****         case KC_3:
+ 281:rn42/rn42_task.c ****             restore_link(RN42_LINK2);
+ 282:rn42/rn42_task.c ****             return true;
+ 283:rn42/rn42_task.c ****         case KC_4:
+ 284:rn42/rn42_task.c ****             restore_link(RN42_LINK3);
+ 285:rn42/rn42_task.c ****             return true;
+ 286:rn42/rn42_task.c **** #endif
+ 287:rn42/rn42_task.c ****         case KC_I:
+ 288:rn42/rn42_task.c ****             print("\n----- RN-42 info -----\n");
+ 289:rn42/rn42_task.c ****             xprintf("protocol: %s\n", (host_get_driver() == &rn42_driver) ? "RN-42" : "LUFA");
+ 290:rn42/rn42_task.c ****             xprintf("force_usb: %X\n", force_usb);
+ 291:rn42/rn42_task.c ****             xprintf("rn42: %s\n", rn42_rts() ? "OFF" : (rn42_linked() ? "CONN" : "ON"));
+ 292:rn42/rn42_task.c ****             xprintf("rn42_autoconnecting(): %X\n", rn42_autoconnecting());
+ 293:rn42/rn42_task.c ****             xprintf("config_mode: %X\n", config_mode);
+ 294:rn42/rn42_task.c ****             xprintf("USB State: %s\n",
+ 295:rn42/rn42_task.c ****                     (USB_DeviceState == DEVICE_STATE_Unattached) ? "Unattached" :
+ 296:rn42/rn42_task.c ****                     (USB_DeviceState == DEVICE_STATE_Powered) ? "Powered" :
+ 297:rn42/rn42_task.c ****                     (USB_DeviceState == DEVICE_STATE_Default) ? "Default" :
+ 298:rn42/rn42_task.c ****                     (USB_DeviceState == DEVICE_STATE_Addressed) ? "Addressed" :
+ 299:rn42/rn42_task.c ****                     (USB_DeviceState == DEVICE_STATE_Configured) ? "Configured" :
+ 300:rn42/rn42_task.c ****                     (USB_DeviceState == DEVICE_STATE_Suspended) ? "Suspended" : "?");
+ 301:rn42/rn42_task.c ****             xprintf("battery: ");
+ 302:rn42/rn42_task.c ****             switch (battery_status()) {
+ 303:rn42/rn42_task.c ****                 case FULL_CHARGED:  xprintf("FULL"); break;
+ 304:rn42/rn42_task.c ****                 case CHARGING:      xprintf("CHARG"); break;
+ 305:rn42/rn42_task.c ****                 case DISCHARGING:   xprintf("DISCHG"); break;
+ 306:rn42/rn42_task.c ****                 case LOW_VOLTAGE:   xprintf("LOW"); break;
+ 307:rn42/rn42_task.c ****                 default:            xprintf("?"); break;
+ 308:rn42/rn42_task.c ****             };
+ 309:rn42/rn42_task.c ****             xprintf("\n");
+ 310:rn42/rn42_task.c ****             xprintf("RemoteWakeupEnabled: %X\n", USB_Device_RemoteWakeupEnabled);
+ 311:rn42/rn42_task.c ****             xprintf("VBUS: %X\n", USBSTA&(1<<VBUS));
+ 312:rn42/rn42_task.c ****             t = timer_read32()/1000;
+ 313:rn42/rn42_task.c ****             uint8_t d = t/3600/24;
+ 314:rn42/rn42_task.c ****             uint8_t h = t/3600;
+ 315:rn42/rn42_task.c ****             uint8_t m = t%3600/60;
+ 316:rn42/rn42_task.c ****             uint8_t s = t%60;
+ 317:rn42/rn42_task.c ****             xprintf("uptime: %02u %02u:%02u:%02u\n", d, h, m, s);
+ 318:rn42/rn42_task.c **** #if 0
+ 319:rn42/rn42_task.c ****             xprintf("LINK0: %s\r\n", get_link(RN42_LINK0));
+ 320:rn42/rn42_task.c ****             xprintf("LINK1: %s\r\n", get_link(RN42_LINK1));
+ 321:rn42/rn42_task.c ****             xprintf("LINK2: %s\r\n", get_link(RN42_LINK2));
+ 322:rn42/rn42_task.c ****             xprintf("LINK3: %s\r\n", get_link(RN42_LINK3));
+ 323:rn42/rn42_task.c **** #endif
+ 324:rn42/rn42_task.c ****             return true;
+ 325:rn42/rn42_task.c ****         case KC_B:
+ 326:rn42/rn42_task.c ****             // battery monitor
+ 327:rn42/rn42_task.c ****             t = timer_read32()/1000;
+ 689               		.loc 1 327 0
+ 690 003a 0E94 0000 		call timer_read32
+ 691               	.LVL18:
+ 692 003e 28EE      		ldi r18,lo8(-24)
+ 693 0040 33E0      		ldi r19,lo8(3)
+ 694 0042 40E0      		ldi r20,0
+ 695 0044 50E0      		ldi r21,0
+ 696 0046 0E94 0000 		call __udivmodsi4
+ 697 004a 4901      		movw r8,r18
+ 698 004c 5A01      		movw r10,r20
+ 699               	.LVL19:
+ 328:rn42/rn42_task.c ****             b = battery_voltage();
+ 700               		.loc 1 328 0
+ 701 004e 0E94 0000 		call battery_voltage
+ 702               	.LVL20:
+ 329:rn42/rn42_task.c ****             xprintf("BAT: %umV\t", b);
+ 703               		.loc 1 329 0
+ 704 0052 9F93      		push r25
+ 705 0054 8F93      		push r24
+ 706 0056 80E0      		ldi r24,lo8(__c.4907)
+ 707 0058 90E0      		ldi r25,hi8(__c.4907)
+ 708               	.LVL21:
+ 709 005a 9F93      		push r25
+ 710               	.LVL22:
+ 711 005c 8F93      		push r24
+ 712               	.LVL23:
+ 713 005e 0E94 0000 		call __xprintf
+ 714               	.LVL24:
+ 330:rn42/rn42_task.c ****             xprintf("%02u:",   t/3600);
+ 715               		.loc 1 330 0
+ 716 0062 C501      		movw r24,r10
+ 717 0064 B401      		movw r22,r8
+ 718 0066 20E1      		ldi r18,lo8(16)
+ 719 0068 3EE0      		ldi r19,lo8(14)
+ 720 006a 40E0      		ldi r20,0
+ 721 006c 50E0      		ldi r21,0
+ 722 006e 0E94 0000 		call __udivmodsi4
+ 723 0072 5F93      		push r21
+ 724 0074 4F93      		push r20
+ 725 0076 3F93      		push r19
+ 726 0078 2F93      		push r18
+ 727 007a 20E0      		ldi r18,lo8(__c.4909)
+ 728 007c 30E0      		ldi r19,hi8(__c.4909)
+ 729 007e 3F93      		push r19
+ 730 0080 2F93      		push r18
+ 731 0082 6983      		std Y+1,r22
+ 732 0084 7A83      		std Y+2,r23
+ 733 0086 8C83      		std Y+4,r24
+ 734 0088 9B83      		std Y+3,r25
+ 735 008a 0E94 0000 		call __xprintf
+ 736               	.LVL25:
+ 331:rn42/rn42_task.c ****             xprintf("%02u:",   t%3600/60);
+ 737               		.loc 1 331 0
+ 738 008e 4CE3      		ldi r20,lo8(60)
+ 739 0090 C42E      		mov r12,r20
+ 740 0092 D12C      		mov r13,__zero_reg__
+ 741 0094 E12C      		mov r14,__zero_reg__
+ 742 0096 F12C      		mov r15,__zero_reg__
+ 743 0098 6981      		ldd r22,Y+1
+ 744 009a 7A81      		ldd r23,Y+2
+ 745 009c 8C81      		ldd r24,Y+4
+ 746 009e 9B81      		ldd r25,Y+3
+ 747 00a0 A701      		movw r20,r14
+ 748 00a2 9601      		movw r18,r12
+ 749 00a4 0E94 0000 		call __udivmodsi4
+ 750 00a8 5F93      		push r21
+ 751 00aa 4F93      		push r20
+ 752 00ac 3F93      		push r19
+ 753 00ae 2F93      		push r18
+ 754 00b0 80E0      		ldi r24,lo8(__c.4911)
+ 755 00b2 90E0      		ldi r25,hi8(__c.4911)
+ 756 00b4 9F93      		push r25
+ 757 00b6 8F93      		push r24
+ 758 00b8 0E94 0000 		call __xprintf
+ 759               	.LVL26:
+ 332:rn42/rn42_task.c ****             xprintf("%02u\n",  t%60);
+ 760               		.loc 1 332 0
+ 761 00bc C501      		movw r24,r10
+ 762 00be B401      		movw r22,r8
+ 763 00c0 A701      		movw r20,r14
+ 764 00c2 9601      		movw r18,r12
+ 765 00c4 0E94 0000 		call __udivmodsi4
+ 766 00c8 9F93      		push r25
+ 767 00ca 8F93      		push r24
+ 768 00cc 7F93      		push r23
+ 769 00ce 6F93      		push r22
+ 770 00d0 80E0      		ldi r24,lo8(__c.4913)
+ 771 00d2 90E0      		ldi r25,hi8(__c.4913)
+ 772 00d4 9F93      		push r25
+ 773 00d6 8F93      		push r24
+ 774 00d8 0E94 0000 		call __xprintf
+ 775               	.LVL27:
+ 776 00dc 00C0      		rjmp .L100
+ 777               	.LVL28:
+ 778               	.L57:
+ 779               	.LBE79:
+ 236:rn42/rn42_task.c ****     switch (code) {
+ 780               		.loc 1 236 0
+ 781 00de 8833      		cpi r24,lo8(56)
+ 782 00e0 01F0      		breq .L58
+ 783 00e2 00F4      		brsh .L61
+ 784 00e4 8831      		cpi r24,lo8(24)
+ 785 00e6 01F4      		brne .+2
+ 786 00e8 00C0      		rjmp .L62
+ 787 00ea 00C0      		rjmp .L55
+ 788               	.L61:
+ 789 00ec 8734      		cpi r24,lo8(71)
+ 790 00ee 01F4      		brne .+2
+ 791 00f0 00C0      		rjmp .L63
+ 792 00f2 8C34      		cpi r24,lo8(76)
+ 793 00f4 01F4      		brne .+2
+ 794 00f6 00C0      		rjmp .L64
+ 795 00f8 00C0      		rjmp .L55
+ 796               	.L58:
+ 797               	.LBB84:
+ 239:rn42/rn42_task.c ****             print("\n\n----- Bluetooth RN-42 Help -----\n");
+ 798               		.loc 1 239 0
+ 799 00fa 80E0      		ldi r24,lo8(__c.4846)
+ 800 00fc 90E0      		ldi r25,hi8(__c.4846)
+ 801               	.LVL29:
+ 802 00fe 0E94 0000 		call xputs
+ 803               	.LVL30:
+ 240:rn42/rn42_task.c ****             print("i:       RN-42 info\n");
+ 804               		.loc 1 240 0
+ 805 0102 80E0      		ldi r24,lo8(__c.4848)
+ 806 0104 90E0      		ldi r25,hi8(__c.4848)
+ 807 0106 0E94 0000 		call xputs
+ 808               	.LVL31:
+ 241:rn42/rn42_task.c ****             print("b:       battery voltage\n");
+ 809               		.loc 1 241 0
+ 810 010a 80E0      		ldi r24,lo8(__c.4850)
+ 811 010c 90E0      		ldi r25,hi8(__c.4850)
+ 812 010e 0E94 0000 		call xputs
+ 813               	.LVL32:
+ 242:rn42/rn42_task.c ****             print("Del:     enter/exit RN-42 config mode\n");
+ 814               		.loc 1 242 0
+ 815 0112 80E0      		ldi r24,lo8(__c.4852)
+ 816 0114 90E0      		ldi r25,hi8(__c.4852)
+ 817 0116 0E94 0000 		call xputs
+ 818               	.LVL33:
+ 243:rn42/rn42_task.c ****             print("Slck:    RN-42 initialize\n");
+ 819               		.loc 1 243 0
+ 820 011a 80E0      		ldi r24,lo8(__c.4854)
+ 821 011c 90E0      		ldi r25,hi8(__c.4854)
+ 822 011e 0E94 0000 		call xputs
+ 823               	.LVL34:
+ 248:rn42/rn42_task.c ****             print("p:       pairing\n");
+ 824               		.loc 1 248 0
+ 825 0122 80E0      		ldi r24,lo8(__c.4856)
+ 826 0124 90E0      		ldi r25,hi8(__c.4856)
+ 827 0126 0E94 0000 		call xputs
+ 828               	.LVL35:
+ 250:rn42/rn42_task.c ****             if (config_mode) {
+ 829               		.loc 1 250 0
+ 830 012a 8091 0000 		lds r24,config_mode
+ 831 012e 8111      		cpse r24,__zero_reg__
+ 832 0130 00C0      		rjmp .L98
+ 253:rn42/rn42_task.c ****                 print("u:       toggle Force USB mode\n");
+ 833               		.loc 1 253 0
+ 834 0132 80E0      		ldi r24,lo8(__c.4858)
+ 835 0134 90E0      		ldi r25,hi8(__c.4858)
+ 836 0136 0E94 0000 		call xputs
+ 837               	.LVL36:
+ 838 013a 00C0      		rjmp .L89
+ 839               	.LVL37:
+ 840               	.L56:
+ 841               	.LBB80:
+ 842               	.LBB81:
+ 226:rn42/rn42_task.c ****     enter_command_mode();
+ 843               		.loc 1 226 0
+ 844 013c 0E94 0000 		call enter_command_mode
+ 845               	.LVL38:
+ 227:rn42/rn42_task.c ****     SEND_COMMAND("SR,Z\r\n");   // remove remote address
+ 846               		.loc 1 227 0
+ 847 0140 80E0      		ldi r24,lo8(__c.4835)
+ 848 0142 90E0      		ldi r25,hi8(__c.4835)
+ 849 0144 0E94 0000 		call rn42_send_command
+ 850               	.LVL39:
+ 228:rn42/rn42_task.c ****     SEND_COMMAND("R,1\r\n");    // reboot
+ 851               		.loc 1 228 0
+ 852 0148 80E0      		ldi r24,lo8(__c.4837)
+ 853 014a 90E0      		ldi r25,hi8(__c.4837)
+ 854 014c 0E94 0000 		call rn42_send_command
+ 855               	.LVL40:
+ 856 0150 00C0      		rjmp .L99
+ 857               	.LVL41:
+ 858               	.L59:
+ 859               	.LBE81:
+ 860               	.LBE80:
+ 288:rn42/rn42_task.c ****             print("\n----- RN-42 info -----\n");
+ 861               		.loc 1 288 0
+ 862 0152 80E0      		ldi r24,lo8(__c.4862)
+ 863 0154 90E0      		ldi r25,hi8(__c.4862)
+ 864               	.LVL42:
+ 865 0156 0E94 0000 		call xputs
+ 866               	.LVL43:
+ 289:rn42/rn42_task.c ****             xprintf("protocol: %s\n", (host_get_driver() == &rn42_driver) ? "RN-42" : "LUFA");
+ 867               		.loc 1 289 0
+ 868 015a 0E94 0000 		call host_get_driver
+ 869               	.LVL44:
+ 870 015e 8050      		subi r24,lo8(rn42_driver)
+ 871 0160 9040      		sbci r25,hi8(rn42_driver)
+ 872 0162 01F4      		brne .L80
+ 873 0164 80E0      		ldi r24,lo8(.LC0)
+ 874 0166 90E0      		ldi r25,hi8(.LC0)
+ 875 0168 00C0      		rjmp .L67
+ 876               	.L80:
+ 877 016a 80E0      		ldi r24,lo8(.LC1)
+ 878 016c 90E0      		ldi r25,hi8(.LC1)
+ 879               	.L67:
+ 289:rn42/rn42_task.c ****             xprintf("protocol: %s\n", (host_get_driver() == &rn42_driver) ? "RN-42" : "LUFA");
+ 880               		.loc 1 289 0 is_stmt 0 discriminator 3
+ 881 016e 9F93      		push r25
+ 882 0170 8F93      		push r24
+ 883 0172 80E0      		ldi r24,lo8(__c.4864)
+ 884 0174 90E0      		ldi r25,hi8(__c.4864)
+ 885 0176 9F93      		push r25
+ 886 0178 8F93      		push r24
+ 887 017a 0E94 0000 		call __xprintf
+ 888               	.LVL45:
+ 290:rn42/rn42_task.c ****             xprintf("force_usb: %X\n", force_usb);
+ 889               		.loc 1 290 0 is_stmt 1 discriminator 3
+ 890 017e 8091 0000 		lds r24,force_usb
+ 891 0182 1F92      		push __zero_reg__
+ 892 0184 8F93      		push r24
+ 893 0186 80E0      		ldi r24,lo8(__c.4866)
+ 894 0188 90E0      		ldi r25,hi8(__c.4866)
+ 895 018a 9F93      		push r25
+ 896 018c 8F93      		push r24
+ 897 018e 0E94 0000 		call __xprintf
+ 898               	.LVL46:
+ 291:rn42/rn42_task.c ****             xprintf("rn42: %s\n", rn42_rts() ? "OFF" : (rn42_linked() ? "CONN" : "ON"));
+ 899               		.loc 1 291 0 discriminator 3
+ 900 0192 0E94 0000 		call rn42_rts
+ 901               	.LVL47:
+ 902 0196 0FB6      		in __tmp_reg__,__SREG__
+ 903 0198 F894      		cli
+ 904 019a DEBF      		out __SP_H__,r29
+ 905 019c 0FBE      		out __SREG__,__tmp_reg__
+ 906 019e CDBF      		out __SP_L__,r28
+ 907 01a0 8111      		cpse r24,__zero_reg__
+ 908 01a2 00C0      		rjmp .L81
+ 291:rn42/rn42_task.c ****             xprintf("rn42: %s\n", rn42_rts() ? "OFF" : (rn42_linked() ? "CONN" : "ON"));
+ 909               		.loc 1 291 0 is_stmt 0 discriminator 2
+ 910 01a4 0E94 0000 		call rn42_linked
+ 911               	.LVL48:
+ 912 01a8 8823      		tst r24
+ 913 01aa 01F0      		breq .L82
+ 291:rn42/rn42_task.c ****             xprintf("rn42: %s\n", rn42_rts() ? "OFF" : (rn42_linked() ? "CONN" : "ON"));
+ 914               		.loc 1 291 0
+ 915 01ac 80E0      		ldi r24,lo8(.LC4)
+ 916 01ae 90E0      		ldi r25,hi8(.LC4)
+ 917 01b0 00C0      		rjmp .L68
+ 918               	.L81:
+ 919 01b2 80E0      		ldi r24,lo8(.LC2)
+ 920 01b4 90E0      		ldi r25,hi8(.LC2)
+ 921 01b6 00C0      		rjmp .L68
+ 922               	.L82:
+ 923 01b8 80E0      		ldi r24,lo8(.LC3)
+ 924 01ba 90E0      		ldi r25,hi8(.LC3)
+ 925               	.L68:
+ 291:rn42/rn42_task.c ****             xprintf("rn42: %s\n", rn42_rts() ? "OFF" : (rn42_linked() ? "CONN" : "ON"));
+ 926               		.loc 1 291 0 discriminator 3
+ 927 01bc 9F93      		push r25
+ 928 01be 8F93      		push r24
+ 929 01c0 80E0      		ldi r24,lo8(__c.4868)
+ 930 01c2 90E0      		ldi r25,hi8(__c.4868)
+ 931 01c4 9F93      		push r25
+ 932 01c6 8F93      		push r24
+ 933 01c8 0E94 0000 		call __xprintf
+ 934               	.LVL49:
+ 292:rn42/rn42_task.c ****             xprintf("rn42_autoconnecting(): %X\n", rn42_autoconnecting());
+ 935               		.loc 1 292 0 is_stmt 1 discriminator 3
+ 936 01cc 0E94 0000 		call rn42_autoconnecting
+ 937               	.LVL50:
+ 938 01d0 1F92      		push __zero_reg__
+ 939 01d2 8F93      		push r24
+ 940 01d4 80E0      		ldi r24,lo8(__c.4870)
+ 941 01d6 90E0      		ldi r25,hi8(__c.4870)
+ 942 01d8 9F93      		push r25
+ 943 01da 8F93      		push r24
+ 944 01dc 0E94 0000 		call __xprintf
+ 945               	.LVL51:
+ 293:rn42/rn42_task.c ****             xprintf("config_mode: %X\n", config_mode);
+ 946               		.loc 1 293 0 discriminator 3
+ 947 01e0 8091 0000 		lds r24,config_mode
+ 948 01e4 1F92      		push __zero_reg__
+ 949 01e6 8F93      		push r24
+ 950 01e8 80E0      		ldi r24,lo8(__c.4872)
+ 951 01ea 90E0      		ldi r25,hi8(__c.4872)
+ 952 01ec 9F93      		push r25
+ 953 01ee 8F93      		push r24
+ 954 01f0 0E94 0000 		call __xprintf
+ 955               	.LVL52:
+ 294:rn42/rn42_task.c ****             xprintf("USB State: %s\n",
+ 956               		.loc 1 294 0 discriminator 3
+ 957 01f4 8091 0000 		lds r24,USB_DeviceState
+ 958 01f8 0FB6      		in __tmp_reg__,__SREG__
+ 959 01fa F894      		cli
+ 960 01fc DEBF      		out __SP_H__,r29
+ 961 01fe 0FBE      		out __SREG__,__tmp_reg__
+ 962 0200 CDBF      		out __SP_L__,r28
+ 963 0202 8823      		tst r24
+ 964 0204 01F0      		breq .L83
+ 294:rn42/rn42_task.c ****             xprintf("USB State: %s\n",
+ 965               		.loc 1 294 0 is_stmt 0 discriminator 1
+ 966 0206 8091 0000 		lds r24,USB_DeviceState
+ 967 020a 8130      		cpi r24,lo8(1)
+ 968 020c 01F0      		breq .L84
+ 969 020e 8091 0000 		lds r24,USB_DeviceState
+ 970 0212 8230      		cpi r24,lo8(2)
+ 971 0214 01F0      		breq .L85
+ 972 0216 8091 0000 		lds r24,USB_DeviceState
+ 973 021a 8330      		cpi r24,lo8(3)
+ 974 021c 01F0      		breq .L86
+ 975 021e 8091 0000 		lds r24,USB_DeviceState
+ 976 0222 8430      		cpi r24,lo8(4)
+ 977 0224 01F0      		breq .L87
+ 978 0226 8091 0000 		lds r24,USB_DeviceState
+ 979 022a 8530      		cpi r24,lo8(5)
+ 980 022c 01F4      		brne .L88
+ 294:rn42/rn42_task.c ****             xprintf("USB State: %s\n",
+ 981               		.loc 1 294 0
+ 982 022e 80E0      		ldi r24,lo8(.LC11)
+ 983 0230 90E0      		ldi r25,hi8(.LC11)
+ 984 0232 00C0      		rjmp .L69
+ 985               	.L83:
+ 986 0234 80E0      		ldi r24,lo8(.LC6)
+ 987 0236 90E0      		ldi r25,hi8(.LC6)
+ 988 0238 00C0      		rjmp .L69
+ 989               	.L84:
+ 990 023a 80E0      		ldi r24,lo8(.LC5)
+ 991 023c 90E0      		ldi r25,hi8(.LC5)
+ 992 023e 00C0      		rjmp .L69
+ 993               	.L85:
+ 994 0240 80E0      		ldi r24,lo8(.LC7)
+ 995 0242 90E0      		ldi r25,hi8(.LC7)
+ 996 0244 00C0      		rjmp .L69
+ 997               	.L86:
+ 998 0246 80E0      		ldi r24,lo8(.LC8)
+ 999 0248 90E0      		ldi r25,hi8(.LC8)
+ 1000 024a 00C0      		rjmp .L69
+ 1001               	.L87:
+ 1002 024c 80E0      		ldi r24,lo8(.LC9)
+ 1003 024e 90E0      		ldi r25,hi8(.LC9)
+ 1004 0250 00C0      		rjmp .L69
+ 1005               	.L88:
+ 1006 0252 80E0      		ldi r24,lo8(.LC10)
+ 1007 0254 90E0      		ldi r25,hi8(.LC10)
+ 1008               	.L69:
+ 294:rn42/rn42_task.c ****             xprintf("USB State: %s\n",
+ 1009               		.loc 1 294 0 discriminator 3
+ 1010 0256 9F93      		push r25
+ 1011 0258 8F93      		push r24
+ 1012 025a 80E0      		ldi r24,lo8(__c.4874)
+ 1013 025c 90E0      		ldi r25,hi8(__c.4874)
+ 1014 025e 9F93      		push r25
+ 1015 0260 8F93      		push r24
+ 1016 0262 0E94 0000 		call __xprintf
+ 1017               	.LVL53:
+ 301:rn42/rn42_task.c ****             xprintf("battery: ");
+ 1018               		.loc 1 301 0 is_stmt 1 discriminator 3
+ 1019 0266 80E0      		ldi r24,lo8(__c.4876)
+ 1020 0268 90E0      		ldi r25,hi8(__c.4876)
+ 1021 026a 9F93      		push r25
+ 1022 026c 8F93      		push r24
+ 1023 026e 0E94 0000 		call __xprintf
+ 1024               	.LVL54:
+ 302:rn42/rn42_task.c ****             switch (battery_status()) {
+ 1025               		.loc 1 302 0 discriminator 3
+ 1026 0272 0E94 0000 		call battery_status
+ 1027               	.LVL55:
+ 1028 0276 0F90      		pop __tmp_reg__
+ 1029 0278 0F90      		pop __tmp_reg__
+ 1030 027a 0F90      		pop __tmp_reg__
+ 1031 027c 0F90      		pop __tmp_reg__
+ 1032 027e 0F90      		pop __tmp_reg__
+ 1033 0280 0F90      		pop __tmp_reg__
+ 1034 0282 8130      		cpi r24,lo8(1)
+ 1035 0284 01F0      		breq .L71
+ 1036 0286 00F0      		brlo .L72
+ 1037 0288 8230      		cpi r24,lo8(2)
+ 1038 028a 01F0      		breq .L73
+ 1039 028c 8330      		cpi r24,lo8(3)
+ 1040 028e 01F4      		brne .L101
+ 306:rn42/rn42_task.c ****                 case LOW_VOLTAGE:   xprintf("LOW"); break;
+ 1041               		.loc 1 306 0
+ 1042 0290 80E0      		ldi r24,lo8(__c.4889)
+ 1043 0292 90E0      		ldi r25,hi8(__c.4889)
+ 1044 0294 00C0      		rjmp .L97
+ 1045               	.L72:
+ 303:rn42/rn42_task.c ****                 case FULL_CHARGED:  xprintf("FULL"); break;
+ 1046               		.loc 1 303 0
+ 1047 0296 80E0      		ldi r24,lo8(__c.4879)
+ 1048 0298 90E0      		ldi r25,hi8(__c.4879)
+ 1049 029a 00C0      		rjmp .L97
+ 1050               	.L71:
+ 304:rn42/rn42_task.c ****                 case CHARGING:      xprintf("CHARG"); break;
+ 1051               		.loc 1 304 0
+ 1052 029c 80E0      		ldi r24,lo8(__c.4883)
+ 1053 029e 90E0      		ldi r25,hi8(__c.4883)
+ 1054 02a0 00C0      		rjmp .L97
+ 1055               	.L73:
+ 305:rn42/rn42_task.c ****                 case DISCHARGING:   xprintf("DISCHG"); break;
+ 1056               		.loc 1 305 0
+ 1057 02a2 80E0      		ldi r24,lo8(__c.4886)
+ 1058 02a4 90E0      		ldi r25,hi8(__c.4886)
+ 1059 02a6 00C0      		rjmp .L97
+ 1060               	.L101:
+ 307:rn42/rn42_task.c ****                 default:            xprintf("?"); break;
+ 1061               		.loc 1 307 0
+ 1062 02a8 80E0      		ldi r24,lo8(__c.4892)
+ 1063 02aa 90E0      		ldi r25,hi8(__c.4892)
+ 1064               	.L97:
+ 1065 02ac 9F93      		push r25
+ 1066 02ae 8F93      		push r24
+ 1067 02b0 0E94 0000 		call __xprintf
+ 1068               	.LVL56:
+ 1069 02b4 0F90      		pop __tmp_reg__
+ 1070 02b6 0F90      		pop __tmp_reg__
+ 309:rn42/rn42_task.c ****             xprintf("\n");
+ 1071               		.loc 1 309 0
+ 1072 02b8 80E0      		ldi r24,lo8(__c.4894)
+ 1073 02ba 90E0      		ldi r25,hi8(__c.4894)
+ 1074 02bc 9F93      		push r25
+ 1075 02be 8F93      		push r24
+ 1076 02c0 0E94 0000 		call __xprintf
+ 1077               	.LVL57:
+ 310:rn42/rn42_task.c ****             xprintf("RemoteWakeupEnabled: %X\n", USB_Device_RemoteWakeupEnabled);
+ 1078               		.loc 1 310 0
+ 1079 02c4 8091 0000 		lds r24,USB_Device_RemoteWakeupEnabled
+ 1080 02c8 1F92      		push __zero_reg__
+ 1081 02ca 8F93      		push r24
+ 1082 02cc 80E0      		ldi r24,lo8(__c.4896)
+ 1083 02ce 90E0      		ldi r25,hi8(__c.4896)
+ 1084 02d0 9F93      		push r25
+ 1085 02d2 8F93      		push r24
+ 1086 02d4 0E94 0000 		call __xprintf
+ 1087               	.LVL58:
+ 311:rn42/rn42_task.c ****             xprintf("VBUS: %X\n", USBSTA&(1<<VBUS));
+ 1088               		.loc 1 311 0
+ 1089 02d8 8091 D900 		lds r24,217
+ 1090 02dc 8170      		andi r24,lo8(1)
+ 1091 02de 1F92      		push __zero_reg__
+ 1092 02e0 8F93      		push r24
+ 1093 02e2 80E0      		ldi r24,lo8(__c.4898)
+ 1094 02e4 90E0      		ldi r25,hi8(__c.4898)
+ 1095 02e6 9F93      		push r25
+ 1096 02e8 8F93      		push r24
+ 1097 02ea 0E94 0000 		call __xprintf
+ 1098               	.LVL59:
+ 312:rn42/rn42_task.c ****             t = timer_read32()/1000;
+ 1099               		.loc 1 312 0
+ 1100 02ee 0E94 0000 		call timer_read32
+ 1101               	.LVL60:
+ 1102 02f2 28EE      		ldi r18,lo8(-24)
+ 1103 02f4 33E0      		ldi r19,lo8(3)
+ 1104 02f6 40E0      		ldi r20,0
+ 1105 02f8 50E0      		ldi r21,0
+ 1106 02fa 0E94 0000 		call __udivmodsi4
+ 1107 02fe 6901      		movw r12,r18
+ 1108 0300 7A01      		movw r14,r20
+ 1109               	.LVL61:
+ 316:rn42/rn42_task.c ****             uint8_t s = t%60;
+ 1110               		.loc 1 316 0
+ 1111 0302 5CE3      		ldi r21,lo8(60)
+ 1112 0304 852E      		mov r8,r21
+ 1113 0306 912C      		mov r9,__zero_reg__
+ 1114 0308 A12C      		mov r10,__zero_reg__
+ 1115 030a B12C      		mov r11,__zero_reg__
+ 1116 030c C701      		movw r24,r14
+ 1117 030e B601      		movw r22,r12
+ 1118 0310 A501      		movw r20,r10
+ 1119 0312 9401      		movw r18,r8
+ 1120 0314 0E94 0000 		call __udivmodsi4
+ 317:rn42/rn42_task.c ****             xprintf("uptime: %02u %02u:%02u:%02u\n", d, h, m, s);
+ 1121               		.loc 1 317 0
+ 1122 0318 7F93      		push r23
+ 1123 031a 6F93      		push r22
+ 315:rn42/rn42_task.c ****             uint8_t m = t%3600/60;
+ 1124               		.loc 1 315 0
+ 1125 031c C701      		movw r24,r14
+ 1126 031e B601      		movw r22,r12
+ 1127 0320 20E1      		ldi r18,lo8(16)
+ 1128 0322 3EE0      		ldi r19,lo8(14)
+ 1129 0324 40E0      		ldi r20,0
+ 1130 0326 50E0      		ldi r21,0
+ 1131 0328 0E94 0000 		call __udivmodsi4
+ 1132 032c 122F      		mov r17,r18
+ 1133 032e A501      		movw r20,r10
+ 1134 0330 9401      		movw r18,r8
+ 1135 0332 0E94 0000 		call __udivmodsi4
+ 317:rn42/rn42_task.c ****             xprintf("uptime: %02u %02u:%02u:%02u\n", d, h, m, s);
+ 1136               		.loc 1 317 0
+ 1137 0336 3F93      		push r19
+ 1138 0338 2F93      		push r18
+ 1139 033a 1F92      		push __zero_reg__
+ 1140 033c 1F93      		push r17
+ 313:rn42/rn42_task.c ****             uint8_t d = t/3600/24;
+ 1141               		.loc 1 313 0
+ 1142 033e C701      		movw r24,r14
+ 1143 0340 B601      		movw r22,r12
+ 1144 0342 20E8      		ldi r18,lo8(-128)
+ 1145 0344 31E5      		ldi r19,lo8(81)
+ 1146 0346 41E0      		ldi r20,lo8(1)
+ 1147 0348 50E0      		ldi r21,0
+ 1148 034a 0E94 0000 		call __udivmodsi4
+ 317:rn42/rn42_task.c ****             xprintf("uptime: %02u %02u:%02u:%02u\n", d, h, m, s);
+ 1149               		.loc 1 317 0
+ 1150 034e 3F93      		push r19
+ 1151 0350 2F93      		push r18
+ 1152 0352 80E0      		ldi r24,lo8(__c.4904)
+ 1153 0354 90E0      		ldi r25,hi8(__c.4904)
+ 1154 0356 9F93      		push r25
+ 1155 0358 8F93      		push r24
+ 1156 035a 0E94 0000 		call __xprintf
+ 1157               	.LVL62:
+ 1158               	.L100:
+ 324:rn42/rn42_task.c ****             return true;
+ 1159               		.loc 1 324 0
+ 1160 035e 0FB6      		in __tmp_reg__,__SREG__
+ 1161 0360 F894      		cli
+ 1162 0362 DEBF      		out __SP_H__,r29
+ 1163 0364 0FBE      		out __SREG__,__tmp_reg__
+ 1164 0366 CDBF      		out __SP_L__,r28
+ 1165 0368 00C0      		rjmp .L98
+ 1166               	.LVL63:
+ 1167               	.L62:
+ 333:rn42/rn42_task.c ****             return true;
+ 334:rn42/rn42_task.c ****         case KC_U:
+ 335:rn42/rn42_task.c ****             if (config_mode) return false;
+ 1168               		.loc 1 335 0
+ 1169 036a 8091 0000 		lds r24,config_mode
+ 1170               	.LVL64:
+ 1171 036e 8111      		cpse r24,__zero_reg__
+ 1172 0370 00C0      		rjmp .L89
+ 336:rn42/rn42_task.c ****             if (force_usb) {
+ 1173               		.loc 1 336 0
+ 1174 0372 8091 0000 		lds r24,force_usb
+ 1175 0376 8823      		tst r24
+ 1176 0378 01F0      		breq .L76
+ 337:rn42/rn42_task.c ****                 print("Auto mode\n");
+ 1177               		.loc 1 337 0
+ 1178 037a 80E0      		ldi r24,lo8(__c.4916)
+ 1179 037c 90E0      		ldi r25,hi8(__c.4916)
+ 1180 037e 0E94 0000 		call xputs
+ 1181               	.LVL65:
+ 338:rn42/rn42_task.c ****                 force_usb = false;
+ 1182               		.loc 1 338 0
+ 1183 0382 1092 0000 		sts force_usb,__zero_reg__
+ 1184 0386 00C0      		rjmp .L98
+ 1185               	.L76:
+ 339:rn42/rn42_task.c ****             } else {
+ 340:rn42/rn42_task.c ****                 print("USB mode\n");
+ 1186               		.loc 1 340 0
+ 1187 0388 80E0      		ldi r24,lo8(__c.4918)
+ 1188 038a 90E0      		ldi r25,hi8(__c.4918)
+ 1189 038c 0E94 0000 		call xputs
+ 1190               	.LVL66:
+ 341:rn42/rn42_task.c ****                 force_usb = true;
+ 1191               		.loc 1 341 0
+ 1192 0390 81E0      		ldi r24,lo8(1)
+ 1193 0392 8093 0000 		sts force_usb,r24
+ 342:rn42/rn42_task.c ****                 clear_keyboard();
+ 1194               		.loc 1 342 0
+ 1195 0396 0E94 0000 		call clear_keyboard
+ 1196               	.LVL67:
+ 343:rn42/rn42_task.c ****                 host_set_driver(&lufa_driver);
+ 1197               		.loc 1 343 0
+ 1198 039a 80E0      		ldi r24,lo8(lufa_driver)
+ 1199 039c 90E0      		ldi r25,hi8(lufa_driver)
+ 1200 039e 0E94 0000 		call host_set_driver
+ 1201               	.LVL68:
+ 1202 03a2 00C0      		rjmp .L98
+ 1203               	.LVL69:
+ 1204               	.L64:
+ 344:rn42/rn42_task.c ****             }
+ 345:rn42/rn42_task.c ****             return true;
+ 346:rn42/rn42_task.c ****         case KC_DELETE:
+ 347:rn42/rn42_task.c ****             /* RN-42 Command mode */
+ 348:rn42/rn42_task.c ****             if (rn42_autoconnecting()) {
+ 1205               		.loc 1 348 0
+ 1206 03a4 0E94 0000 		call rn42_autoconnecting
+ 1207               	.LVL70:
+ 1208 03a8 8823      		tst r24
+ 1209 03aa 01F0      		breq .L77
+ 349:rn42/rn42_task.c ****                 enter_command_mode();
+ 1210               		.loc 1 349 0
+ 1211 03ac 8C83      		std Y+4,r24
+ 1212 03ae 0E94 0000 		call enter_command_mode
+ 1213               	.LVL71:
+ 350:rn42/rn42_task.c **** 
+ 351:rn42/rn42_task.c ****                 command_state = CONSOLE;
+ 1214               		.loc 1 351 0
+ 1215 03b2 91E0      		ldi r25,lo8(1)
+ 1216 03b4 9093 0000 		sts command_state,r25
+ 352:rn42/rn42_task.c ****                 config_mode = true;
+ 1217               		.loc 1 352 0
+ 1218 03b8 9093 0000 		sts config_mode,r25
+ 1219 03bc 8C81      		ldd r24,Y+4
+ 1220 03be 00C0      		rjmp .L66
+ 1221               	.L77:
+ 353:rn42/rn42_task.c ****             } else {
+ 354:rn42/rn42_task.c ****                 exit_command_mode();
+ 1222               		.loc 1 354 0
+ 1223 03c0 0E94 0000 		call exit_command_mode
+ 1224               	.LVL72:
+ 355:rn42/rn42_task.c **** 
+ 356:rn42/rn42_task.c ****                 command_state = ONESHOT;
+ 1225               		.loc 1 356 0
+ 1226 03c4 1092 0000 		sts command_state,__zero_reg__
+ 357:rn42/rn42_task.c ****                 config_mode = false;
+ 1227               		.loc 1 357 0
+ 1228 03c8 1092 0000 		sts config_mode,__zero_reg__
+ 1229 03cc 00C0      		rjmp .L98
+ 1230               	.LVL73:
+ 1231               	.L63:
+ 1232               	.LBB82:
+ 1233               	.LBB83:
+ 158:rn42/rn42_task.c ****     if (!config_mode) enter_command_mode();
+ 1234               		.loc 1 158 0
+ 1235 03ce 8091 0000 		lds r24,config_mode
+ 1236               	.LVL74:
+ 1237 03d2 8111      		cpse r24,__zero_reg__
+ 1238 03d4 00C0      		rjmp .L78
+ 1239 03d6 0E94 0000 		call enter_command_mode
+ 1240               	.LVL75:
+ 1241               	.L78:
+ 159:rn42/rn42_task.c ****     SEND_COMMAND("SF,1\r\n");  // factory defaults
+ 1242               		.loc 1 159 0
+ 1243 03da 80E0      		ldi r24,lo8(__c.4814)
+ 1244 03dc 90E0      		ldi r25,hi8(__c.4814)
+ 1245 03de 0E94 0000 		call rn42_send_command
+ 1246               	.LVL76:
+ 160:rn42/rn42_task.c ****     SEND_COMMAND("S-,TmkBT\r\n");
+ 1247               		.loc 1 160 0
+ 1248 03e2 80E0      		ldi r24,lo8(__c.4816)
+ 1249 03e4 90E0      		ldi r25,hi8(__c.4816)
+ 1250 03e6 0E94 0000 		call rn42_send_command
+ 1251               	.LVL77:
+ 161:rn42/rn42_task.c ****     SEND_COMMAND("SS,Keyboard/Mouse\r\n");
+ 1252               		.loc 1 161 0
+ 1253 03ea 80E0      		ldi r24,lo8(__c.4818)
+ 1254 03ec 90E0      		ldi r25,hi8(__c.4818)
+ 1255 03ee 0E94 0000 		call rn42_send_command
+ 1256               	.LVL78:
+ 162:rn42/rn42_task.c ****     SEND_COMMAND("SM,4\r\n");  // auto connect(DTR)
+ 1257               		.loc 1 162 0
+ 1258 03f2 80E0      		ldi r24,lo8(__c.4820)
+ 1259 03f4 90E0      		ldi r25,hi8(__c.4820)
+ 1260 03f6 0E94 0000 		call rn42_send_command
+ 1261               	.LVL79:
+ 163:rn42/rn42_task.c ****     SEND_COMMAND("SW,8000\r\n");   // Sniff disable
+ 1262               		.loc 1 163 0
+ 1263 03fa 80E0      		ldi r24,lo8(__c.4822)
+ 1264 03fc 90E0      		ldi r25,hi8(__c.4822)
+ 1265 03fe 0E94 0000 		call rn42_send_command
+ 1266               	.LVL80:
+ 164:rn42/rn42_task.c ****     SEND_COMMAND("S~,6\r\n");   // HID profile
+ 1267               		.loc 1 164 0
+ 1268 0402 80E0      		ldi r24,lo8(__c.4824)
+ 1269 0404 90E0      		ldi r25,hi8(__c.4824)
+ 1270 0406 0E94 0000 		call rn42_send_command
+ 1271               	.LVL81:
+ 165:rn42/rn42_task.c ****     SEND_COMMAND("SH,003C\r\n");   // combo device, out-report, 4-reconnect
+ 1272               		.loc 1 165 0
+ 1273 040a 80E0      		ldi r24,lo8(__c.4826)
+ 1274 040c 90E0      		ldi r25,hi8(__c.4826)
+ 1275 040e 0E94 0000 		call rn42_send_command
+ 1276               	.LVL82:
+ 166:rn42/rn42_task.c ****     SEND_COMMAND("SY,FFF4\r\n");   // transmit power -12
+ 1277               		.loc 1 166 0
+ 1278 0412 80E0      		ldi r24,lo8(__c.4828)
+ 1279 0414 90E0      		ldi r25,hi8(__c.4828)
+ 1280 0416 0E94 0000 		call rn42_send_command
+ 1281               	.LVL83:
+ 167:rn42/rn42_task.c ****     SEND_COMMAND("R,1\r\n");
+ 1282               		.loc 1 167 0
+ 1283 041a 80E0      		ldi r24,lo8(__c.4830)
+ 1284 041c 90E0      		ldi r25,hi8(__c.4830)
+ 1285 041e 0E94 0000 		call rn42_send_command
+ 1286               	.LVL84:
+ 168:rn42/rn42_task.c ****     if (!config_mode) exit_command_mode();
+ 1287               		.loc 1 168 0
+ 1288 0422 8091 0000 		lds r24,config_mode
+ 1289 0426 8111      		cpse r24,__zero_reg__
+ 1290 0428 00C0      		rjmp .L98
+ 1291               	.L99:
+ 1292 042a 0E94 0000 		call exit_command_mode
+ 1293               	.LVL85:
+ 1294               	.L98:
+ 1295               	.LBE83:
+ 1296               	.LBE82:
+ 358:rn42/rn42_task.c ****             }
+ 359:rn42/rn42_task.c ****             return true;
+ 360:rn42/rn42_task.c ****         case KC_SCROLLLOCK:
+ 361:rn42/rn42_task.c ****             init_rn42();
+ 362:rn42/rn42_task.c ****             return true;
+ 1297               		.loc 1 362 0
+ 1298 042e 81E0      		ldi r24,lo8(1)
+ 1299 0430 00C0      		rjmp .L66
+ 1300               	.LVL86:
+ 1301               	.L55:
+ 363:rn42/rn42_task.c ****         default:
+ 364:rn42/rn42_task.c ****             if (config_mode)
+ 1302               		.loc 1 364 0
+ 1303 0432 8091 0000 		lds r24,config_mode
+ 1304               	.LVL87:
+ 1305 0436 00C0      		rjmp .L66
+ 1306               	.L89:
+ 335:rn42/rn42_task.c ****             if (config_mode) return false;
+ 1307               		.loc 1 335 0
+ 1308 0438 80E0      		ldi r24,0
+ 1309               	.L66:
+ 1310               	/* epilogue start */
+ 1311               	.LBE84:
+ 365:rn42/rn42_task.c ****                 return true;
+ 366:rn42/rn42_task.c ****             else
+ 367:rn42/rn42_task.c ****                 return false;   // yield to default command
+ 368:rn42/rn42_task.c ****     }
+ 369:rn42/rn42_task.c ****     return true;
+ 370:rn42/rn42_task.c **** }
+ 1312               		.loc 1 370 0
+ 1313 043a 0F90      		pop __tmp_reg__
+ 1314 043c 0F90      		pop __tmp_reg__
+ 1315 043e 0F90      		pop __tmp_reg__
+ 1316 0440 0F90      		pop __tmp_reg__
+ 1317 0442 DF91      		pop r29
+ 1318 0444 CF91      		pop r28
+ 1319 0446 1F91      		pop r17
+ 1320 0448 FF90      		pop r15
+ 1321 044a EF90      		pop r14
+ 1322 044c DF90      		pop r13
+ 1323 044e CF90      		pop r12
+ 1324 0450 BF90      		pop r11
+ 1325 0452 AF90      		pop r10
+ 1326 0454 9F90      		pop r9
+ 1327 0456 8F90      		pop r8
+ 1328 0458 0895      		ret
+ 1329               		.cfi_endproc
+ 1330               	.LFE111:
+ 1332               		.section	.text.command_console_extra,"ax",@progbits
+ 1333               	.global	command_console_extra
+ 1335               	command_console_extra:
+ 1336               	.LFB112:
+ 371:rn42/rn42_task.c **** 
+ 372:rn42/rn42_task.c **** /*
+ 373:rn42/rn42_task.c ****  * RN-42 Command mode
+ 374:rn42/rn42_task.c ****  * sends charactors to the module
+ 375:rn42/rn42_task.c ****  */
+ 376:rn42/rn42_task.c **** static uint8_t code2asc(uint8_t code);
+ 377:rn42/rn42_task.c **** bool command_console_extra(uint8_t code)
+ 378:rn42/rn42_task.c **** {
+ 1337               		.loc 1 378 0
+ 1338               		.cfi_startproc
+ 1339               	.LVL88:
+ 1340 0000 CF93      		push r28
+ 1341               	.LCFI51:
+ 1342               		.cfi_def_cfa_offset 3
+ 1343               		.cfi_offset 28, -2
+ 1344               	/* prologue: function */
+ 1345               	/* frame size = 0 */
+ 1346               	/* stack size = 1 */
+ 1347               	.L__stack_usage = 1
+ 1348 0002 C82F      		mov r28,r24
+ 1349               	.LVL89:
+ 1350               	.LBB87:
+ 1351               	.LBB88:
+ 379:rn42/rn42_task.c ****     rn42_putc(code2asc(code));
+ 380:rn42/rn42_task.c ****     return true;
+ 381:rn42/rn42_task.c **** }
+ 382:rn42/rn42_task.c **** 
+ 383:rn42/rn42_task.c **** // convert keycode into ascii charactor
+ 384:rn42/rn42_task.c **** static uint8_t code2asc(uint8_t code)
+ 385:rn42/rn42_task.c **** {
+ 386:rn42/rn42_task.c ****     bool shifted = (get_mods() & (MOD_BIT(KC_LSHIFT)|MOD_BIT(KC_RSHIFT))) ? true : false;
+ 1352               		.loc 1 386 0
+ 1353 0004 0E94 0000 		call get_mods
+ 1354               	.LVL90:
+ 1355 0008 8272      		andi r24,lo8(34)
+ 1356 000a 21E0      		ldi r18,lo8(1)
+ 1357 000c 01F4      		brne .L103
+ 1358 000e 20E0      		ldi r18,0
+ 1359               	.L103:
+ 1360               	.LVL91:
+ 387:rn42/rn42_task.c ****     switch (code) {
+ 1361               		.loc 1 387 0
+ 1362 0010 8C2F      		mov r24,r28
+ 1363 0012 90E0      		ldi r25,0
+ 1364 0014 FC01      		movw r30,r24
+ 1365 0016 3497      		sbiw r30,4
+ 1366 0018 E934      		cpi r30,73
+ 1367 001a F105      		cpc r31,__zero_reg__
+ 1368 001c 00F0      		brlo .+2
+ 1369 001e 00C0      		rjmp .L104
+ 1370               	.LVL92:
+ 1371 0020 E050      		subi r30,lo8(-(gs(.L106)))
+ 1372 0022 F040      		sbci r31,hi8(-(gs(.L106)))
+ 1373 0024 0C94 0000 		jmp __tablejump2__
+ 1374               		.section	.progmem.gcc_sw_table.command_console_extra,"a",@progbits
+ 1375               		.p2align	1
+ 1376               	.L106:
+ 1377 0000 0000      		.word gs(.L105)
+ 1378 0002 0000      		.word gs(.L107)
+ 1379 0004 0000      		.word gs(.L108)
+ 1380 0006 0000      		.word gs(.L109)
+ 1381 0008 0000      		.word gs(.L110)
+ 1382 000a 0000      		.word gs(.L111)
+ 1383 000c 0000      		.word gs(.L112)
+ 1384 000e 0000      		.word gs(.L113)
+ 1385 0010 0000      		.word gs(.L114)
+ 1386 0012 0000      		.word gs(.L115)
+ 1387 0014 0000      		.word gs(.L116)
+ 1388 0016 0000      		.word gs(.L117)
+ 1389 0018 0000      		.word gs(.L118)
+ 1390 001a 0000      		.word gs(.L119)
+ 1391 001c 0000      		.word gs(.L120)
+ 1392 001e 0000      		.word gs(.L121)
+ 1393 0020 0000      		.word gs(.L122)
+ 1394 0022 0000      		.word gs(.L123)
+ 1395 0024 0000      		.word gs(.L124)
+ 1396 0026 0000      		.word gs(.L125)
+ 1397 0028 0000      		.word gs(.L126)
+ 1398 002a 0000      		.word gs(.L127)
+ 1399 002c 0000      		.word gs(.L128)
+ 1400 002e 0000      		.word gs(.L129)
+ 1401 0030 0000      		.word gs(.L130)
+ 1402 0032 0000      		.word gs(.L131)
+ 1403 0034 0000      		.word gs(.L132)
+ 1404 0036 0000      		.word gs(.L133)
+ 1405 0038 0000      		.word gs(.L134)
+ 1406 003a 0000      		.word gs(.L135)
+ 1407 003c 0000      		.word gs(.L136)
+ 1408 003e 0000      		.word gs(.L137)
+ 1409 0040 0000      		.word gs(.L138)
+ 1410 0042 0000      		.word gs(.L139)
+ 1411 0044 0000      		.word gs(.L140)
+ 1412 0046 0000      		.word gs(.L141)
+ 1413 0048 0000      		.word gs(.L142)
+ 1414 004a 0000      		.word gs(.L161)
+ 1415 004c 0000      		.word gs(.L144)
+ 1416 004e 0000      		.word gs(.L145)
+ 1417 0050 0000      		.word gs(.L146)
+ 1418 0052 0000      		.word gs(.L147)
+ 1419 0054 0000      		.word gs(.L148)
+ 1420 0056 0000      		.word gs(.L149)
+ 1421 0058 0000      		.word gs(.L150)
+ 1422 005a 0000      		.word gs(.L151)
+ 1423 005c 0000      		.word gs(.L152)
+ 1424 005e 0000      		.word gs(.L153)
+ 1425 0060 0000      		.word gs(.L154)
+ 1426 0062 0000      		.word gs(.L155)
+ 1427 0064 0000      		.word gs(.L156)
+ 1428 0066 0000      		.word gs(.L157)
+ 1429 0068 0000      		.word gs(.L158)
+ 1430 006a 0000      		.word gs(.L104)
+ 1431 006c 0000      		.word gs(.L104)
+ 1432 006e 0000      		.word gs(.L104)
+ 1433 0070 0000      		.word gs(.L104)
+ 1434 0072 0000      		.word gs(.L104)
+ 1435 0074 0000      		.word gs(.L104)
+ 1436 0076 0000      		.word gs(.L104)
+ 1437 0078 0000      		.word gs(.L104)
+ 1438 007a 0000      		.word gs(.L104)
+ 1439 007c 0000      		.word gs(.L104)
+ 1440 007e 0000      		.word gs(.L104)
+ 1441 0080 0000      		.word gs(.L104)
+ 1442 0082 0000      		.word gs(.L104)
+ 1443 0084 0000      		.word gs(.L104)
+ 1444 0086 0000      		.word gs(.L104)
+ 1445 0088 0000      		.word gs(.L104)
+ 1446 008a 0000      		.word gs(.L104)
+ 1447 008c 0000      		.word gs(.L104)
+ 1448 008e 0000      		.word gs(.L104)
+ 1449 0090 0000      		.word gs(.L159)
+ 1450               		.section	.text.command_console_extra
+ 1451               	.L142:
+ 388:rn42/rn42_task.c ****         case KC_A: return (shifted ? 'A' : 'a');
+ 389:rn42/rn42_task.c ****         case KC_B: return (shifted ? 'B' : 'b');
+ 390:rn42/rn42_task.c ****         case KC_C: return (shifted ? 'C' : 'c');
+ 391:rn42/rn42_task.c ****         case KC_D: return (shifted ? 'D' : 'd');
+ 392:rn42/rn42_task.c ****         case KC_E: return (shifted ? 'E' : 'e');
+ 393:rn42/rn42_task.c ****         case KC_F: return (shifted ? 'F' : 'f');
+ 394:rn42/rn42_task.c ****         case KC_G: return (shifted ? 'G' : 'g');
+ 395:rn42/rn42_task.c ****         case KC_H: return (shifted ? 'H' : 'h');
+ 396:rn42/rn42_task.c ****         case KC_I: return (shifted ? 'I' : 'i');
+ 397:rn42/rn42_task.c ****         case KC_J: return (shifted ? 'J' : 'j');
+ 398:rn42/rn42_task.c ****         case KC_K: return (shifted ? 'K' : 'k');
+ 399:rn42/rn42_task.c ****         case KC_L: return (shifted ? 'L' : 'l');
+ 400:rn42/rn42_task.c ****         case KC_M: return (shifted ? 'M' : 'm');
+ 401:rn42/rn42_task.c ****         case KC_N: return (shifted ? 'N' : 'n');
+ 402:rn42/rn42_task.c ****         case KC_O: return (shifted ? 'O' : 'o');
+ 403:rn42/rn42_task.c ****         case KC_P: return (shifted ? 'P' : 'p');
+ 404:rn42/rn42_task.c ****         case KC_Q: return (shifted ? 'Q' : 'q');
+ 405:rn42/rn42_task.c ****         case KC_R: return (shifted ? 'R' : 'r');
+ 406:rn42/rn42_task.c ****         case KC_S: return (shifted ? 'S' : 's');
+ 407:rn42/rn42_task.c ****         case KC_T: return (shifted ? 'T' : 't');
+ 408:rn42/rn42_task.c ****         case KC_U: return (shifted ? 'U' : 'u');
+ 409:rn42/rn42_task.c ****         case KC_V: return (shifted ? 'V' : 'v');
+ 410:rn42/rn42_task.c ****         case KC_W: return (shifted ? 'W' : 'w');
+ 411:rn42/rn42_task.c ****         case KC_X: return (shifted ? 'X' : 'x');
+ 412:rn42/rn42_task.c ****         case KC_Y: return (shifted ? 'Y' : 'y');
+ 413:rn42/rn42_task.c ****         case KC_Z: return (shifted ? 'Z' : 'z');
+ 414:rn42/rn42_task.c ****         case KC_1: return (shifted ? '!' : '1');
+ 415:rn42/rn42_task.c ****         case KC_2: return (shifted ? '@' : '2');
+ 416:rn42/rn42_task.c ****         case KC_3: return (shifted ? '#' : '3');
+ 417:rn42/rn42_task.c ****         case KC_4: return (shifted ? '$' : '4');
+ 418:rn42/rn42_task.c ****         case KC_5: return (shifted ? '%' : '5');
+ 419:rn42/rn42_task.c ****         case KC_6: return (shifted ? '^' : '6');
+ 420:rn42/rn42_task.c ****         case KC_7: return (shifted ? '&' : '7');
+ 421:rn42/rn42_task.c ****         case KC_8: return (shifted ? '*' : '8');
+ 422:rn42/rn42_task.c ****         case KC_9: return (shifted ? '(' : '9');
+ 423:rn42/rn42_task.c ****         case KC_0: return (shifted ? ')' : '0');
+ 424:rn42/rn42_task.c ****         case KC_ENTER: return '\n';
+ 1452               		.loc 1 424 0
+ 1453 0028 8AE0      		ldi r24,lo8(10)
+ 1454               	.LVL93:
+ 1455 002a 00C0      		rjmp .L143
+ 1456               	.LVL94:
+ 1457               	.L105:
+ 388:rn42/rn42_task.c ****         case KC_A: return (shifted ? 'A' : 'a');
+ 1458               		.loc 1 388 0
+ 1459 002c 2223      		tst r18
+ 1460 002e 01F4      		brne .+2
+ 1461 0030 00C0      		rjmp .L162
+ 1462 0032 81E4      		ldi r24,lo8(65)
+ 1463               	.LVL95:
+ 1464 0034 00C0      		rjmp .L143
+ 1465               	.LVL96:
+ 1466               	.L107:
+ 389:rn42/rn42_task.c ****         case KC_B: return (shifted ? 'B' : 'b');
+ 1467               		.loc 1 389 0
+ 1468 0036 2223      		tst r18
+ 1469 0038 01F4      		brne .+2
+ 1470 003a 00C0      		rjmp .L163
+ 1471 003c 82E4      		ldi r24,lo8(66)
+ 1472               	.LVL97:
+ 1473 003e 00C0      		rjmp .L143
+ 1474               	.LVL98:
+ 1475               	.L108:
+ 390:rn42/rn42_task.c ****         case KC_C: return (shifted ? 'C' : 'c');
+ 1476               		.loc 1 390 0
+ 1477 0040 2223      		tst r18
+ 1478 0042 01F4      		brne .+2
+ 1479 0044 00C0      		rjmp .L164
+ 1480 0046 83E4      		ldi r24,lo8(67)
+ 1481               	.LVL99:
+ 1482 0048 00C0      		rjmp .L143
+ 1483               	.LVL100:
+ 1484               	.L109:
+ 391:rn42/rn42_task.c ****         case KC_D: return (shifted ? 'D' : 'd');
+ 1485               		.loc 1 391 0
+ 1486 004a 2223      		tst r18
+ 1487 004c 01F4      		brne .+2
+ 1488 004e 00C0      		rjmp .L165
+ 1489 0050 84E4      		ldi r24,lo8(68)
+ 1490               	.LVL101:
+ 1491 0052 00C0      		rjmp .L143
+ 1492               	.LVL102:
+ 1493               	.L110:
+ 392:rn42/rn42_task.c ****         case KC_E: return (shifted ? 'E' : 'e');
+ 1494               		.loc 1 392 0
+ 1495 0054 2223      		tst r18
+ 1496 0056 01F4      		brne .+2
+ 1497 0058 00C0      		rjmp .L166
+ 1498 005a 85E4      		ldi r24,lo8(69)
+ 1499               	.LVL103:
+ 1500 005c 00C0      		rjmp .L143
+ 1501               	.LVL104:
+ 1502               	.L111:
+ 393:rn42/rn42_task.c ****         case KC_F: return (shifted ? 'F' : 'f');
+ 1503               		.loc 1 393 0
+ 1504 005e 2223      		tst r18
+ 1505 0060 01F4      		brne .+2
+ 1506 0062 00C0      		rjmp .L167
+ 1507 0064 86E4      		ldi r24,lo8(70)
+ 1508               	.LVL105:
+ 1509 0066 00C0      		rjmp .L143
+ 1510               	.LVL106:
+ 1511               	.L112:
+ 394:rn42/rn42_task.c ****         case KC_G: return (shifted ? 'G' : 'g');
+ 1512               		.loc 1 394 0
+ 1513 0068 2223      		tst r18
+ 1514 006a 01F4      		brne .+2
+ 1515 006c 00C0      		rjmp .L168
+ 1516 006e 87E4      		ldi r24,lo8(71)
+ 1517               	.LVL107:
+ 1518 0070 00C0      		rjmp .L143
+ 1519               	.LVL108:
+ 1520               	.L113:
+ 395:rn42/rn42_task.c ****         case KC_H: return (shifted ? 'H' : 'h');
+ 1521               		.loc 1 395 0
+ 1522 0072 2223      		tst r18
+ 1523 0074 01F4      		brne .+2
+ 1524 0076 00C0      		rjmp .L169
+ 1525 0078 88E4      		ldi r24,lo8(72)
+ 1526               	.LVL109:
+ 1527 007a 00C0      		rjmp .L143
+ 1528               	.LVL110:
+ 1529               	.L114:
+ 396:rn42/rn42_task.c ****         case KC_I: return (shifted ? 'I' : 'i');
+ 1530               		.loc 1 396 0
+ 1531 007c 2223      		tst r18
+ 1532 007e 01F4      		brne .+2
+ 1533 0080 00C0      		rjmp .L170
+ 1534 0082 89E4      		ldi r24,lo8(73)
+ 1535               	.LVL111:
+ 1536 0084 00C0      		rjmp .L143
+ 1537               	.LVL112:
+ 1538               	.L115:
+ 397:rn42/rn42_task.c ****         case KC_J: return (shifted ? 'J' : 'j');
+ 1539               		.loc 1 397 0
+ 1540 0086 2223      		tst r18
+ 1541 0088 01F4      		brne .+2
+ 1542 008a 00C0      		rjmp .L171
+ 1543 008c 8AE4      		ldi r24,lo8(74)
+ 1544               	.LVL113:
+ 1545 008e 00C0      		rjmp .L143
+ 1546               	.LVL114:
+ 1547               	.L116:
+ 398:rn42/rn42_task.c ****         case KC_K: return (shifted ? 'K' : 'k');
+ 1548               		.loc 1 398 0
+ 1549 0090 2223      		tst r18
+ 1550 0092 01F4      		brne .+2
+ 1551 0094 00C0      		rjmp .L172
+ 1552 0096 8BE4      		ldi r24,lo8(75)
+ 1553               	.LVL115:
+ 1554 0098 00C0      		rjmp .L143
+ 1555               	.LVL116:
+ 1556               	.L117:
+ 399:rn42/rn42_task.c ****         case KC_L: return (shifted ? 'L' : 'l');
+ 1557               		.loc 1 399 0
+ 1558 009a 2223      		tst r18
+ 1559 009c 01F4      		brne .+2
+ 1560 009e 00C0      		rjmp .L173
+ 1561 00a0 8CE4      		ldi r24,lo8(76)
+ 1562               	.LVL117:
+ 1563 00a2 00C0      		rjmp .L143
+ 1564               	.LVL118:
+ 1565               	.L118:
+ 400:rn42/rn42_task.c ****         case KC_M: return (shifted ? 'M' : 'm');
+ 1566               		.loc 1 400 0
+ 1567 00a4 2223      		tst r18
+ 1568 00a6 01F4      		brne .+2
+ 1569 00a8 00C0      		rjmp .L174
+ 1570 00aa 8DE4      		ldi r24,lo8(77)
+ 1571               	.LVL119:
+ 1572 00ac 00C0      		rjmp .L143
+ 1573               	.LVL120:
+ 1574               	.L119:
+ 401:rn42/rn42_task.c ****         case KC_N: return (shifted ? 'N' : 'n');
+ 1575               		.loc 1 401 0
+ 1576 00ae 2223      		tst r18
+ 1577 00b0 01F4      		brne .+2
+ 1578 00b2 00C0      		rjmp .L175
+ 1579 00b4 8EE4      		ldi r24,lo8(78)
+ 1580               	.LVL121:
+ 1581 00b6 00C0      		rjmp .L143
+ 1582               	.LVL122:
+ 1583               	.L120:
+ 402:rn42/rn42_task.c ****         case KC_O: return (shifted ? 'O' : 'o');
+ 1584               		.loc 1 402 0
+ 1585 00b8 2223      		tst r18
+ 1586 00ba 01F4      		brne .+2
+ 1587 00bc 00C0      		rjmp .L176
+ 1588 00be 8FE4      		ldi r24,lo8(79)
+ 1589               	.LVL123:
+ 1590 00c0 00C0      		rjmp .L143
+ 1591               	.LVL124:
+ 1592               	.L121:
+ 403:rn42/rn42_task.c ****         case KC_P: return (shifted ? 'P' : 'p');
+ 1593               		.loc 1 403 0
+ 1594 00c2 2223      		tst r18
+ 1595 00c4 01F4      		brne .+2
+ 1596 00c6 00C0      		rjmp .L177
+ 1597 00c8 80E5      		ldi r24,lo8(80)
+ 1598               	.LVL125:
+ 1599 00ca 00C0      		rjmp .L143
+ 1600               	.LVL126:
+ 1601               	.L122:
+ 404:rn42/rn42_task.c ****         case KC_Q: return (shifted ? 'Q' : 'q');
+ 1602               		.loc 1 404 0
+ 1603 00cc 2223      		tst r18
+ 1604 00ce 01F4      		brne .+2
+ 1605 00d0 00C0      		rjmp .L178
+ 1606 00d2 81E5      		ldi r24,lo8(81)
+ 1607               	.LVL127:
+ 1608 00d4 00C0      		rjmp .L143
+ 1609               	.LVL128:
+ 1610               	.L123:
+ 405:rn42/rn42_task.c ****         case KC_R: return (shifted ? 'R' : 'r');
+ 1611               		.loc 1 405 0
+ 1612 00d6 2223      		tst r18
+ 1613 00d8 01F4      		brne .+2
+ 1614 00da 00C0      		rjmp .L179
+ 1615 00dc 82E5      		ldi r24,lo8(82)
+ 1616               	.LVL129:
+ 1617 00de 00C0      		rjmp .L143
+ 1618               	.LVL130:
+ 1619               	.L124:
+ 406:rn42/rn42_task.c ****         case KC_S: return (shifted ? 'S' : 's');
+ 1620               		.loc 1 406 0
+ 1621 00e0 2223      		tst r18
+ 1622 00e2 01F4      		brne .+2
+ 1623 00e4 00C0      		rjmp .L180
+ 1624 00e6 83E5      		ldi r24,lo8(83)
+ 1625               	.LVL131:
+ 1626 00e8 00C0      		rjmp .L143
+ 1627               	.LVL132:
+ 1628               	.L125:
+ 407:rn42/rn42_task.c ****         case KC_T: return (shifted ? 'T' : 't');
+ 1629               		.loc 1 407 0
+ 1630 00ea 2223      		tst r18
+ 1631 00ec 01F4      		brne .+2
+ 1632 00ee 00C0      		rjmp .L181
+ 1633 00f0 84E5      		ldi r24,lo8(84)
+ 1634               	.LVL133:
+ 1635 00f2 00C0      		rjmp .L143
+ 1636               	.LVL134:
+ 1637               	.L126:
+ 408:rn42/rn42_task.c ****         case KC_U: return (shifted ? 'U' : 'u');
+ 1638               		.loc 1 408 0
+ 1639 00f4 2223      		tst r18
+ 1640 00f6 01F4      		brne .+2
+ 1641 00f8 00C0      		rjmp .L182
+ 1642 00fa 85E5      		ldi r24,lo8(85)
+ 1643               	.LVL135:
+ 1644 00fc 00C0      		rjmp .L143
+ 1645               	.LVL136:
+ 1646               	.L127:
+ 409:rn42/rn42_task.c ****         case KC_V: return (shifted ? 'V' : 'v');
+ 1647               		.loc 1 409 0
+ 1648 00fe 2223      		tst r18
+ 1649 0100 01F4      		brne .+2
+ 1650 0102 00C0      		rjmp .L183
+ 1651 0104 86E5      		ldi r24,lo8(86)
+ 1652               	.LVL137:
+ 1653 0106 00C0      		rjmp .L143
+ 1654               	.LVL138:
+ 1655               	.L128:
+ 410:rn42/rn42_task.c ****         case KC_W: return (shifted ? 'W' : 'w');
+ 1656               		.loc 1 410 0
+ 1657 0108 2223      		tst r18
+ 1658 010a 01F4      		brne .+2
+ 1659 010c 00C0      		rjmp .L184
+ 1660 010e 87E5      		ldi r24,lo8(87)
+ 1661               	.LVL139:
+ 1662 0110 00C0      		rjmp .L143
+ 1663               	.LVL140:
+ 1664               	.L129:
+ 411:rn42/rn42_task.c ****         case KC_X: return (shifted ? 'X' : 'x');
+ 1665               		.loc 1 411 0
+ 1666 0112 2223      		tst r18
+ 1667 0114 01F4      		brne .+2
+ 1668 0116 00C0      		rjmp .L185
+ 1669 0118 88E5      		ldi r24,lo8(88)
+ 1670               	.LVL141:
+ 1671 011a 00C0      		rjmp .L143
+ 1672               	.LVL142:
+ 1673               	.L130:
+ 412:rn42/rn42_task.c ****         case KC_Y: return (shifted ? 'Y' : 'y');
+ 1674               		.loc 1 412 0
+ 1675 011c 2223      		tst r18
+ 1676 011e 01F4      		brne .+2
+ 1677 0120 00C0      		rjmp .L186
+ 1678 0122 89E5      		ldi r24,lo8(89)
+ 1679               	.LVL143:
+ 1680 0124 00C0      		rjmp .L143
+ 1681               	.LVL144:
+ 1682               	.L131:
+ 413:rn42/rn42_task.c ****         case KC_Z: return (shifted ? 'Z' : 'z');
+ 1683               		.loc 1 413 0
+ 1684 0126 2223      		tst r18
+ 1685 0128 01F4      		brne .+2
+ 1686 012a 00C0      		rjmp .L187
+ 1687 012c 8AE5      		ldi r24,lo8(90)
+ 1688               	.LVL145:
+ 1689 012e 00C0      		rjmp .L143
+ 1690               	.LVL146:
+ 1691               	.L132:
+ 414:rn42/rn42_task.c ****         case KC_1: return (shifted ? '!' : '1');
+ 1692               		.loc 1 414 0
+ 1693 0130 2223      		tst r18
+ 1694 0132 01F4      		brne .+2
+ 1695 0134 00C0      		rjmp .L188
+ 1696 0136 81E2      		ldi r24,lo8(33)
+ 1697               	.LVL147:
+ 1698 0138 00C0      		rjmp .L143
+ 1699               	.LVL148:
+ 1700               	.L133:
+ 415:rn42/rn42_task.c ****         case KC_2: return (shifted ? '@' : '2');
+ 1701               		.loc 1 415 0
+ 1702 013a 2223      		tst r18
+ 1703 013c 01F4      		brne .+2
+ 1704 013e 00C0      		rjmp .L189
+ 1705 0140 80E4      		ldi r24,lo8(64)
+ 1706               	.LVL149:
+ 1707 0142 00C0      		rjmp .L143
+ 1708               	.LVL150:
+ 1709               	.L134:
+ 416:rn42/rn42_task.c ****         case KC_3: return (shifted ? '#' : '3');
+ 1710               		.loc 1 416 0
+ 1711 0144 2223      		tst r18
+ 1712 0146 01F4      		brne .+2
+ 1713 0148 00C0      		rjmp .L190
+ 1714 014a 83E2      		ldi r24,lo8(35)
+ 1715               	.LVL151:
+ 1716 014c 00C0      		rjmp .L143
+ 1717               	.LVL152:
+ 1718               	.L135:
+ 417:rn42/rn42_task.c ****         case KC_4: return (shifted ? '$' : '4');
+ 1719               		.loc 1 417 0
+ 1720 014e 2223      		tst r18
+ 1721 0150 01F4      		brne .+2
+ 1722 0152 00C0      		rjmp .L191
+ 1723 0154 84E2      		ldi r24,lo8(36)
+ 1724               	.LVL153:
+ 1725 0156 00C0      		rjmp .L143
+ 1726               	.LVL154:
+ 1727               	.L136:
+ 418:rn42/rn42_task.c ****         case KC_5: return (shifted ? '%' : '5');
+ 1728               		.loc 1 418 0
+ 1729 0158 2223      		tst r18
+ 1730 015a 01F4      		brne .+2
+ 1731 015c 00C0      		rjmp .L192
+ 1732 015e 85E2      		ldi r24,lo8(37)
+ 1733               	.LVL155:
+ 1734 0160 00C0      		rjmp .L143
+ 1735               	.LVL156:
+ 1736               	.L137:
+ 419:rn42/rn42_task.c ****         case KC_6: return (shifted ? '^' : '6');
+ 1737               		.loc 1 419 0
+ 1738 0162 2223      		tst r18
+ 1739 0164 01F4      		brne .+2
+ 1740 0166 00C0      		rjmp .L193
+ 1741 0168 8EE5      		ldi r24,lo8(94)
+ 1742               	.LVL157:
+ 1743 016a 00C0      		rjmp .L143
+ 1744               	.LVL158:
+ 1745               	.L138:
+ 420:rn42/rn42_task.c ****         case KC_7: return (shifted ? '&' : '7');
+ 1746               		.loc 1 420 0
+ 1747 016c 2223      		tst r18
+ 1748 016e 01F4      		brne .+2
+ 1749 0170 00C0      		rjmp .L194
+ 1750 0172 86E2      		ldi r24,lo8(38)
+ 1751               	.LVL159:
+ 1752 0174 00C0      		rjmp .L143
+ 1753               	.LVL160:
+ 1754               	.L139:
+ 421:rn42/rn42_task.c ****         case KC_8: return (shifted ? '*' : '8');
+ 1755               		.loc 1 421 0
+ 1756 0176 2223      		tst r18
+ 1757 0178 01F4      		brne .+2
+ 1758 017a 00C0      		rjmp .L195
+ 1759 017c 8AE2      		ldi r24,lo8(42)
+ 1760               	.LVL161:
+ 1761 017e 00C0      		rjmp .L143
+ 1762               	.LVL162:
+ 1763               	.L140:
+ 422:rn42/rn42_task.c ****         case KC_9: return (shifted ? '(' : '9');
+ 1764               		.loc 1 422 0
+ 1765 0180 2223      		tst r18
+ 1766 0182 01F4      		brne .+2
+ 1767 0184 00C0      		rjmp .L196
+ 1768 0186 88E2      		ldi r24,lo8(40)
+ 1769               	.LVL163:
+ 1770 0188 00C0      		rjmp .L143
+ 1771               	.LVL164:
+ 1772               	.L141:
+ 423:rn42/rn42_task.c ****         case KC_0: return (shifted ? ')' : '0');
+ 1773               		.loc 1 423 0
+ 1774 018a 2223      		tst r18
+ 1775 018c 01F4      		brne .+2
+ 1776 018e 00C0      		rjmp .L197
+ 1777 0190 89E2      		ldi r24,lo8(41)
+ 1778               	.LVL165:
+ 1779 0192 00C0      		rjmp .L143
+ 1780               	.LVL166:
+ 1781               	.L144:
+ 425:rn42/rn42_task.c ****         case KC_ESCAPE: return 0x1B;
+ 426:rn42/rn42_task.c ****         case KC_BSPACE: return '\b';
+ 1782               		.loc 1 426 0
+ 1783 0194 88E0      		ldi r24,lo8(8)
+ 1784               	.LVL167:
+ 1785 0196 00C0      		rjmp .L143
+ 1786               	.LVL168:
+ 1787               	.L145:
+ 427:rn42/rn42_task.c ****         case KC_TAB: return '\t';
+ 1788               		.loc 1 427 0
+ 1789 0198 89E0      		ldi r24,lo8(9)
+ 1790               	.LVL169:
+ 1791 019a 00C0      		rjmp .L143
+ 1792               	.LVL170:
+ 1793               	.L146:
+ 428:rn42/rn42_task.c ****         case KC_SPACE: return ' ';
+ 1794               		.loc 1 428 0
+ 1795 019c 80E2      		ldi r24,lo8(32)
+ 1796               	.LVL171:
+ 1797 019e 00C0      		rjmp .L143
+ 1798               	.LVL172:
+ 1799               	.L147:
+ 429:rn42/rn42_task.c ****         case KC_MINUS: return (shifted ? '_' : '-');
+ 1800               		.loc 1 429 0
+ 1801 01a0 2223      		tst r18
+ 1802 01a2 01F4      		brne .+2
+ 1803 01a4 00C0      		rjmp .L198
+ 1804 01a6 8FE5      		ldi r24,lo8(95)
+ 1805               	.LVL173:
+ 1806 01a8 00C0      		rjmp .L143
+ 1807               	.LVL174:
+ 1808               	.L148:
+ 430:rn42/rn42_task.c ****         case KC_EQUAL: return (shifted ? '+' : '=');
+ 1809               		.loc 1 430 0
+ 1810 01aa 2223      		tst r18
+ 1811 01ac 01F4      		brne .+2
+ 1812 01ae 00C0      		rjmp .L199
+ 1813 01b0 8BE2      		ldi r24,lo8(43)
+ 1814               	.LVL175:
+ 1815 01b2 00C0      		rjmp .L143
+ 1816               	.LVL176:
+ 1817               	.L149:
+ 431:rn42/rn42_task.c ****         case KC_LBRACKET: return (shifted ? '{' : '[');
+ 1818               		.loc 1 431 0
+ 1819 01b4 2223      		tst r18
+ 1820 01b6 01F4      		brne .+2
+ 1821 01b8 00C0      		rjmp .L200
+ 1822 01ba 8BE7      		ldi r24,lo8(123)
+ 1823               	.LVL177:
+ 1824 01bc 00C0      		rjmp .L143
+ 1825               	.LVL178:
+ 1826               	.L150:
+ 432:rn42/rn42_task.c ****         case KC_RBRACKET: return (shifted ? '}' : ']');
+ 1827               		.loc 1 432 0
+ 1828 01be 2223      		tst r18
+ 1829 01c0 01F4      		brne .+2
+ 1830 01c2 00C0      		rjmp .L201
+ 1831 01c4 8DE7      		ldi r24,lo8(125)
+ 1832               	.LVL179:
+ 1833 01c6 00C0      		rjmp .L143
+ 1834               	.LVL180:
+ 1835               	.L151:
+ 433:rn42/rn42_task.c ****         case KC_BSLASH: return (shifted ? '|' : '\\');
+ 1836               		.loc 1 433 0
+ 1837 01c8 2223      		tst r18
+ 1838 01ca 01F4      		brne .+2
+ 1839 01cc 00C0      		rjmp .L202
+ 1840               	.L160:
+ 1841 01ce 8CE7      		ldi r24,lo8(124)
+ 1842               	.LVL181:
+ 1843 01d0 00C0      		rjmp .L143
+ 1844               	.LVL182:
+ 1845               	.L152:
+ 434:rn42/rn42_task.c ****         case KC_NONUS_HASH: return (shifted ? '|' : '\\');
+ 1846               		.loc 1 434 0
+ 1847 01d2 2111      		cpse r18,__zero_reg__
+ 1848 01d4 00C0      		rjmp .L160
+ 433:rn42/rn42_task.c ****         case KC_BSLASH: return (shifted ? '|' : '\\');
+ 1849               		.loc 1 433 0
+ 1850 01d6 8CE5      		ldi r24,lo8(92)
+ 1851               	.LVL183:
+ 1852 01d8 00C0      		rjmp .L143
+ 1853               	.LVL184:
+ 1854               	.L153:
+ 435:rn42/rn42_task.c ****         case KC_SCOLON: return (shifted ? ':' : ';');
+ 1855               		.loc 1 435 0
+ 1856 01da 2223      		tst r18
+ 1857 01dc 01F4      		brne .+2
+ 1858 01de 00C0      		rjmp .L203
+ 1859 01e0 8AE3      		ldi r24,lo8(58)
+ 1860               	.LVL185:
+ 1861 01e2 00C0      		rjmp .L143
+ 1862               	.LVL186:
+ 1863               	.L154:
+ 436:rn42/rn42_task.c ****         case KC_QUOTE: return (shifted ? '"' : '\'');
+ 1864               		.loc 1 436 0
+ 1865 01e4 2223      		tst r18
+ 1866 01e6 01F4      		brne .+2
+ 1867 01e8 00C0      		rjmp .L204
+ 1868 01ea 82E2      		ldi r24,lo8(34)
+ 1869               	.LVL187:
+ 1870 01ec 00C0      		rjmp .L143
+ 1871               	.LVL188:
+ 1872               	.L155:
+ 437:rn42/rn42_task.c ****         case KC_GRAVE: return (shifted ? '~' : '`');
+ 1873               		.loc 1 437 0
+ 1874 01ee 2223      		tst r18
+ 1875 01f0 01F4      		brne .+2
+ 1876 01f2 00C0      		rjmp .L205
+ 1877 01f4 8EE7      		ldi r24,lo8(126)
+ 1878               	.LVL189:
+ 1879 01f6 00C0      		rjmp .L143
+ 1880               	.LVL190:
+ 1881               	.L156:
+ 438:rn42/rn42_task.c ****         case KC_COMMA: return (shifted ? '<' : ',');
+ 1882               		.loc 1 438 0
+ 1883 01f8 2223      		tst r18
+ 1884 01fa 01F4      		brne .+2
+ 1885 01fc 00C0      		rjmp .L206
+ 1886 01fe 8CE3      		ldi r24,lo8(60)
+ 1887               	.LVL191:
+ 1888 0200 00C0      		rjmp .L143
+ 1889               	.LVL192:
+ 1890               	.L157:
+ 439:rn42/rn42_task.c ****         case KC_DOT: return (shifted ? '>' : '.');
+ 1891               		.loc 1 439 0
+ 1892 0202 2223      		tst r18
+ 1893 0204 01F4      		brne .+2
+ 1894 0206 00C0      		rjmp .L207
+ 1895 0208 8EE3      		ldi r24,lo8(62)
+ 1896               	.LVL193:
+ 1897 020a 00C0      		rjmp .L143
+ 1898               	.LVL194:
+ 1899               	.L158:
+ 440:rn42/rn42_task.c ****         case KC_SLASH: return (shifted ? '?' : '/');
+ 1900               		.loc 1 440 0
+ 1901 020c 2223      		tst r18
+ 1902 020e 01F4      		brne .+2
+ 1903 0210 00C0      		rjmp .L208
+ 1904 0212 8FE3      		ldi r24,lo8(63)
+ 1905               	.LVL195:
+ 1906 0214 00C0      		rjmp .L143
+ 1907               	.LVL196:
+ 1908               	.L159:
+ 441:rn42/rn42_task.c ****         case KC_DELETE: return '\0';    // Delete to disconnect
+ 1909               		.loc 1 441 0
+ 1910 0216 80E0      		ldi r24,0
+ 1911               	.LVL197:
+ 1912 0218 00C0      		rjmp .L143
+ 1913               	.LVL198:
+ 1914               	.L104:
+ 442:rn42/rn42_task.c ****         default: return ' ';
+ 1915               		.loc 1 442 0
+ 1916 021a 80E2      		ldi r24,lo8(32)
+ 1917               	.LVL199:
+ 1918 021c 00C0      		rjmp .L143
+ 1919               	.LVL200:
+ 1920               	.L161:
+ 425:rn42/rn42_task.c ****         case KC_ESCAPE: return 0x1B;
+ 1921               		.loc 1 425 0
+ 1922 021e 8BE1      		ldi r24,lo8(27)
+ 1923               	.LVL201:
+ 1924 0220 00C0      		rjmp .L143
+ 1925               	.LVL202:
+ 1926               	.L162:
+ 388:rn42/rn42_task.c ****         case KC_A: return (shifted ? 'A' : 'a');
+ 1927               		.loc 1 388 0
+ 1928 0222 81E6      		ldi r24,lo8(97)
+ 1929               	.LVL203:
+ 1930 0224 00C0      		rjmp .L143
+ 1931               	.LVL204:
+ 1932               	.L163:
+ 389:rn42/rn42_task.c ****         case KC_B: return (shifted ? 'B' : 'b');
+ 1933               		.loc 1 389 0
+ 1934 0226 82E6      		ldi r24,lo8(98)
+ 1935               	.LVL205:
+ 1936 0228 00C0      		rjmp .L143
+ 1937               	.LVL206:
+ 1938               	.L164:
+ 390:rn42/rn42_task.c ****         case KC_C: return (shifted ? 'C' : 'c');
+ 1939               		.loc 1 390 0
+ 1940 022a 83E6      		ldi r24,lo8(99)
+ 1941               	.LVL207:
+ 1942 022c 00C0      		rjmp .L143
+ 1943               	.LVL208:
+ 1944               	.L165:
+ 391:rn42/rn42_task.c ****         case KC_D: return (shifted ? 'D' : 'd');
+ 1945               		.loc 1 391 0
+ 1946 022e 84E6      		ldi r24,lo8(100)
+ 1947               	.LVL209:
+ 1948 0230 00C0      		rjmp .L143
+ 1949               	.LVL210:
+ 1950               	.L166:
+ 392:rn42/rn42_task.c ****         case KC_E: return (shifted ? 'E' : 'e');
+ 1951               		.loc 1 392 0
+ 1952 0232 85E6      		ldi r24,lo8(101)
+ 1953               	.LVL211:
+ 1954 0234 00C0      		rjmp .L143
+ 1955               	.LVL212:
+ 1956               	.L167:
+ 393:rn42/rn42_task.c ****         case KC_F: return (shifted ? 'F' : 'f');
+ 1957               		.loc 1 393 0
+ 1958 0236 86E6      		ldi r24,lo8(102)
+ 1959               	.LVL213:
+ 1960 0238 00C0      		rjmp .L143
+ 1961               	.LVL214:
+ 1962               	.L168:
+ 394:rn42/rn42_task.c ****         case KC_G: return (shifted ? 'G' : 'g');
+ 1963               		.loc 1 394 0
+ 1964 023a 87E6      		ldi r24,lo8(103)
+ 1965               	.LVL215:
+ 1966 023c 00C0      		rjmp .L143
+ 1967               	.LVL216:
+ 1968               	.L169:
+ 395:rn42/rn42_task.c ****         case KC_H: return (shifted ? 'H' : 'h');
+ 1969               		.loc 1 395 0
+ 1970 023e 88E6      		ldi r24,lo8(104)
+ 1971               	.LVL217:
+ 1972 0240 00C0      		rjmp .L143
+ 1973               	.LVL218:
+ 1974               	.L170:
+ 396:rn42/rn42_task.c ****         case KC_I: return (shifted ? 'I' : 'i');
+ 1975               		.loc 1 396 0
+ 1976 0242 89E6      		ldi r24,lo8(105)
+ 1977               	.LVL219:
+ 1978 0244 00C0      		rjmp .L143
+ 1979               	.LVL220:
+ 1980               	.L171:
+ 397:rn42/rn42_task.c ****         case KC_J: return (shifted ? 'J' : 'j');
+ 1981               		.loc 1 397 0
+ 1982 0246 8AE6      		ldi r24,lo8(106)
+ 1983               	.LVL221:
+ 1984 0248 00C0      		rjmp .L143
+ 1985               	.LVL222:
+ 1986               	.L172:
+ 398:rn42/rn42_task.c ****         case KC_K: return (shifted ? 'K' : 'k');
+ 1987               		.loc 1 398 0
+ 1988 024a 8BE6      		ldi r24,lo8(107)
+ 1989               	.LVL223:
+ 1990 024c 00C0      		rjmp .L143
+ 1991               	.LVL224:
+ 1992               	.L173:
+ 399:rn42/rn42_task.c ****         case KC_L: return (shifted ? 'L' : 'l');
+ 1993               		.loc 1 399 0
+ 1994 024e 8CE6      		ldi r24,lo8(108)
+ 1995               	.LVL225:
+ 1996 0250 00C0      		rjmp .L143
+ 1997               	.LVL226:
+ 1998               	.L174:
+ 400:rn42/rn42_task.c ****         case KC_M: return (shifted ? 'M' : 'm');
+ 1999               		.loc 1 400 0
+ 2000 0252 8DE6      		ldi r24,lo8(109)
+ 2001               	.LVL227:
+ 2002 0254 00C0      		rjmp .L143
+ 2003               	.LVL228:
+ 2004               	.L175:
+ 401:rn42/rn42_task.c ****         case KC_N: return (shifted ? 'N' : 'n');
+ 2005               		.loc 1 401 0
+ 2006 0256 8EE6      		ldi r24,lo8(110)
+ 2007               	.LVL229:
+ 2008 0258 00C0      		rjmp .L143
+ 2009               	.LVL230:
+ 2010               	.L176:
+ 402:rn42/rn42_task.c ****         case KC_O: return (shifted ? 'O' : 'o');
+ 2011               		.loc 1 402 0
+ 2012 025a 8FE6      		ldi r24,lo8(111)
+ 2013               	.LVL231:
+ 2014 025c 00C0      		rjmp .L143
+ 2015               	.LVL232:
+ 2016               	.L177:
+ 403:rn42/rn42_task.c ****         case KC_P: return (shifted ? 'P' : 'p');
+ 2017               		.loc 1 403 0
+ 2018 025e 80E7      		ldi r24,lo8(112)
+ 2019               	.LVL233:
+ 2020 0260 00C0      		rjmp .L143
+ 2021               	.LVL234:
+ 2022               	.L178:
+ 404:rn42/rn42_task.c ****         case KC_Q: return (shifted ? 'Q' : 'q');
+ 2023               		.loc 1 404 0
+ 2024 0262 81E7      		ldi r24,lo8(113)
+ 2025               	.LVL235:
+ 2026 0264 00C0      		rjmp .L143
+ 2027               	.LVL236:
+ 2028               	.L179:
+ 405:rn42/rn42_task.c ****         case KC_R: return (shifted ? 'R' : 'r');
+ 2029               		.loc 1 405 0
+ 2030 0266 82E7      		ldi r24,lo8(114)
+ 2031               	.LVL237:
+ 2032 0268 00C0      		rjmp .L143
+ 2033               	.LVL238:
+ 2034               	.L180:
+ 406:rn42/rn42_task.c ****         case KC_S: return (shifted ? 'S' : 's');
+ 2035               		.loc 1 406 0
+ 2036 026a 83E7      		ldi r24,lo8(115)
+ 2037               	.LVL239:
+ 2038 026c 00C0      		rjmp .L143
+ 2039               	.LVL240:
+ 2040               	.L181:
+ 407:rn42/rn42_task.c ****         case KC_T: return (shifted ? 'T' : 't');
+ 2041               		.loc 1 407 0
+ 2042 026e 84E7      		ldi r24,lo8(116)
+ 2043               	.LVL241:
+ 2044 0270 00C0      		rjmp .L143
+ 2045               	.LVL242:
+ 2046               	.L182:
+ 408:rn42/rn42_task.c ****         case KC_U: return (shifted ? 'U' : 'u');
+ 2047               		.loc 1 408 0
+ 2048 0272 85E7      		ldi r24,lo8(117)
+ 2049               	.LVL243:
+ 2050 0274 00C0      		rjmp .L143
+ 2051               	.LVL244:
+ 2052               	.L183:
+ 409:rn42/rn42_task.c ****         case KC_V: return (shifted ? 'V' : 'v');
+ 2053               		.loc 1 409 0
+ 2054 0276 86E7      		ldi r24,lo8(118)
+ 2055               	.LVL245:
+ 2056 0278 00C0      		rjmp .L143
+ 2057               	.LVL246:
+ 2058               	.L184:
+ 410:rn42/rn42_task.c ****         case KC_W: return (shifted ? 'W' : 'w');
+ 2059               		.loc 1 410 0
+ 2060 027a 87E7      		ldi r24,lo8(119)
+ 2061               	.LVL247:
+ 2062 027c 00C0      		rjmp .L143
+ 2063               	.LVL248:
+ 2064               	.L185:
+ 411:rn42/rn42_task.c ****         case KC_X: return (shifted ? 'X' : 'x');
+ 2065               		.loc 1 411 0
+ 2066 027e 88E7      		ldi r24,lo8(120)
+ 2067               	.LVL249:
+ 2068 0280 00C0      		rjmp .L143
+ 2069               	.LVL250:
+ 2070               	.L186:
+ 412:rn42/rn42_task.c ****         case KC_Y: return (shifted ? 'Y' : 'y');
+ 2071               		.loc 1 412 0
+ 2072 0282 89E7      		ldi r24,lo8(121)
+ 2073               	.LVL251:
+ 2074 0284 00C0      		rjmp .L143
+ 2075               	.LVL252:
+ 2076               	.L187:
+ 413:rn42/rn42_task.c ****         case KC_Z: return (shifted ? 'Z' : 'z');
+ 2077               		.loc 1 413 0
+ 2078 0286 8AE7      		ldi r24,lo8(122)
+ 2079               	.LVL253:
+ 2080 0288 00C0      		rjmp .L143
+ 2081               	.LVL254:
+ 2082               	.L188:
+ 414:rn42/rn42_task.c ****         case KC_1: return (shifted ? '!' : '1');
+ 2083               		.loc 1 414 0
+ 2084 028a 81E3      		ldi r24,lo8(49)
+ 2085               	.LVL255:
+ 2086 028c 00C0      		rjmp .L143
+ 2087               	.LVL256:
+ 2088               	.L189:
+ 415:rn42/rn42_task.c ****         case KC_2: return (shifted ? '@' : '2');
+ 2089               		.loc 1 415 0
+ 2090 028e 82E3      		ldi r24,lo8(50)
+ 2091               	.LVL257:
+ 2092 0290 00C0      		rjmp .L143
+ 2093               	.LVL258:
+ 2094               	.L190:
+ 416:rn42/rn42_task.c ****         case KC_3: return (shifted ? '#' : '3');
+ 2095               		.loc 1 416 0
+ 2096 0292 83E3      		ldi r24,lo8(51)
+ 2097               	.LVL259:
+ 2098 0294 00C0      		rjmp .L143
+ 2099               	.LVL260:
+ 2100               	.L191:
+ 417:rn42/rn42_task.c ****         case KC_4: return (shifted ? '$' : '4');
+ 2101               		.loc 1 417 0
+ 2102 0296 84E3      		ldi r24,lo8(52)
+ 2103               	.LVL261:
+ 2104 0298 00C0      		rjmp .L143
+ 2105               	.LVL262:
+ 2106               	.L192:
+ 418:rn42/rn42_task.c ****         case KC_5: return (shifted ? '%' : '5');
+ 2107               		.loc 1 418 0
+ 2108 029a 85E3      		ldi r24,lo8(53)
+ 2109               	.LVL263:
+ 2110 029c 00C0      		rjmp .L143
+ 2111               	.LVL264:
+ 2112               	.L193:
+ 419:rn42/rn42_task.c ****         case KC_6: return (shifted ? '^' : '6');
+ 2113               		.loc 1 419 0
+ 2114 029e 86E3      		ldi r24,lo8(54)
+ 2115               	.LVL265:
+ 2116 02a0 00C0      		rjmp .L143
+ 2117               	.LVL266:
+ 2118               	.L194:
+ 420:rn42/rn42_task.c ****         case KC_7: return (shifted ? '&' : '7');
+ 2119               		.loc 1 420 0
+ 2120 02a2 87E3      		ldi r24,lo8(55)
+ 2121               	.LVL267:
+ 2122 02a4 00C0      		rjmp .L143
+ 2123               	.LVL268:
+ 2124               	.L195:
+ 421:rn42/rn42_task.c ****         case KC_8: return (shifted ? '*' : '8');
+ 2125               		.loc 1 421 0
+ 2126 02a6 88E3      		ldi r24,lo8(56)
+ 2127               	.LVL269:
+ 2128 02a8 00C0      		rjmp .L143
+ 2129               	.LVL270:
+ 2130               	.L196:
+ 422:rn42/rn42_task.c ****         case KC_9: return (shifted ? '(' : '9');
+ 2131               		.loc 1 422 0
+ 2132 02aa 89E3      		ldi r24,lo8(57)
+ 2133               	.LVL271:
+ 2134 02ac 00C0      		rjmp .L143
+ 2135               	.LVL272:
+ 2136               	.L197:
+ 423:rn42/rn42_task.c ****         case KC_0: return (shifted ? ')' : '0');
+ 2137               		.loc 1 423 0
+ 2138 02ae 80E3      		ldi r24,lo8(48)
+ 2139               	.LVL273:
+ 2140 02b0 00C0      		rjmp .L143
+ 2141               	.LVL274:
+ 2142               	.L198:
+ 429:rn42/rn42_task.c ****         case KC_MINUS: return (shifted ? '_' : '-');
+ 2143               		.loc 1 429 0
+ 2144 02b2 8DE2      		ldi r24,lo8(45)
+ 2145               	.LVL275:
+ 2146 02b4 00C0      		rjmp .L143
+ 2147               	.LVL276:
+ 2148               	.L199:
+ 430:rn42/rn42_task.c ****         case KC_EQUAL: return (shifted ? '+' : '=');
+ 2149               		.loc 1 430 0
+ 2150 02b6 8DE3      		ldi r24,lo8(61)
+ 2151               	.LVL277:
+ 2152 02b8 00C0      		rjmp .L143
+ 2153               	.LVL278:
+ 2154               	.L200:
+ 431:rn42/rn42_task.c ****         case KC_LBRACKET: return (shifted ? '{' : '[');
+ 2155               		.loc 1 431 0
+ 2156 02ba 8BE5      		ldi r24,lo8(91)
+ 2157               	.LVL279:
+ 2158 02bc 00C0      		rjmp .L143
+ 2159               	.LVL280:
+ 2160               	.L201:
+ 432:rn42/rn42_task.c ****         case KC_RBRACKET: return (shifted ? '}' : ']');
+ 2161               		.loc 1 432 0
+ 2162 02be 8DE5      		ldi r24,lo8(93)
+ 2163               	.LVL281:
+ 2164 02c0 00C0      		rjmp .L143
+ 2165               	.LVL282:
+ 2166               	.L202:
+ 433:rn42/rn42_task.c ****         case KC_BSLASH: return (shifted ? '|' : '\\');
+ 2167               		.loc 1 433 0
+ 2168 02c2 8CE5      		ldi r24,lo8(92)
+ 2169               	.LVL283:
+ 2170 02c4 00C0      		rjmp .L143
+ 2171               	.LVL284:
+ 2172               	.L203:
+ 435:rn42/rn42_task.c ****         case KC_SCOLON: return (shifted ? ':' : ';');
+ 2173               		.loc 1 435 0
+ 2174 02c6 8BE3      		ldi r24,lo8(59)
+ 2175               	.LVL285:
+ 2176 02c8 00C0      		rjmp .L143
+ 2177               	.LVL286:
+ 2178               	.L204:
+ 436:rn42/rn42_task.c ****         case KC_QUOTE: return (shifted ? '"' : '\'');
+ 2179               		.loc 1 436 0
+ 2180 02ca 87E2      		ldi r24,lo8(39)
+ 2181               	.LVL287:
+ 2182 02cc 00C0      		rjmp .L143
+ 2183               	.LVL288:
+ 2184               	.L205:
+ 437:rn42/rn42_task.c ****         case KC_GRAVE: return (shifted ? '~' : '`');
+ 2185               		.loc 1 437 0
+ 2186 02ce 80E6      		ldi r24,lo8(96)
+ 2187               	.LVL289:
+ 2188 02d0 00C0      		rjmp .L143
+ 2189               	.LVL290:
+ 2190               	.L206:
+ 438:rn42/rn42_task.c ****         case KC_COMMA: return (shifted ? '<' : ',');
+ 2191               		.loc 1 438 0
+ 2192 02d2 8CE2      		ldi r24,lo8(44)
+ 2193               	.LVL291:
+ 2194 02d4 00C0      		rjmp .L143
+ 2195               	.LVL292:
+ 2196               	.L207:
+ 439:rn42/rn42_task.c ****         case KC_DOT: return (shifted ? '>' : '.');
+ 2197               		.loc 1 439 0
+ 2198 02d6 8EE2      		ldi r24,lo8(46)
+ 2199               	.LVL293:
+ 2200 02d8 00C0      		rjmp .L143
+ 2201               	.LVL294:
+ 2202               	.L208:
+ 440:rn42/rn42_task.c ****         case KC_SLASH: return (shifted ? '?' : '/');
+ 2203               		.loc 1 440 0
+ 2204 02da 8FE2      		ldi r24,lo8(47)
+ 2205               	.LVL295:
+ 2206               	.L143:
+ 2207               	.LBE88:
+ 2208               	.LBE87:
+ 379:rn42/rn42_task.c ****     rn42_putc(code2asc(code));
+ 2209               		.loc 1 379 0
+ 2210 02dc 0E94 0000 		call rn42_putc
+ 2211               	.LVL296:
+ 381:rn42/rn42_task.c **** }
+ 2212               		.loc 1 381 0
+ 2213 02e0 81E0      		ldi r24,lo8(1)
+ 2214               	/* epilogue start */
+ 2215 02e2 CF91      		pop r28
+ 2216               	.LVL297:
+ 2217 02e4 0895      		ret
+ 2218               		.cfi_endproc
+ 2219               	.LFE112:
+ 2221               		.section	.progmem.data.__c.4830,"a",@progbits
+ 2224               	__c.4830:
+ 2225 0000 522C 310D 		.string	"R,1\r\n"
+ 2225      0A00 
+ 2226               		.section	.progmem.data.__c.4828,"a",@progbits
+ 2229               	__c.4828:
+ 2230 0000 5359 2C46 		.string	"SY,FFF4\r\n"
+ 2230      4646 340D 
+ 2230      0A00 
+ 2231               		.section	.progmem.data.__c.4826,"a",@progbits
+ 2234               	__c.4826:
+ 2235 0000 5348 2C30 		.string	"SH,003C\r\n"
+ 2235      3033 430D 
+ 2235      0A00 
+ 2236               		.section	.progmem.data.__c.4824,"a",@progbits
+ 2239               	__c.4824:
+ 2240 0000 537E 2C36 		.string	"S~,6\r\n"
+ 2240      0D0A 00
+ 2241               		.section	.progmem.data.__c.4822,"a",@progbits
+ 2244               	__c.4822:
+ 2245 0000 5357 2C38 		.string	"SW,8000\r\n"
+ 2245      3030 300D 
+ 2245      0A00 
+ 2246               		.section	.progmem.data.__c.4820,"a",@progbits
+ 2249               	__c.4820:
+ 2250 0000 534D 2C34 		.string	"SM,4\r\n"
+ 2250      0D0A 00
+ 2251               		.section	.progmem.data.__c.4818,"a",@progbits
+ 2254               	__c.4818:
+ 2255 0000 5353 2C4B 		.string	"SS,Keyboard/Mouse\r\n"
+ 2255      6579 626F 
+ 2255      6172 642F 
+ 2255      4D6F 7573 
+ 2255      650D 0A00 
+ 2256               		.section	.progmem.data.__c.4816,"a",@progbits
+ 2259               	__c.4816:
+ 2260 0000 532D 2C54 		.string	"S-,TmkBT\r\n"
+ 2260      6D6B 4254 
+ 2260      0D0A 00
+ 2261               		.section	.progmem.data.__c.4814,"a",@progbits
+ 2264               	__c.4814:
+ 2265 0000 5346 2C31 		.string	"SF,1\r\n"
+ 2265      0D0A 00
+ 2266               		.section	.progmem.data.__c.4809,"a",@progbits
+ 2269               	__c.4809:
+ 2270 0000 2D2D 2D0D 		.string	"---\r\n"
+ 2270      0A00 
+ 2271               		.section	.progmem.data.__c.4807,"a",@progbits
+ 2274               	__c.4807:
+ 2275 0000 4578 6974 		.string	"Exiting config mode ...\n"
+ 2275      696E 6720 
+ 2275      636F 6E66 
+ 2275      6967 206D 
+ 2275      6F64 6520 
+ 2276               		.section	.progmem.data.__c.4802,"a",@progbits
+ 2279               	__c.4802:
+ 2280 0000 2B0D 0A00 		.string	"+\r\n"
+ 2281               		.section	.progmem.data.__c.4800,"a",@progbits
+ 2284               	__c.4800:
+ 2285 0000 760D 0A00 		.string	"v\r\n"
+ 2286               		.section	.progmem.data.__c.4797,"a",@progbits
+ 2289               	__c.4797:
+ 2290 0000 2424 2400 		.string	"$$$"
+ 2291               		.section	.progmem.data.__c.4795,"a",@progbits
+ 2294               	__c.4795:
+ 2295 0000 456E 7465 		.string	"Entering config mode ...\n"
+ 2295      7269 6E67 
+ 2295      2063 6F6E 
+ 2295      6669 6720 
+ 2295      6D6F 6465 
+ 2296               		.section	.progmem.data.__c.4837,"a",@progbits
+ 2299               	__c.4837:
+ 2300 0000 522C 310D 		.string	"R,1\r\n"
+ 2300      0A00 
+ 2301               		.section	.progmem.data.__c.4835,"a",@progbits
+ 2304               	__c.4835:
+ 2305 0000 5352 2C5A 		.string	"SR,Z\r\n"
+ 2305      0D0A 00
+ 2306               		.section	.progmem.data.__c.4918,"a",@progbits
+ 2309               	__c.4918:
+ 2310 0000 5553 4220 		.string	"USB mode\n"
+ 2310      6D6F 6465 
+ 2310      0A00 
+ 2311               		.section	.progmem.data.__c.4916,"a",@progbits
+ 2314               	__c.4916:
+ 2315 0000 4175 746F 		.string	"Auto mode\n"
+ 2315      206D 6F64 
+ 2315      650A 00
+ 2316               		.section	.progmem.data.__c.4913,"a",@progbits
+ 2319               	__c.4913:
+ 2320 0000 2530 3275 		.string	"%02u\n"
+ 2320      0A00 
+ 2321               		.section	.progmem.data.__c.4911,"a",@progbits
+ 2324               	__c.4911:
+ 2325 0000 2530 3275 		.string	"%02u:"
+ 2325      3A00 
+ 2326               		.section	.progmem.data.__c.4909,"a",@progbits
+ 2329               	__c.4909:
+ 2330 0000 2530 3275 		.string	"%02u:"
+ 2330      3A00 
+ 2331               		.section	.progmem.data.__c.4907,"a",@progbits
+ 2334               	__c.4907:
+ 2335 0000 4241 543A 		.string	"BAT: %umV\t"
+ 2335      2025 756D 
+ 2335      5609 00
+ 2336               		.section	.progmem.data.__c.4904,"a",@progbits
+ 2339               	__c.4904:
+ 2340 0000 7570 7469 		.string	"uptime: %02u %02u:%02u:%02u\n"
+ 2340      6D65 3A20 
+ 2340      2530 3275 
+ 2340      2025 3032 
+ 2340      753A 2530 
+ 2341               		.section	.progmem.data.__c.4898,"a",@progbits
+ 2344               	__c.4898:
+ 2345 0000 5642 5553 		.string	"VBUS: %X\n"
+ 2345      3A20 2558 
+ 2345      0A00 
+ 2346               		.section	.progmem.data.__c.4896,"a",@progbits
+ 2349               	__c.4896:
+ 2350 0000 5265 6D6F 		.string	"RemoteWakeupEnabled: %X\n"
+ 2350      7465 5761 
+ 2350      6B65 7570 
+ 2350      456E 6162 
+ 2350      6C65 643A 
+ 2351               		.section	.progmem.data.__c.4894,"a",@progbits
+ 2354               	__c.4894:
+ 2355 0000 0A00      		.string	"\n"
+ 2356               		.section	.progmem.data.__c.4892,"a",@progbits
+ 2359               	__c.4892:
+ 2360 0000 3F00      		.string	"?"
+ 2361               		.section	.progmem.data.__c.4889,"a",@progbits
+ 2364               	__c.4889:
+ 2365 0000 4C4F 5700 		.string	"LOW"
+ 2366               		.section	.progmem.data.__c.4886,"a",@progbits
+ 2369               	__c.4886:
+ 2370 0000 4449 5343 		.string	"DISCHG"
+ 2370      4847 00
+ 2371               		.section	.progmem.data.__c.4883,"a",@progbits
+ 2374               	__c.4883:
+ 2375 0000 4348 4152 		.string	"CHARG"
+ 2375      4700 
+ 2376               		.section	.progmem.data.__c.4879,"a",@progbits
+ 2379               	__c.4879:
+ 2380 0000 4655 4C4C 		.string	"FULL"
+ 2380      00
+ 2381               		.section	.progmem.data.__c.4876,"a",@progbits
+ 2384               	__c.4876:
+ 2385 0000 6261 7474 		.string	"battery: "
+ 2385      6572 793A 
+ 2385      2000 
+ 2386               		.section	.progmem.data.__c.4874,"a",@progbits
+ 2389               	__c.4874:
+ 2390 0000 5553 4220 		.string	"USB State: %s\n"
+ 2390      5374 6174 
+ 2390      653A 2025 
+ 2390      730A 00
+ 2391               		.section	.progmem.data.__c.4872,"a",@progbits
+ 2394               	__c.4872:
+ 2395 0000 636F 6E66 		.string	"config_mode: %X\n"
+ 2395      6967 5F6D 
+ 2395      6F64 653A 
+ 2395      2025 580A 
+ 2395      00
+ 2396               		.section	.progmem.data.__c.4870,"a",@progbits
+ 2399               	__c.4870:
+ 2400 0000 726E 3432 		.string	"rn42_autoconnecting(): %X\n"
+ 2400      5F61 7574 
+ 2400      6F63 6F6E 
+ 2400      6E65 6374 
+ 2400      696E 6728 
+ 2401               		.section	.progmem.data.__c.4868,"a",@progbits
+ 2404               	__c.4868:
+ 2405 0000 726E 3432 		.string	"rn42: %s\n"
+ 2405      3A20 2573 
+ 2405      0A00 
+ 2406               		.section	.progmem.data.__c.4866,"a",@progbits
+ 2409               	__c.4866:
+ 2410 0000 666F 7263 		.string	"force_usb: %X\n"
+ 2410      655F 7573 
+ 2410      623A 2025 
+ 2410      580A 00
+ 2411               		.section	.progmem.data.__c.4864,"a",@progbits
+ 2414               	__c.4864:
+ 2415 0000 7072 6F74 		.string	"protocol: %s\n"
+ 2415      6F63 6F6C 
+ 2415      3A20 2573 
+ 2415      0A00 
+ 2416               		.section	.progmem.data.__c.4862,"a",@progbits
+ 2419               	__c.4862:
+ 2420 0000 0A2D 2D2D 		.string	"\n----- RN-42 info -----\n"
+ 2420      2D2D 2052 
+ 2420      4E2D 3432 
+ 2420      2069 6E66 
+ 2420      6F20 2D2D 
+ 2421               		.section	.progmem.data.__c.4858,"a",@progbits
+ 2424               	__c.4858:
+ 2425 0000 753A 2020 		.string	"u:       toggle Force USB mode\n"
+ 2425      2020 2020 
+ 2425      2074 6F67 
+ 2425      676C 6520 
+ 2425      466F 7263 
+ 2426               		.section	.progmem.data.__c.4856,"a",@progbits
+ 2429               	__c.4856:
+ 2430 0000 703A 2020 		.string	"p:       pairing\n"
+ 2430      2020 2020 
+ 2430      2070 6169 
+ 2430      7269 6E67 
+ 2430      0A00 
+ 2431               		.section	.progmem.data.__c.4854,"a",@progbits
+ 2434               	__c.4854:
+ 2435 0000 536C 636B 		.string	"Slck:    RN-42 initialize\n"
+ 2435      3A20 2020 
+ 2435      2052 4E2D 
+ 2435      3432 2069 
+ 2435      6E69 7469 
+ 2436               		.section	.progmem.data.__c.4852,"a",@progbits
+ 2439               	__c.4852:
+ 2440 0000 4465 6C3A 		.string	"Del:     enter/exit RN-42 config mode\n"
+ 2440      2020 2020 
+ 2440      2065 6E74 
+ 2440      6572 2F65 
+ 2440      7869 7420 
+ 2441               		.section	.progmem.data.__c.4850,"a",@progbits
+ 2444               	__c.4850:
+ 2445 0000 623A 2020 		.string	"b:       battery voltage\n"
+ 2445      2020 2020 
+ 2445      2062 6174 
+ 2445      7465 7279 
+ 2445      2076 6F6C 
+ 2446               		.section	.progmem.data.__c.4848,"a",@progbits
+ 2449               	__c.4848:
+ 2450 0000 693A 2020 		.string	"i:       RN-42 info\n"
+ 2450      2020 2020 
+ 2450      2052 4E2D 
+ 2450      3432 2069 
+ 2450      6E66 6F0A 
+ 2451               		.section	.progmem.data.__c.4846,"a",@progbits
+ 2454               	__c.4846:
+ 2455 0000 0A0A 2D2D 		.string	"\n\n----- Bluetooth RN-42 Help -----\n"
+ 2455      2D2D 2D20 
+ 2455      426C 7565 
+ 2455      746F 6F74 
+ 2455      6820 524E 
+ 2456               		.section	.progmem.data.__c.4786,"a",@progbits
+ 2459               	__c.4786:
+ 2460 0000 2530 3275 		.string	"%02u:%02u:%02u\t%umV\n"
+ 2460      3A25 3032 
+ 2460      753A 2530 
+ 2460      3275 0925 
+ 2460      756D 560A 
+ 2461               		.section	.bss.prev_timer.4778,"aw",@nobits
+ 2464               	prev_timer.4778:
+ 2465 0000 0000      		.zero	2
+ 2466               		.section	.progmem.data.__c.4772,"a",@progbits
+ 2469               	__c.4772:
+ 2470 0000 4C45 4420 		.string	"LED status: %02X\n"
+ 2470      7374 6174 
+ 2470      7573 3A20 
+ 2470      2530 3258 
+ 2470      0A00 
+ 2471               		.section	.progmem.data.__c.4766,"a",@progbits
+ 2474               	__c.4766:
+ 2475 0000 2025 3032 		.string	" %02X"
+ 2475      5800 
+ 2476               		.section	.progmem.data.__c.4764,"a",@progbits
+ 2479               	__c.4764:
+ 2480 0000 2563 00   		.string	"%c"
+ 2481               		.section	.bss.state.4762,"aw",@nobits
+ 2484               	state.4762:
+ 2485 0000 00        		.zero	1
+ 2486               		.section	.data.prev_driver,"aw",@progbits
+ 2489               	prev_driver:
+ 2490 0000 0000      		.word	rn42_driver
+ 2491               		.section	.bss.force_usb,"aw",@nobits
+ 2494               	force_usb:
+ 2495 0000 00        		.zero	1
+ 2496               		.section	.bss.config_mode,"aw",@nobits
+ 2499               	config_mode:
+ 2500 0000 00        		.zero	1
+ 2501               		.comm	rn42_config_driver,10,1
+ 2502               		.comm	rn42_driver,10,1
+ 2503               		.text
+ 2504               	.Letext0:
+ 2505               		.file 3 "/usr/local/CrossPack-AVR-20131216/avr/include/stdint.h"
+ 2506               		.file 4 "./tmk_core/common/report.h"
+ 2507               		.file 5 "./tmk_core/common/host_driver.h"
+ 2508               		.file 6 "./tmk_core/common/keycode.h"
+ 2509               		.file 7 "./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/../Device.h"
+ 2510               		.file 8 "./tmk_core/common/debug.h"
+ 2511               		.file 9 "./tmk_core/common/command.h"
+ 2512               		.file 10 "rn42/battery.h"
+ 2513               		.file 11 "./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/../DeviceStandardReq.h"
+ 2514               		.file 12 "./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/USBTask.h"
+ 2515               		.file 13 "./tmk_core/protocol/lufa/lufa.h"
+ 2516               		.file 14 "rn42/rn42.h"
+ 2517               		.file 15 "./tmk_core/common/action.h"
+ 2518               		.file 16 "./tmk_core/common/host.h"
+ 2519               		.file 17 "./tmk_core/common/avr/xprintf.h"
+ 2520               		.file 18 "./tmk_core/common/timer.h"
+ 2521               		.file 19 "./tmk_core/common/action_util.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 rn42_task.c
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2      *ABS*:0000003e __SP_H__
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:3      *ABS*:0000003d __SP_L__
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:4      *ABS*:0000003f __SREG__
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:12     .text.enter_command_mode:00000000 enter_command_mode
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2489   .data.prev_driver:00000000 prev_driver
+                            *COM*:0000000a rn42_config_driver
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2294   .progmem.data.__c.4795:00000000 __c.4795
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2289   .progmem.data.__c.4797:00000000 __c.4797
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2284   .progmem.data.__c.4800:00000000 __c.4800
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2279   .progmem.data.__c.4802:00000000 __c.4802
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:108    .text.exit_command_mode:00000000 exit_command_mode
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2274   .progmem.data.__c.4807:00000000 __c.4807
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2269   .progmem.data.__c.4809:00000000 __c.4809
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:143    .text.rn42_task_init:00000000 rn42_task_init
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:160    .text.rn42_task:00000000 rn42_task
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2474   .progmem.data.__c.4766:00000000 __c.4766
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2479   .progmem.data.__c.4764:00000000 __c.4764
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2469   .progmem.data.__c.4772:00000000 __c.4772
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2484   .bss.state.4762:00000000 state.4762
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2499   .bss.config_mode:00000000 config_mode
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2494   .bss.force_usb:00000000 force_usb
+                            *COM*:0000000a rn42_driver
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2464   .bss.prev_timer.4778:00000000 prev_timer.4778
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2459   .progmem.data.__c.4786:00000000 __c.4786
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:612    .text.command_extra:00000000 command_extra
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2334   .progmem.data.__c.4907:00000000 __c.4907
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2329   .progmem.data.__c.4909:00000000 __c.4909
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2324   .progmem.data.__c.4911:00000000 __c.4911
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2319   .progmem.data.__c.4913:00000000 __c.4913
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2454   .progmem.data.__c.4846:00000000 __c.4846
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2449   .progmem.data.__c.4848:00000000 __c.4848
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2444   .progmem.data.__c.4850:00000000 __c.4850
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2439   .progmem.data.__c.4852:00000000 __c.4852
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2434   .progmem.data.__c.4854:00000000 __c.4854
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2429   .progmem.data.__c.4856:00000000 __c.4856
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2424   .progmem.data.__c.4858:00000000 __c.4858
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2304   .progmem.data.__c.4835:00000000 __c.4835
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2299   .progmem.data.__c.4837:00000000 __c.4837
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2419   .progmem.data.__c.4862:00000000 __c.4862
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2414   .progmem.data.__c.4864:00000000 __c.4864
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2409   .progmem.data.__c.4866:00000000 __c.4866
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2404   .progmem.data.__c.4868:00000000 __c.4868
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2399   .progmem.data.__c.4870:00000000 __c.4870
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2394   .progmem.data.__c.4872:00000000 __c.4872
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2389   .progmem.data.__c.4874:00000000 __c.4874
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2384   .progmem.data.__c.4876:00000000 __c.4876
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2364   .progmem.data.__c.4889:00000000 __c.4889
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2379   .progmem.data.__c.4879:00000000 __c.4879
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2374   .progmem.data.__c.4883:00000000 __c.4883
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2369   .progmem.data.__c.4886:00000000 __c.4886
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2359   .progmem.data.__c.4892:00000000 __c.4892
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2354   .progmem.data.__c.4894:00000000 __c.4894
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2349   .progmem.data.__c.4896:00000000 __c.4896
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2344   .progmem.data.__c.4898:00000000 __c.4898
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2339   .progmem.data.__c.4904:00000000 __c.4904
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2314   .progmem.data.__c.4916:00000000 __c.4916
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2309   .progmem.data.__c.4918:00000000 __c.4918
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2264   .progmem.data.__c.4814:00000000 __c.4814
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2259   .progmem.data.__c.4816:00000000 __c.4816
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2254   .progmem.data.__c.4818:00000000 __c.4818
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2249   .progmem.data.__c.4820:00000000 __c.4820
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2244   .progmem.data.__c.4822:00000000 __c.4822
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2239   .progmem.data.__c.4824:00000000 __c.4824
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2234   .progmem.data.__c.4826:00000000 __c.4826
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2229   .progmem.data.__c.4828:00000000 __c.4828
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:2224   .progmem.data.__c.4830:00000000 __c.4830
+/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cclNdCsk.s:1335   .text.command_console_extra:00000000 command_console_extra
+
+UNDEFINED SYMBOLS
+host_get_driver
+clear_keyboard
+host_set_driver
+rn42_disconnect
+rn42_linked
+xputs
+rn42_send_command
+rn42_print_response
+rn42_autoconnect
+battery_init
+rn42_getc
+__xprintf
+debug_config
+rn42_set_leds
+rn42_rts
+lufa_driver
+timer_elapsed
+__udivmodhi4
+battery_status
+battery_led
+timer_read32
+__udivmodsi4
+battery_voltage
+rn42_autoconnecting
+USB_DeviceState
+USB_Device_RemoteWakeupEnabled
+command_state
+get_mods
+__tablejump2__
+rn42_putc
+__do_copy_data
+__do_clear_bss

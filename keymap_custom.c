@@ -44,7 +44,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      */
     [1] = \
     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
-           CAPS,NO,  NO,  NO,  NO,  NO,  NO,  NO,  PSCR,SLCK,PAUS, UP,  NO,  BSPC, \
+           CAPS,NO,  NO,  NO,  NO,  NO,  NO,  NO,  PSCR,SLCK,PAUS, UP,  FN4,  BSPC, \
            LCTL,VOLD,VOLU,MUTE,NO,  NO,  PAST,PSLS,HOME,PGUP,LEFT,RGHT,ENT, \
            LSFT,NO,  NO,  NO,  NO,  NO,  PPLS,PMNS,END, PGDN,DOWN,RSFT,TRNS, \
                 LALT,LGUI,          TRNS,               RGUI,RALT),
@@ -55,7 +55,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      * |-----------------------------------------------------------|
      * |Tab  |   |   |   |   |   |   |   |   |   |   |   |    Backs|
      * |-----------------------------------------------------------|
-     * |Fn2   |   |   |  |BSPC|   |Lef|Dow|Up |Rig|   |   |Return  |
+     * |Fn3   |   |   |  |BSPC|   |Lef|Dow|Up |Rig|   |   |Return  |
      * |-----------------------------------------------------------|
      * |Shift   |   |   |   |   |   |   |   |   |   |   Shift |    |
      * `-----------------------------------------------------------'
@@ -65,7 +65,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     [2] = \
     KEYMAP(GRV, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, INS, DEL, \
            TAB , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, BSPC, \
-           FN3  , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, \
+           FN3  , TRNS, TRNS, TRNS, BSPC,  DEL, LEFT, DOWN,  UP, RIGHT, TRNS, TRNS, TRNS, \
            LSFT  , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, RSFT, TRNS, \
                 LALT, LGUI,            SPC             , RGUI, RALT),
 
@@ -207,6 +207,7 @@ enum macro_id {
     HELLO,
     VOLUP,
     ALT_TAB,
+    ALT_TILDE,
 };
 
 
@@ -221,7 +222,8 @@ const action_t fn_actions[] PROGMEM = {
     [0] = ACTION_DEFAULT_LAYER_SET(0),                // Default layer(not used)
     [1] = ACTION_LAYER_TAP_TOGGLE(1),                 // HHKB layer(toggle with 5 taps)
     [2] = ACTION_LAYER_MODS(3, MOD_LCTL),             // Cursor layer with Slash* /*KC_SLASH*/
-    [3] = ACTION_LAYER_MOMENTARY(2)
+    [3] = ACTION_LAYER_MOMENTARY(2),
+    [4] = ACTION_MACRO(ALT_TILDE)                        // Macro: say hello
 
     // [3] = ACTION_LAYER_TAP_KEY(3, KC_SCLN),           // Mousekey layer with Semicolon*
     // [4] = ACTION_LAYER_TAP_KEY(4, KC_SPC),            // Mousekey layer with Space
@@ -235,7 +237,7 @@ const action_t fn_actions[] PROGMEM = {
 //  [x] = ACTION_LMOD_TAP_KEY(KC_LCTL, KC_BSPC),        // LControl with tap Backspace
 //  [x] = ACTION_LMOD_TAP_KEY(KC_LCTL, KC_ESC),         // LControl with tap Esc
 //  [x] = ACTION_FUNCTION_TAP(LSHIFT_LPAREN),           // Function: LShift with tap '('
-//  [x] = ACTION_MACRO(HELLO),                          // Macro: say hello
+ // [x] = ACTION_MACRO(HELLO),                          // Macro: say hello
 //  [x] = ACTION_MACRO(VOLUP),                          // Macro: media key
 };
 
@@ -258,6 +260,10 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             return (record->event.pressed ?
                     MACRO( D(LALT), D(TAB), END ) :
                     MACRO( U(TAB), END ));
+        case ALT_TILDE:
+            return (record->event.pressed ?
+                    MACRO( D(LGUI), D(GRV), END ) :
+                    MACRO( U(GRV), END ));
     }
     return MACRO_NONE;
 }
