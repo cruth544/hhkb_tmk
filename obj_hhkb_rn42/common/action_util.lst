@@ -926,37 +926,37 @@
  628               		.file 8 "./tmk_core/common/timer.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 action_util.c
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:2      *ABS*:0000003e __SP_H__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:3      *ABS*:0000003d __SP_L__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:4      *ABS*:0000003f __SREG__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:13     .text.add_key:00000000 add_key
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:603    .data.keyboard_report:00000000 keyboard_report
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:78     .text.del_key:00000000 del_key
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:124    .text.clear_keys:00000000 clear_keys
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:162    .text.get_mods:00000000 get_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:618    .bss.real_mods:00000000 real_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:179    .text.add_mods:00000000 add_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:199    .text.del_mods:00000000 del_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:221    .text.set_mods:00000000 set_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:239    .text.clear_mods:00000000 clear_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:256    .text.get_weak_mods:00000000 get_weak_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:613    .bss.weak_mods:00000000 weak_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:273    .text.add_weak_mods:00000000 add_weak_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:293    .text.del_weak_mods:00000000 del_weak_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:315    .text.set_weak_mods:00000000 set_weak_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:333    .text.clear_weak_mods:00000000 clear_weak_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:350    .text.set_oneshot_mods:00000000 set_oneshot_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:597    .bss.oneshot_mods:00000000 oneshot_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:592    .bss.oneshot_time:00000000 oneshot_time
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:373    .text.clear_oneshot_mods:00000000 clear_oneshot_mods
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:393    .text.has_anykey:00000000 has_anykey
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:441    .text.send_keyboard_report:00000000 send_keyboard_report
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:587    .progmem.data.__c.2090:00000000 __c.2090
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:549    .text.has_anymod:00000000 has_anymod
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:567    .text.get_first_key:00000000 get_first_key
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYmyAlR.s:608    .bss.__compound_literal.0:00000000 __compound_literal.0
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:2      *ABS*:0000003e __SP_H__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:3      *ABS*:0000003d __SP_L__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:4      *ABS*:0000003f __SREG__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:13     .text.add_key:00000000 add_key
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:603    .data.keyboard_report:00000000 keyboard_report
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:78     .text.del_key:00000000 del_key
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:124    .text.clear_keys:00000000 clear_keys
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:162    .text.get_mods:00000000 get_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:618    .bss.real_mods:00000000 real_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:179    .text.add_mods:00000000 add_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:199    .text.del_mods:00000000 del_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:221    .text.set_mods:00000000 set_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:239    .text.clear_mods:00000000 clear_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:256    .text.get_weak_mods:00000000 get_weak_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:613    .bss.weak_mods:00000000 weak_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:273    .text.add_weak_mods:00000000 add_weak_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:293    .text.del_weak_mods:00000000 del_weak_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:315    .text.set_weak_mods:00000000 set_weak_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:333    .text.clear_weak_mods:00000000 clear_weak_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:350    .text.set_oneshot_mods:00000000 set_oneshot_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:597    .bss.oneshot_mods:00000000 oneshot_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:592    .bss.oneshot_time:00000000 oneshot_time
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:373    .text.clear_oneshot_mods:00000000 clear_oneshot_mods
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:393    .text.has_anykey:00000000 has_anykey
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:441    .text.send_keyboard_report:00000000 send_keyboard_report
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:587    .progmem.data.__c.2090:00000000 __c.2090
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:549    .text.has_anymod:00000000 has_anymod
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:567    .text.get_first_key:00000000 get_first_key
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccH1zdEY.s:608    .bss.__compound_literal.0:00000000 __compound_literal.0
 
 UNDEFINED SYMBOLS
 timer_read

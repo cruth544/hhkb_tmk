@@ -568,28 +568,28 @@
  485               		.file 6 "./tmk_core/common/avr/xprintf.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 host.c
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:2      *ABS*:0000003e __SP_H__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:3      *ABS*:0000003d __SP_L__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:4      *ABS*:0000003f __SREG__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:13     .text.host_set_driver:00000000 host_set_driver
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:477    .bss.driver:00000000 driver
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:33     .text.host_get_driver:00000000 host_get_driver
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:51     .text.host_keyboard_leds:00000000 host_keyboard_leds
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:80     .text.host_keyboard_send:00000000 host_keyboard_send
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:462    .progmem.data.__c.2034:00000000 __c.2034
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:457    .progmem.data.__c.2037:00000000 __c.2037
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:452    .progmem.data.__c.2042:00000000 __c.2042
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:212    .text.host_mouse_send:00000000 host_mouse_send
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:240    .text.host_system_send:00000000 host_system_send
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:472    .bss.last_system_report:00000000 last_system_report
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:447    .progmem.data.__c.2050:00000000 __c.2050
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:323    .text.host_consumer_send:00000000 host_consumer_send
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:467    .bss.last_consumer_report:00000000 last_consumer_report
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:442    .progmem.data.__c.2055:00000000 __c.2055
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:406    .text.host_last_system_report:00000000 host_last_system_report
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc866vfn.s:424    .text.host_last_consumer_report:00000000 host_last_consumer_report
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:2      *ABS*:0000003e __SP_H__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:3      *ABS*:0000003d __SP_L__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:4      *ABS*:0000003f __SREG__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:13     .text.host_set_driver:00000000 host_set_driver
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:477    .bss.driver:00000000 driver
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:33     .text.host_get_driver:00000000 host_get_driver
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:51     .text.host_keyboard_leds:00000000 host_keyboard_leds
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:80     .text.host_keyboard_send:00000000 host_keyboard_send
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:462    .progmem.data.__c.2034:00000000 __c.2034
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:457    .progmem.data.__c.2037:00000000 __c.2037
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:452    .progmem.data.__c.2042:00000000 __c.2042
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:212    .text.host_mouse_send:00000000 host_mouse_send
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:240    .text.host_system_send:00000000 host_system_send
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:472    .bss.last_system_report:00000000 last_system_report
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:447    .progmem.data.__c.2050:00000000 __c.2050
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:323    .text.host_consumer_send:00000000 host_consumer_send
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:467    .bss.last_consumer_report:00000000 last_consumer_report
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:442    .progmem.data.__c.2055:00000000 __c.2055
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:406    .text.host_last_system_report:00000000 host_last_system_report
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccFy5V74.s:424    .text.host_last_consumer_report:00000000 host_last_consumer_report
 
 UNDEFINED SYMBOLS
 debug_config

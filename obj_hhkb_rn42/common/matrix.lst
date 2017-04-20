@@ -370,21 +370,21 @@
  288               		.file 3 "./tmk_core/common/matrix.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 matrix.c
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:2      *ABS*:0000003e __SP_H__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:3      *ABS*:0000003d __SP_L__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:4      *ABS*:0000003f __SREG__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:13     .text.matrix_rows:00000000 matrix_rows
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:31     .text.matrix_cols:00000000 matrix_cols
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:48     .text.matrix_clear:00000000 matrix_clear
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:63     .text.matrix_setup:00000000 matrix_setup
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:78     .text.matrix_is_on:00000000 matrix_is_on
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:141    .text.matrix_print:00000000 matrix_print
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:283    .progmem.data.__c.1711:00000000 __c.1711
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:278    .progmem.data.__c.1714:00000000 __c.1714
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:248    .text.matrix_power_up:00000000 matrix_power_up
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc81yJdD.s:263    .text.matrix_power_down:00000000 matrix_power_down
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:2      *ABS*:0000003e __SP_H__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:3      *ABS*:0000003d __SP_L__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:4      *ABS*:0000003f __SREG__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:13     .text.matrix_rows:00000000 matrix_rows
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:31     .text.matrix_cols:00000000 matrix_cols
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:48     .text.matrix_clear:00000000 matrix_clear
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:63     .text.matrix_setup:00000000 matrix_setup
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:78     .text.matrix_is_on:00000000 matrix_is_on
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:141    .text.matrix_print:00000000 matrix_print
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:283    .progmem.data.__c.1711:00000000 __c.1711
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:278    .progmem.data.__c.1714:00000000 __c.1714
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:248    .text.matrix_power_up:00000000 matrix_power_up
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccLXGDhP.s:263    .text.matrix_power_down:00000000 matrix_power_down
 
 UNDEFINED SYMBOLS
 matrix_get_row

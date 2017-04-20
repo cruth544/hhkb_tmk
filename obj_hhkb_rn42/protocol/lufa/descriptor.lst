@@ -1224,24 +1224,24 @@
  615               		.file 7 "./tmk_core/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/USBTask.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 descriptor.c
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:2      *ABS*:0000003e __SP_H__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:3      *ABS*:0000003d __SP_L__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:4      *ABS*:0000003f __SREG__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:13     .text.CALLBACK_USB_GetDescriptor:00000000 CALLBACK_USB_GetDescriptor
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:237    .progmem.data.ConfigurationDescriptor:00000000 ConfigurationDescriptor
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:229    .progmem.data.LanguageString:00000000 LanguageString
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:214    .progmem.data.ManufacturerString:00000000 ManufacturerString
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:197    .progmem.data.ProductString:00000000 ProductString
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:188    .rodata.CSWTCH.1:00000000 CSWTCH.1
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:180    .rodata.CSWTCH.2:00000000 CSWTCH.2
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:172    .rodata.CSWTCH.3:00000000 CSWTCH.3
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:344    .progmem.data.DeviceDescriptor:00000000 DeviceDescriptor
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:543    .progmem.data.KeyboardReport:00000000 KeyboardReport
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:461    .progmem.data.MouseReport:00000000 MouseReport
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:402    .progmem.data.ExtrakeyReport:00000000 ExtrakeyReport
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccSCXcVl.s:363    .progmem.data.ConsoleReport:00000000 ConsoleReport
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:2      *ABS*:0000003e __SP_H__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:3      *ABS*:0000003d __SP_L__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:4      *ABS*:0000003f __SREG__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:13     .text.CALLBACK_USB_GetDescriptor:00000000 CALLBACK_USB_GetDescriptor
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:237    .progmem.data.ConfigurationDescriptor:00000000 ConfigurationDescriptor
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:229    .progmem.data.LanguageString:00000000 LanguageString
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:214    .progmem.data.ManufacturerString:00000000 ManufacturerString
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:197    .progmem.data.ProductString:00000000 ProductString
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:188    .rodata.CSWTCH.1:00000000 CSWTCH.1
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:180    .rodata.CSWTCH.2:00000000 CSWTCH.2
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:172    .rodata.CSWTCH.3:00000000 CSWTCH.3
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:344    .progmem.data.DeviceDescriptor:00000000 DeviceDescriptor
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:543    .progmem.data.KeyboardReport:00000000 KeyboardReport
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:461    .progmem.data.MouseReport:00000000 MouseReport
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:402    .progmem.data.ExtrakeyReport:00000000 ExtrakeyReport
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccHo6JJt.s:363    .progmem.data.ConsoleReport:00000000 ConsoleReport
 
 UNDEFINED SYMBOLS
 __do_copy_data

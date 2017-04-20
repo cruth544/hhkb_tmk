@@ -150,12 +150,12 @@
  154               		.file 4 "keymap_hhkb.c"
 DEFINED SYMBOLS
                             *ABS*:00000000 keymap_hhkb.c
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccRAGdsg.s:2      *ABS*:0000003e __SP_H__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccRAGdsg.s:3      *ABS*:0000003d __SP_L__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccRAGdsg.s:4      *ABS*:0000003f __SREG__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccRAGdsg.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccRAGdsg.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccRAGdsg.s:14     .progmem.data.fn_actions:00000000 fn_actions
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccRAGdsg.s:20     .progmem.data.keymaps:00000000 keymaps
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccjRQ2YH.s:2      *ABS*:0000003e __SP_H__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccjRQ2YH.s:3      *ABS*:0000003d __SP_L__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccjRQ2YH.s:4      *ABS*:0000003f __SREG__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccjRQ2YH.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccjRQ2YH.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccjRQ2YH.s:14     .progmem.data.fn_actions:00000000 fn_actions
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccjRQ2YH.s:20     .progmem.data.keymaps:00000000 keymaps
 
 NO UNDEFINED SYMBOLS

@@ -173,17 +173,17 @@
  136               		.file 3 "./tmk_core/common/keyboard.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 hook.c
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccTk9zpo.s:2      *ABS*:0000003e __SP_H__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccTk9zpo.s:3      *ABS*:0000003d __SP_L__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccTk9zpo.s:4      *ABS*:0000003f __SREG__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccTk9zpo.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccTk9zpo.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccTk9zpo.s:13     .text.hook_keyboard_loop:00000000 hook_keyboard_loop
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccTk9zpo.s:29     .text.hook_matrix_change:00000000 hook_matrix_change
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccTk9zpo.s:71     .text.hook_default_layer_change:00000000 hook_default_layer_change
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccTk9zpo.s:87     .text.hook_layer_change:00000000 hook_layer_change
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccTk9zpo.s:103    .text.hook_keyboard_leds_change:00000000 hook_keyboard_leds_change
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccTk9zpo.s:121    .text.hook_bootmagic:00000000 hook_bootmagic
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyymLLZ.s:2      *ABS*:0000003e __SP_H__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyymLLZ.s:3      *ABS*:0000003d __SP_L__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyymLLZ.s:4      *ABS*:0000003f __SREG__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyymLLZ.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyymLLZ.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyymLLZ.s:13     .text.hook_keyboard_loop:00000000 hook_keyboard_loop
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyymLLZ.s:29     .text.hook_matrix_change:00000000 hook_matrix_change
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyymLLZ.s:71     .text.hook_default_layer_change:00000000 hook_default_layer_change
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyymLLZ.s:87     .text.hook_layer_change:00000000 hook_layer_change
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyymLLZ.s:103    .text.hook_keyboard_leds_change:00000000 hook_keyboard_leds_change
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyymLLZ.s:121    .text.hook_bootmagic:00000000 hook_bootmagic
 
 UNDEFINED SYMBOLS
 keyboard_set_leds

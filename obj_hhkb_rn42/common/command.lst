@@ -2757,11 +2757,11 @@
  1776      5553 454B 
  1777               		.section	.progmem.data.__c.2596,"a",@progbits
  1780               	__c.2596:
- 1781 0000 4255 494C 		.string	"BUILD: fc92014 (22:42:52 Apr 11 2017)\n"
- 1781      443A 2066 
- 1781      6339 3230 
- 1781      3134 2028 
- 1781      3232 3A34 
+ 1781 0000 4255 494C 		.string	"BUILD: 13b1c83-dirty (19:30:23 Apr 19 2017)\n"
+ 1781      443A 2031 
+ 1781      3362 3163 
+ 1781      3833 2D64 
+ 1781      6972 7479 
  1782               		.section	.progmem.data.__c.2594,"a",@progbits
  1785               	__c.2594:
  1786 0000 5649 443A 		.string	"VID: 0xFEED(t.m.k.) PID: 0x4242(HHKB mod) VER: 0x0104\n"
@@ -2860,88 +2860,88 @@
  1870               		.file 13 "./tmk_core/common/keycode.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 command.c
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:2      *ABS*:0000003e __SP_H__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:3      *ABS*:0000003d __SP_L__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:4      *ABS*:0000003f __SREG__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:12     .text.mousekey_console_help:00000000 mousekey_console_help
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1705   .progmem.data.__c.2734:00000000 __c.2734
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1700   .progmem.data.__c.2736:00000000 __c.2736
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:65     .text.mousekey_param_inc:00000000 mousekey_param_inc
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1575   .progmem.data.__c.2690:00000000 __c.2690
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1570   .progmem.data.__c.2694:00000000 __c.2694
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1565   .progmem.data.__c.2697:00000000 __c.2697
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1560   .progmem.data.__c.2700:00000000 __c.2700
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1555   .progmem.data.__c.2703:00000000 __c.2703
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1550   .progmem.data.__c.2706:00000000 __c.2706
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:338    .text.mousekey_param_dec:00000000 mousekey_param_dec
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1545   .progmem.data.__c.2713:00000000 __c.2713
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1540   .progmem.data.__c.2717:00000000 __c.2717
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1535   .progmem.data.__c.2720:00000000 __c.2720
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1530   .progmem.data.__c.2723:00000000 __c.2723
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1525   .progmem.data.__c.2726:00000000 __c.2726
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1520   .progmem.data.__c.2729:00000000 __c.2729
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:556    .text.switch_default_layer:00000000 switch_default_layer
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1725   .progmem.data.__c.2785:00000000 __c.2785
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:622    .text.command_common:00000000 command_common
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1730   .progmem.data.__c.2625:00000000 __c.2625
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1845   .progmem.data.__c.2564:00000000 __c.2564
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1856   .bss.command_state:00000000 command_state
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1840   .progmem.data.__c.2567:00000000 __c.2567
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1735   .progmem.data.__c.2555:00000000 __c.2555
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1830   .progmem.data.__c.2572:00000000 __c.2572
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1835   .progmem.data.__c.2570:00000000 __c.2570
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1825   .progmem.data.__c.2575:00000000 __c.2575
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1820   .progmem.data.__c.2577:00000000 __c.2577
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1815   .progmem.data.__c.2580:00000000 __c.2580
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1810   .progmem.data.__c.2582:00000000 __c.2582
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1805   .progmem.data.__c.2585:00000000 __c.2585
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1800   .progmem.data.__c.2587:00000000 __c.2587
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1795   .progmem.data.__c.2590:00000000 __c.2590
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1790   .progmem.data.__c.2592:00000000 __c.2592
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1785   .progmem.data.__c.2594:00000000 __c.2594
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1780   .progmem.data.__c.2596:00000000 __c.2596
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1775   .progmem.data.__c.2598:00000000 __c.2598
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1770   .progmem.data.__c.2600:00000000 __c.2600
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1765   .progmem.data.__c.2603:00000000 __c.2603
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1760   .progmem.data.__c.2605:00000000 __c.2605
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1755   .progmem.data.__c.2607:00000000 __c.2607
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1750   .progmem.data.__c.2609:00000000 __c.2609
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1745   .progmem.data.__c.2611:00000000 __c.2611
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1740   .progmem.data.__c.2620:00000000 __c.2620
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1011   .text.command_extra:00000000 command_extra
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1030   .text.command_console_extra:00000000 command_console_extra
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1049   .text.command_proc:00000000 command_proc
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1715   .progmem.data.__c.2636:00000000 __c.2636
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1720   .progmem.data.__c.2641:00000000 __c.2641
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1710   .progmem.data.__c.2639:00000000 __c.2639
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1690   .progmem.data.__c.2760:00000000 __c.2760
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1850   .bss.mousekey_param:00000000 mousekey_param
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1695   .progmem.data.__c.2746:00000000 __c.2746
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1670   .progmem.data.__c.2647:00000000 __c.2647
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1665   .progmem.data.__c.2649:00000000 __c.2649
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1660   .progmem.data.__c.2651:00000000 __c.2651
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1655   .progmem.data.__c.2653:00000000 __c.2653
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1650   .progmem.data.__c.2655:00000000 __c.2655
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1645   .progmem.data.__c.2657:00000000 __c.2657
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1640   .progmem.data.__c.2659:00000000 __c.2659
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1635   .progmem.data.__c.2661:00000000 __c.2661
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1630   .progmem.data.__c.2663:00000000 __c.2663
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1625   .progmem.data.__c.2665:00000000 __c.2665
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1620   .progmem.data.__c.2667:00000000 __c.2667
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1615   .progmem.data.__c.2669:00000000 __c.2669
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1610   .progmem.data.__c.2671:00000000 __c.2671
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1605   .progmem.data.__c.2673:00000000 __c.2673
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1600   .progmem.data.__c.2675:00000000 __c.2675
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1595   .progmem.data.__c.2677:00000000 __c.2677
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1590   .progmem.data.__c.2679:00000000 __c.2679
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1585   .progmem.data.__c.2681:00000000 __c.2681
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1580   .progmem.data.__c.2683:00000000 __c.2683
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1506   .rodata.CSWTCH.41:00000000 CSWTCH.41
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1685   .progmem.data.__c.2763:00000000 __c.2763
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1680   .progmem.data.__c.2765:00000000 __c.2765
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccP616WJ.s:1675   .progmem.data.__c.2767:00000000 __c.2767
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:2      *ABS*:0000003e __SP_H__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:3      *ABS*:0000003d __SP_L__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:4      *ABS*:0000003f __SREG__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:12     .text.mousekey_console_help:00000000 mousekey_console_help
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1705   .progmem.data.__c.2734:00000000 __c.2734
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1700   .progmem.data.__c.2736:00000000 __c.2736
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:65     .text.mousekey_param_inc:00000000 mousekey_param_inc
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1575   .progmem.data.__c.2690:00000000 __c.2690
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1570   .progmem.data.__c.2694:00000000 __c.2694
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1565   .progmem.data.__c.2697:00000000 __c.2697
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1560   .progmem.data.__c.2700:00000000 __c.2700
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1555   .progmem.data.__c.2703:00000000 __c.2703
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1550   .progmem.data.__c.2706:00000000 __c.2706
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:338    .text.mousekey_param_dec:00000000 mousekey_param_dec
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1545   .progmem.data.__c.2713:00000000 __c.2713
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1540   .progmem.data.__c.2717:00000000 __c.2717
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1535   .progmem.data.__c.2720:00000000 __c.2720
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1530   .progmem.data.__c.2723:00000000 __c.2723
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1525   .progmem.data.__c.2726:00000000 __c.2726
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1520   .progmem.data.__c.2729:00000000 __c.2729
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:556    .text.switch_default_layer:00000000 switch_default_layer
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1725   .progmem.data.__c.2785:00000000 __c.2785
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:622    .text.command_common:00000000 command_common
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1730   .progmem.data.__c.2625:00000000 __c.2625
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1845   .progmem.data.__c.2564:00000000 __c.2564
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1856   .bss.command_state:00000000 command_state
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1840   .progmem.data.__c.2567:00000000 __c.2567
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1735   .progmem.data.__c.2555:00000000 __c.2555
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1830   .progmem.data.__c.2572:00000000 __c.2572
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1835   .progmem.data.__c.2570:00000000 __c.2570
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1825   .progmem.data.__c.2575:00000000 __c.2575
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1820   .progmem.data.__c.2577:00000000 __c.2577
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1815   .progmem.data.__c.2580:00000000 __c.2580
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1810   .progmem.data.__c.2582:00000000 __c.2582
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1805   .progmem.data.__c.2585:00000000 __c.2585
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1800   .progmem.data.__c.2587:00000000 __c.2587
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1795   .progmem.data.__c.2590:00000000 __c.2590
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1790   .progmem.data.__c.2592:00000000 __c.2592
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1785   .progmem.data.__c.2594:00000000 __c.2594
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1780   .progmem.data.__c.2596:00000000 __c.2596
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1775   .progmem.data.__c.2598:00000000 __c.2598
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1770   .progmem.data.__c.2600:00000000 __c.2600
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1765   .progmem.data.__c.2603:00000000 __c.2603
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1760   .progmem.data.__c.2605:00000000 __c.2605
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1755   .progmem.data.__c.2607:00000000 __c.2607
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1750   .progmem.data.__c.2609:00000000 __c.2609
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1745   .progmem.data.__c.2611:00000000 __c.2611
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1740   .progmem.data.__c.2620:00000000 __c.2620
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1011   .text.command_extra:00000000 command_extra
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1030   .text.command_console_extra:00000000 command_console_extra
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1049   .text.command_proc:00000000 command_proc
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1715   .progmem.data.__c.2636:00000000 __c.2636
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1720   .progmem.data.__c.2641:00000000 __c.2641
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1710   .progmem.data.__c.2639:00000000 __c.2639
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1690   .progmem.data.__c.2760:00000000 __c.2760
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1850   .bss.mousekey_param:00000000 mousekey_param
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1695   .progmem.data.__c.2746:00000000 __c.2746
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1670   .progmem.data.__c.2647:00000000 __c.2647
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1665   .progmem.data.__c.2649:00000000 __c.2649
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1660   .progmem.data.__c.2651:00000000 __c.2651
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1655   .progmem.data.__c.2653:00000000 __c.2653
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1650   .progmem.data.__c.2655:00000000 __c.2655
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1645   .progmem.data.__c.2657:00000000 __c.2657
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1640   .progmem.data.__c.2659:00000000 __c.2659
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1635   .progmem.data.__c.2661:00000000 __c.2661
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1630   .progmem.data.__c.2663:00000000 __c.2663
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1625   .progmem.data.__c.2665:00000000 __c.2665
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1620   .progmem.data.__c.2667:00000000 __c.2667
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1615   .progmem.data.__c.2669:00000000 __c.2669
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1610   .progmem.data.__c.2671:00000000 __c.2671
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1605   .progmem.data.__c.2673:00000000 __c.2673
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1600   .progmem.data.__c.2675:00000000 __c.2675
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1595   .progmem.data.__c.2677:00000000 __c.2677
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1590   .progmem.data.__c.2679:00000000 __c.2679
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1585   .progmem.data.__c.2681:00000000 __c.2681
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1580   .progmem.data.__c.2683:00000000 __c.2683
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1506   .rodata.CSWTCH.41:00000000 CSWTCH.41
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1685   .progmem.data.__c.2763:00000000 __c.2763
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1680   .progmem.data.__c.2765:00000000 __c.2765
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccoOFkuz.s:1675   .progmem.data.__c.2767:00000000 __c.2767
 
 UNDEFINED SYMBOLS
 xputs

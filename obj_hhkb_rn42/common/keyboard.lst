@@ -574,18 +574,18 @@
  390               		.file 12 "./tmk_core/common/led.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 keyboard.c
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:2      *ABS*:0000003e __SP_H__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:3      *ABS*:0000003d __SP_L__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:4      *ABS*:0000003f __SREG__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:13     .text.keyboard_setup:00000000 keyboard_setup
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:31     .text.keyboard_init:00000000 keyboard_init
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:51     .text.keyboard_task:00000000 keyboard_task
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:376    .bss.matrix_prev.2366:00000000 matrix_prev.2366
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:371    .bss.led_status.2367:00000000 led_status.2367
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:366    .progmem.data.__c.2384:00000000 __c.2384
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYuhmNa.s:348    .text.keyboard_set_leds:00000000 keyboard_set_leds
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:2      *ABS*:0000003e __SP_H__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:3      *ABS*:0000003d __SP_L__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:4      *ABS*:0000003f __SREG__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:13     .text.keyboard_setup:00000000 keyboard_setup
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:31     .text.keyboard_init:00000000 keyboard_init
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:51     .text.keyboard_task:00000000 keyboard_task
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:376    .bss.matrix_prev.2366:00000000 matrix_prev.2366
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:371    .bss.led_status.2367:00000000 led_status.2367
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:366    .progmem.data.__c.2384:00000000 __c.2384
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccGV1dCD.s:348    .text.keyboard_set_leds:00000000 keyboard_set_leds
 
 UNDEFINED SYMBOLS
 matrix_setup

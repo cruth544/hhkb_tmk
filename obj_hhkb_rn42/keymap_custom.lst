@@ -39,37 +39,37 @@
   25:keymap_custom.c ****     [0] = \
   26:keymap_custom.c ****     KEYMAP(ESC, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSLS,GRV, \
   27:keymap_custom.c ****            TAB ,   Q,   W,   E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,BSPC, \
-  28:keymap_custom.c ****            FN3  ,   A,   S,   D,   F,   G,   H,   J,   K,   L, SCLN, QUOT,ENT, \
-  29:keymap_custom.c ****            LSFT  ,   Z,   X,   C,   V,   B,   N,   M, COMM, DOT, SLSH, RSFT,FN1, \
-  30:keymap_custom.c ****                 LALT,LGUI,           SPC           , RGUI, RALT),
+  28:keymap_custom.c ****            FN2  ,   A,   S,   D,   F,   G,   H,   J,   K,   L, SCLN, QUOT,ENT, \
+  29:keymap_custom.c ****            LSFT  ,   Z,   X,   C,   V,   B,   N,   M, COMM, DOT, SLSH, RSFT,FN6, \
+  30:keymap_custom.c ****                 LALT, FN1,           SPC           , RGUI, RALT),
   31:keymap_custom.c **** 
-  32:keymap_custom.c ****     /* Layer 1: Fn1 HHKB mode[HHKB Fn]
+  32:keymap_custom.c ****     /* Layer 2: Fn2 Vi mode
   33:keymap_custom.c ****      * ,-----------------------------------------------------------.
   34:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
   35:keymap_custom.c ****      * |-----------------------------------------------------------|
-  36:keymap_custom.c ****      * |Caps |   |   |   |   |   |   |   |Psc|Slk|Pus|Up |   |Backs|
+  36:keymap_custom.c ****      * |Tab  |   |   |   |   |   |   |   |   |   |   |   |    Backs|
   37:keymap_custom.c ****      * |-----------------------------------------------------------|
-  38:keymap_custom.c ****      * |Contro|VoD|VoU|Mut|   |   |  *|  /|Hom|PgU|Lef|Rig|Enter   |
+  38:keymap_custom.c ****      * |Fn3   |   |   |  |BSPC|   |Lef|Dow|Up |Rig|   |   |Return  |
   39:keymap_custom.c ****      * |-----------------------------------------------------------|
-  40:keymap_custom.c ****      * |Shift   |   |   |   |   |   |  +|  -|End|PgD|Dow|Shift |   |
+  40:keymap_custom.c ****      * |Shift   |   |   |   |   |   |   |   |   |   |   Shift |    |
   41:keymap_custom.c ****      * `-----------------------------------------------------------'
-  42:keymap_custom.c ****      *       |Alt|Gui  |         Space         |Gui  |Alt|
-  43:keymap_custom.c ****      *       `-------------------------------------------'
+  42:keymap_custom.c ****      *       |Alt|Gui  |          Space        |Gui  |Alt|
+  43:keymap_custom.c ****      *       `-------------------------------------------`
   44:keymap_custom.c ****      */
   45:keymap_custom.c ****     [1] = \
-  46:keymap_custom.c ****     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
-  47:keymap_custom.c ****            CAPS,NO,  NO,  NO,  NO,  NO,  NO,  NO,  PSCR,SLCK,PAUS, UP,  FN4,  BSPC, \
-  48:keymap_custom.c ****            LCTL,VOLD,VOLU,MUTE,NO,  NO,  PAST,PSLS,HOME,PGUP,LEFT,RGHT,ENT, \
-  49:keymap_custom.c ****            LSFT,NO,  NO,  NO,  NO,  NO,  PPLS,PMNS,END, PGDN,DOWN,RSFT,TRNS, \
-  50:keymap_custom.c ****                 LALT,LGUI,          TRNS,               RGUI,RALT),
+  46:keymap_custom.c ****     KEYMAP(GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSLS,GRV, \
+  47:keymap_custom.c ****            TAB ,   Q,   W,   E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,BSPC, \
+  48:keymap_custom.c ****            LCTL ,   A,   S,   D,   F,   G,   H,    J,   K ,  L, SCLN, QUOT,ENT, \
+  49:keymap_custom.c ****            LSFT  ,   Z,   X,   C,   V,   B,   N,   M, COMM, DOT, SLSH, RSFT,TRNS, \
+  50:keymap_custom.c ****                 LALT, TRNS,           SPC           , RGUI, RALT),
   51:keymap_custom.c **** 
-  52:keymap_custom.c ****     /* Layer 2: Fn2 Vi mode
+  52:keymap_custom.c ****     /* Layer 3: Fn3 Vi mode[Slash]
   53:keymap_custom.c ****      * ,-----------------------------------------------------------.
   54:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
   55:keymap_custom.c ****      * |-----------------------------------------------------------|
   56:keymap_custom.c ****      * |Tab  |   |   |   |   |   |   |   |   |   |   |   |    Backs|
   57:keymap_custom.c ****      * |-----------------------------------------------------------|
-  58:keymap_custom.c ****      * |Fn3   |   |   |  |BSPC|   |Lef|Dow|Up |Rig|   |   |Return  |
+  58:keymap_custom.c ****      * |Fn2   |   |   |  |BSPC|   |Lef|Dow|Up |Rig|   |   |Return  |
   59:keymap_custom.c ****      * |-----------------------------------------------------------|
   60:keymap_custom.c ****      * |Shift   |   |   |   |   |   |   |   |   |   |   Shift |    |
   61:keymap_custom.c ****      * `-----------------------------------------------------------'
@@ -77,191 +77,202 @@
   63:keymap_custom.c ****      *       `-------------------------------------------`
   64:keymap_custom.c ****      */
   65:keymap_custom.c ****     [2] = \
-  66:keymap_custom.c ****     KEYMAP(GRV, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, INS, DEL, \
-  67:keymap_custom.c ****            TAB , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, BSPC, \
-  68:keymap_custom.c ****            FN3  , TRNS, TRNS, TRNS, BSPC,  DEL, LEFT, DOWN,  UP, RIGHT, TRNS, TRNS, TRNS, \
-  69:keymap_custom.c ****            LSFT  , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, RSFT, TRNS, \
+  66:keymap_custom.c ****     KEYMAP(ESC, TRNS, TRNS, TRNS, FN18, TRNS, FN19, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, INS, DEL, \
+  67:keymap_custom.c ****            TAB , TRNS, TRNS, FN16, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, BSPC, \
+  68:keymap_custom.c ****            TRNS  , TRNS, TRNS, TRNS, TRNS, TRNS, FN10, FN11,  FN12,  FN13, TRNS, TRNS, TRNS, \
+  69:keymap_custom.c ****            LSFT   , TRNS, TRNS, TRNS, TRNS, FN17, TRNS, TRNS, TRNS, TRNS, TRNS, RSFT, TRNS, \
   70:keymap_custom.c ****                 LALT, LGUI,            SPC             , RGUI, RALT),
   71:keymap_custom.c **** 
   72:keymap_custom.c **** 
-  73:keymap_custom.c ****     /* Layer 3: Fn3 Vi mode[Slash]
-  74:keymap_custom.c ****      * ,-----------------------------------------------------------.
-  75:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
-  76:keymap_custom.c ****      * |-----------------------------------------------------------|
-  77:keymap_custom.c ****      * |Tab  |   |   |   |   |   |   |   |   |   |   |   |    Backs|
-  78:keymap_custom.c ****      * |-----------------------------------------------------------|
-  79:keymap_custom.c ****      * |Fn2   |   |   |  |BSPC|   |Lef|Dow|Up |Rig|   |   |Return  |
-  80:keymap_custom.c ****      * |-----------------------------------------------------------|
-  81:keymap_custom.c ****      * |Shift   |   |   |   |   |   |   |   |   |   |   Shift |    |
-  82:keymap_custom.c ****      * `-----------------------------------------------------------'
-  83:keymap_custom.c ****      *       |Alt|Gui  |          Space        |Gui  |Alt|
-  84:keymap_custom.c ****      *       `-------------------------------------------`
-  85:keymap_custom.c ****      */
-  86:keymap_custom.c ****     [3] = \
-  87:keymap_custom.c ****     KEYMAP(GRV, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, INS, DEL, \
-  88:keymap_custom.c ****            TAB , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, BSPC, \
-  89:keymap_custom.c ****            FN2  , TRNS, TRNS, TRNS, BSPC, TRNS, LEFT, DOWN,  UP , RGHT, TRNS, TRNS, TRNS, \
-  90:keymap_custom.c ****            LSFT  , TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, RSFT, TRNS, \
-  91:keymap_custom.c ****                 LALT, LGUI,            SPC             , RGUI, RALT),
-  92:keymap_custom.c **** 
-  93:keymap_custom.c **** #if 0
-  94:keymap_custom.c ****     /* Layer 3: Fn3 Mouse mode(IJKL)[Semicolon]
-  95:keymap_custom.c ****      * ,-----------------------------------------------------------.
-  96:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
-  97:keymap_custom.c ****      * |-----------------------------------------------------------|
-  98:keymap_custom.c ****      * |Tab  |   |   |   |   |   |MwL|MwD|McU|MwU|MwR|Wbk|Wfr|Alt-T|
-  99:keymap_custom.c ****      * |-----------------------------------------------------------|
- 100:keymap_custom.c ****      * |Contro|   |   |   |   |   |Mb2|McL|McD|McR|Fn |   |Return  |
- 101:keymap_custom.c ****      * |-----------------------------------------------------------|
- 102:keymap_custom.c ****      * |Shift   |   |   |   |   |Mb3|Mb2|Mb1|Mb4|Mb5|   |Shift |   |
- 103:keymap_custom.c ****      * `-----------------------------------------------------------'
- 104:keymap_custom.c ****      *      |Alt |Gui  |          Mb1          |Fn   |Fn |
- 105:keymap_custom.c ****      *      `--------------------------------------------'
- 106:keymap_custom.c ****      * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel
- 107:keymap_custom.c ****      */
- 108:keymap_custom.c ****     [3] = \
- 109:keymap_custom.c ****     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
- 110:keymap_custom.c ****            FN8, NO,  NO,  NO,  NO,  NO,  WH_L,WH_D,MS_U,WH_U,WH_R,FN9, FN10,FN8, \
- 111:keymap_custom.c ****            LCTL,ACL0,ACL1,ACL2,ACL2,NO,  NO,  MS_L,MS_D,MS_R,FN3, NO,  ENT, \
- 112:keymap_custom.c ****            LSFT,NO,  NO,  NO,  NO,  BTN3,BTN2,BTN1,FN9, FN10,NO,  RSFT,TRNS, \
- 113:keymap_custom.c ****                 LALT,LGUI,          BTN1,               TRNS,TRNS),
- 114:keymap_custom.c **** 
- 115:keymap_custom.c ****     /* Layer 4: Fn4 Mouse mode(IJKL)[Space]
- 116:keymap_custom.c ****      * ,-----------------------------------------------------------.
- 117:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
- 118:keymap_custom.c ****      * |-----------------------------------------------------------|
- 119:keymap_custom.c ****      * |Tab  |   |   |   |   |   |MwL|MwD|McU|MwU|MwR|Wbk|Wfr|Alt-T|
- 120:keymap_custom.c ****      * |-----------------------------------------------------------|
- 121:keymap_custom.c ****      * |Contro|   |   |   |   |   |Mb2|McL|McD|McR|Mb1|   |Return  |
- 122:keymap_custom.c ****      * |-----------------------------------------------------------|
- 123:keymap_custom.c ****      * |Shift   |   |   |   |   |Mb3|Mb2|Mb1|Mb4|Mb5|   |Shift |   |
- 124:keymap_custom.c ****      * `-----------------------------------------------------------'
- 125:keymap_custom.c ****      *      |Alt |Gui  |          Mb1          |Fn   |Fn |
- 126:keymap_custom.c ****      *      `--------------------------------------------'
- 127:keymap_custom.c ****      * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel
- 128:keymap_custom.c ****      */
- 129:keymap_custom.c ****     [4] = \
- 130:keymap_custom.c ****     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
- 131:keymap_custom.c ****            FN8, NO,  NO,  NO,  NO,  NO,  WH_L,WH_D,MS_U,WH_U,WH_R,BTN4,BTN5,FN8, \
- 132:keymap_custom.c ****            LCTL,VOLD,VOLU,MUTE,NO,  NO,  NO,  MS_L,MS_D,MS_R,BTN1,NO,  ENT, \
- 133:keymap_custom.c ****            LSFT,NO,  NO,  NO,  NO,  BTN3,BTN2,BTN1,FN9, FN10,NO,  RSFT,TRNS, \
- 134:keymap_custom.c ****                 LALT,LGUI,          TRNS,               TRNS,TRNS),
- 135:keymap_custom.c **** #endif
- 136:keymap_custom.c **** #if 0
- 137:keymap_custom.c ****     /* Layer 3: Mouse mode(HJKL)[Semicolon]
- 138:keymap_custom.c ****      * ,-----------------------------------------------------------.
- 139:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
- 140:keymap_custom.c ****      * |-----------------------------------------------------------|
- 141:keymap_custom.c ****      * |Tab  |   |   |   |   |   |MwL|MwD|MwU|MwR|   |   |   |Backs|
- 142:keymap_custom.c ****      * |-----------------------------------------------------------|
- 143:keymap_custom.c ****      * |Contro|   |   |   |   |   |McL|McD|McU|McR|Fn0|   |Return  |
- 144:keymap_custom.c ****      * |-----------------------------------------------------------|
- 145:keymap_custom.c ****      * |Shift   |   |   |   |   |Mb3|Mb2|Mb1|Mb4|Mb5|   |Shift |   |
- 146:keymap_custom.c ****      * `-----------------------------------------------------------'
- 147:keymap_custom.c ****      *      |Alt |Gui  |          Mb1          |Gui  |Fn0|
- 148:keymap_custom.c ****      *      `--------------------------------------------'
- 149:keymap_custom.c ****      * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel
- 150:keymap_custom.c ****      */
- 151:keymap_custom.c ****     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
- 152:keymap_custom.c ****            TAB, NO,  NO,  NO,  NO,  NO,  NO,  WH_D,WH_U,RGHT,NO,  NO,  NO,  BSPC, \
- 153:keymap_custom.c ****            LCTL,NO,  ACL0,ACL1,ACL2,NO,  MS_L,MS_D,MS_U,MS_R,TRNS,QUOT,ENT, \
- 154:keymap_custom.c ****            LSFT,NO,  NO,  NO,  NO,  BTN3,BTN2,BTN1,FN9, FN10,SLSH,RSFT,NO, \
- 155:keymap_custom.c ****                 LALT,LGUI,          BTN1,               RGUI,TRNS),
- 156:keymap_custom.c **** 
- 157:keymap_custom.c ****     /* Layer4: Mouse mode(HJKL)[Space]
- 158:keymap_custom.c ****      * ,-----------------------------------------------------------.
- 159:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
- 160:keymap_custom.c ****      * |-----------------------------------------------------------|
- 161:keymap_custom.c ****      * |Tab  |   |   |   |   |   |MwL|MwD|MwU|MwR|   |Wbk|Wfr|Alt-T|
- 162:keymap_custom.c ****      * |-----------------------------------------------------------|
- 163:keymap_custom.c ****      * |Contro|   |   |   |   |   |McL|McD|McU|McR|Fn0|   |Return  |
- 164:keymap_custom.c ****      * |-----------------------------------------------------------|
- 165:keymap_custom.c ****      * |Shift   |   |   |   |   |Mb3|Mb2|Mb1|Mb4|Mb5|   |Shift |   |
- 166:keymap_custom.c ****      * `-----------------------------------------------------------'
- 167:keymap_custom.c ****      *      |Alt |Gui  |          Fn0          |Gui  |Fn0|
- 168:keymap_custom.c ****      *      `--------------------------------------------'
- 169:keymap_custom.c ****      * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel
- 170:keymap_custom.c ****      */
- 171:keymap_custom.c ****     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
- 172:keymap_custom.c ****            FN8, NO,  NO,  NO,  NO,  NO,  NO,  WH_D,WH_U,RGHT,NO,  FN9, FN10,FN8, \
- 173:keymap_custom.c ****            LCTL,NO,  ACL0,ACL1,ACL2,NO,  MS_L,MS_D,MS_U,MS_R,BTN1,NO,  ENT, \
- 174:keymap_custom.c ****            LSFT,NO,  NO,  NO,  NO,  BTN3,BTN2,BTN1,FN9, FN10,NO,  RSFT,NO, \
- 175:keymap_custom.c ****                 LALT,LGUI,          TRNS,               RGUI,RALT),
- 176:keymap_custom.c **** #endif
- 177:keymap_custom.c **** #if 0
- 178:keymap_custom.c ****     /* Layer x: Matias half-qwerty keyboard style[Space]
- 179:keymap_custom.c ****      * ,-----------------------------------------------------------.
- 180:keymap_custom.c ****      * |  -|  0|  9|  8|  7|  6|  5|  4|  3|  2|  1|   |   |   |Esc|
- 181:keymap_custom.c ****      * |-----------------------------------------------------------|
- 182:keymap_custom.c ****      * |Backs|  P|  O|  I|  U|  Y|  T|  R|  E|  W|  Q|   |   |Tab  |
- 183:keymap_custom.c ****      * |-----------------------------------------------------------|
- 184:keymap_custom.c ****      * |Contro|  ;|  L|  K|  J|  H|  G|  F|  D|  S|  A|Con|Control |
- 185:keymap_custom.c ****      * |-----------------------------------------------------------|
- 186:keymap_custom.c ****      * |Shift   |  /|  .|  ,|  M|  N|  B|  V|  C|  X|  Z|Shift |   |
- 187:keymap_custom.c ****      * `-----------------------------------------------------------'
- 188:keymap_custom.c ****      *      |Alt |Gui  |          Fn0          |Gui  |Alt|
- 189:keymap_custom.c ****      *      `--------------------------------------------'
- 190:keymap_custom.c ****      */
- 191:keymap_custom.c ****     KEYMAP(MINS,0,   9,   8,   7,   6,   5,   4,   3,   2,   1,   NO,  NO,  NO,  ESC, \
- 192:keymap_custom.c ****            BSPC,P,   O,   I,   U,   Y,   T,   R,   E,   W,   Q,   NO,  NO,  TAB, \
- 193:keymap_custom.c ****            LCTL,SCLN,L,   K,   J,   H,   G,   F,   D,   S,   A,   RCTL,RCTL, \
- 194:keymap_custom.c ****            LSFT,SLSH,DOT, COMM,M,   N,   B,   V,   C,   X,   Z,   RSFT,NO, \
- 195:keymap_custom.c ****                 LALT,LGUI,          TRNS,               RGUI,RALT),
- 196:keymap_custom.c **** #endif
- 197:keymap_custom.c **** };
- 198:keymap_custom.c **** 
+  73:keymap_custom.c **** 
+  74:keymap_custom.c ****     /* Layer 1: Fn1 HHKB mode[HHKB Fn]
+  75:keymap_custom.c ****      * ,-----------------------------------------------------------.
+  76:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
+  77:keymap_custom.c ****      * |-----------------------------------------------------------|
+  78:keymap_custom.c ****      * |Caps |   |   |   |   |   |   |   |Psc|Slk|Pus|Up |   |Backs|
+  79:keymap_custom.c ****      * |-----------------------------------------------------------|
+  80:keymap_custom.c ****      * |Contro|VoD|VoU|Mut|   |   |  *|  /|Hom|PgU|Lef|Rig|Enter   |
+  81:keymap_custom.c ****      * |-----------------------------------------------------------|
+  82:keymap_custom.c ****      * |Shift   |   |   |   |   |   |  +|  -|End|PgD|Dow|Shift |   |
+  83:keymap_custom.c ****      * `-----------------------------------------------------------'
+  84:keymap_custom.c ****      *       |Alt|Gui  |         Space         |Gui  |Alt|
+  85:keymap_custom.c ****      *       `-------------------------------------------'
+  86:keymap_custom.c ****      */
+  87:keymap_custom.c ****     [6] = \
+  88:keymap_custom.c ****     KEYMAP(PWR, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
+  89:keymap_custom.c ****            CAPS,NO,  NO,  NO,  NO,  NO,  NO,  NO,  PSCR,SLCK,PAUS, UP,  FN4,  BSPC, \
+  90:keymap_custom.c ****            LCTL,VOLD,VOLU,MUTE,NO,  NO,  PAST,PSLS,HOME,PGUP,LEFT,RGHT,ENT, \
+  91:keymap_custom.c ****            LSFT,NO,  NO,  NO,  NO,  NO,  PPLS,PMNS,END, PGDN,DOWN,RSFT,TRNS, \
+  92:keymap_custom.c ****                 LALT,LGUI,          TRNS,               RGUI,RALT),
+  93:keymap_custom.c **** 
+  94:keymap_custom.c **** #if 0
+  95:keymap_custom.c ****     /* Layer 3: Fn3 Mouse mode(IJKL)[Semicolon]
+  96:keymap_custom.c ****      * ,-----------------------------------------------------------.
+  97:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
+  98:keymap_custom.c ****      * |-----------------------------------------------------------|
+  99:keymap_custom.c ****      * |Tab  |   |   |   |   |   |MwL|MwD|McU|MwU|MwR|Wbk|Wfr|Alt-T|
+ 100:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 101:keymap_custom.c ****      * |Contro|   |   |   |   |   |Mb2|McL|McD|McR|Fn |   |Return  |
+ 102:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 103:keymap_custom.c ****      * |Shift   |   |   |   |   |Mb3|Mb2|Mb1|Mb4|Mb5|   |Shift |   |
+ 104:keymap_custom.c ****      * `-----------------------------------------------------------'
+ 105:keymap_custom.c ****      *      |Alt |Gui  |          Mb1          |Fn   |Fn |
+ 106:keymap_custom.c ****      *      `--------------------------------------------'
+ 107:keymap_custom.c ****      * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel
+ 108:keymap_custom.c ****      */
+ 109:keymap_custom.c ****     [3] = \
+ 110:keymap_custom.c ****     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
+ 111:keymap_custom.c ****            FN8, NO,  NO,  NO,  NO,  NO,  WH_L,WH_D,MS_U,WH_U,WH_R,FN9, FN10,FN8, \
+ 112:keymap_custom.c ****            LCTL,ACL0,ACL1,ACL2,ACL2,NO,  NO,  MS_L,MS_D,MS_R,FN3, NO,  ENT, \
+ 113:keymap_custom.c ****            LSFT,NO,  NO,  NO,  NO,  BTN3,BTN2,BTN1,FN9, FN10,NO,  RSFT,TRNS, \
+ 114:keymap_custom.c ****                 LALT,LGUI,          BTN1,               TRNS,TRNS),
+ 115:keymap_custom.c **** 
+ 116:keymap_custom.c ****     /* Layer 4: Fn4 Mouse mode(IJKL)[Space]
+ 117:keymap_custom.c ****      * ,-----------------------------------------------------------.
+ 118:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
+ 119:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 120:keymap_custom.c ****      * |Tab  |   |   |   |   |   |MwL|MwD|McU|MwU|MwR|Wbk|Wfr|Alt-T|
+ 121:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 122:keymap_custom.c ****      * |Contro|   |   |   |   |   |Mb2|McL|McD|McR|Mb1|   |Return  |
+ 123:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 124:keymap_custom.c ****      * |Shift   |   |   |   |   |Mb3|Mb2|Mb1|Mb4|Mb5|   |Shift |   |
+ 125:keymap_custom.c ****      * `-----------------------------------------------------------'
+ 126:keymap_custom.c ****      *      |Alt |Gui  |          Mb1          |Fn   |Fn |
+ 127:keymap_custom.c ****      *      `--------------------------------------------'
+ 128:keymap_custom.c ****      * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel
+ 129:keymap_custom.c ****      */
+ 130:keymap_custom.c ****     [4] = \
+ 131:keymap_custom.c ****     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
+ 132:keymap_custom.c ****            FN8, NO,  NO,  NO,  NO,  NO,  WH_L,WH_D,MS_U,WH_U,WH_R,BTN4,BTN5,FN8, \
+ 133:keymap_custom.c ****            LCTL,VOLD,VOLU,MUTE,NO,  NO,  NO,  MS_L,MS_D,MS_R,BTN1,NO,  ENT, \
+ 134:keymap_custom.c ****            LSFT,NO,  NO,  NO,  NO,  BTN3,BTN2,BTN1,FN9, FN10,NO,  RSFT,TRNS, \
+ 135:keymap_custom.c ****                 LALT,LGUI,          TRNS,               TRNS,TRNS),
+ 136:keymap_custom.c **** #endif
+ 137:keymap_custom.c **** #if 0
+ 138:keymap_custom.c ****     /* Layer 3: Mouse mode(HJKL)[Semicolon]
+ 139:keymap_custom.c ****      * ,-----------------------------------------------------------.
+ 140:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
+ 141:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 142:keymap_custom.c ****      * |Tab  |   |   |   |   |   |MwL|MwD|MwU|MwR|   |   |   |Backs|
+ 143:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 144:keymap_custom.c ****      * |Contro|   |   |   |   |   |McL|McD|McU|McR|Fn0|   |Return  |
+ 145:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 146:keymap_custom.c ****      * |Shift   |   |   |   |   |Mb3|Mb2|Mb1|Mb4|Mb5|   |Shift |   |
+ 147:keymap_custom.c ****      * `-----------------------------------------------------------'
+ 148:keymap_custom.c ****      *      |Alt |Gui  |          Mb1          |Gui  |Fn0|
+ 149:keymap_custom.c ****      *      `--------------------------------------------'
+ 150:keymap_custom.c ****      * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel
+ 151:keymap_custom.c ****      */
+ 152:keymap_custom.c ****     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
+ 153:keymap_custom.c ****            TAB, NO,  NO,  NO,  NO,  NO,  NO,  WH_D,WH_U,RGHT,NO,  NO,  NO,  BSPC, \
+ 154:keymap_custom.c ****            LCTL,NO,  ACL0,ACL1,ACL2,NO,  MS_L,MS_D,MS_U,MS_R,TRNS,QUOT,ENT, \
+ 155:keymap_custom.c ****            LSFT,NO,  NO,  NO,  NO,  BTN3,BTN2,BTN1,FN9, FN10,SLSH,RSFT,NO, \
+ 156:keymap_custom.c ****                 LALT,LGUI,          BTN1,               RGUI,TRNS),
+ 157:keymap_custom.c **** 
+ 158:keymap_custom.c ****     /* Layer4: Mouse mode(HJKL)[Space]
+ 159:keymap_custom.c ****      * ,-----------------------------------------------------------.
+ 160:keymap_custom.c ****      * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
+ 161:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 162:keymap_custom.c ****      * |Tab  |   |   |   |   |   |MwL|MwD|MwU|MwR|   |Wbk|Wfr|Alt-T|
+ 163:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 164:keymap_custom.c ****      * |Contro|   |   |   |   |   |McL|McD|McU|McR|Fn0|   |Return  |
+ 165:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 166:keymap_custom.c ****      * |Shift   |   |   |   |   |Mb3|Mb2|Mb1|Mb4|Mb5|   |Shift |   |
+ 167:keymap_custom.c ****      * `-----------------------------------------------------------'
+ 168:keymap_custom.c ****      *      |Alt |Gui  |          Fn0          |Gui  |Fn0|
+ 169:keymap_custom.c ****      *      `--------------------------------------------'
+ 170:keymap_custom.c ****      * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel
+ 171:keymap_custom.c ****      */
+ 172:keymap_custom.c ****     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
+ 173:keymap_custom.c ****            FN8, NO,  NO,  NO,  NO,  NO,  NO,  WH_D,WH_U,RGHT,NO,  FN9, FN10,FN8, \
+ 174:keymap_custom.c ****            LCTL,NO,  ACL0,ACL1,ACL2,NO,  MS_L,MS_D,MS_U,MS_R,BTN1,NO,  ENT, \
+ 175:keymap_custom.c ****            LSFT,NO,  NO,  NO,  NO,  BTN3,BTN2,BTN1,FN9, FN10,NO,  RSFT,NO, \
+ 176:keymap_custom.c ****                 LALT,LGUI,          TRNS,               RGUI,RALT),
+ 177:keymap_custom.c **** #endif
+ 178:keymap_custom.c **** #if 0
+ 179:keymap_custom.c ****     /* Layer x: Matias half-qwerty keyboard style[Space]
+ 180:keymap_custom.c ****      * ,-----------------------------------------------------------.
+ 181:keymap_custom.c ****      * |  -|  0|  9|  8|  7|  6|  5|  4|  3|  2|  1|   |   |   |Esc|
+ 182:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 183:keymap_custom.c ****      * |Backs|  P|  O|  I|  U|  Y|  T|  R|  E|  W|  Q|   |   |Tab  |
+ 184:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 185:keymap_custom.c ****      * |Contro|  ;|  L|  K|  J|  H|  G|  F|  D|  S|  A|Con|Control |
+ 186:keymap_custom.c ****      * |-----------------------------------------------------------|
+ 187:keymap_custom.c ****      * |Shift   |  /|  .|  ,|  M|  N|  B|  V|  C|  X|  Z|Shift |   |
+ 188:keymap_custom.c ****      * `-----------------------------------------------------------'
+ 189:keymap_custom.c ****      *      |Alt |Gui  |          Fn0          |Gui  |Alt|
+ 190:keymap_custom.c ****      *      `--------------------------------------------'
+ 191:keymap_custom.c ****      */
+ 192:keymap_custom.c ****     KEYMAP(MINS,0,   9,   8,   7,   6,   5,   4,   3,   2,   1,   NO,  NO,  NO,  ESC, \
+ 193:keymap_custom.c ****            BSPC,P,   O,   I,   U,   Y,   T,   R,   E,   W,   Q,   NO,  NO,  TAB, \
+ 194:keymap_custom.c ****            LCTL,SCLN,L,   K,   J,   H,   G,   F,   D,   S,   A,   RCTL,RCTL, \
+ 195:keymap_custom.c ****            LSFT,SLSH,DOT, COMM,M,   N,   B,   V,   C,   X,   Z,   RSFT,NO, \
+ 196:keymap_custom.c ****                 LALT,LGUI,          TRNS,               RGUI,RALT),
+ 197:keymap_custom.c **** #endif
+ 198:keymap_custom.c **** };
  199:keymap_custom.c **** 
  200:keymap_custom.c **** 
- 201:keymap_custom.c **** /* id for user defined functions */
- 202:keymap_custom.c **** enum function_id {
- 203:keymap_custom.c ****     LSHIFT_LPAREN,
- 204:keymap_custom.c **** };
- 205:keymap_custom.c **** 
- 206:keymap_custom.c **** enum macro_id {
- 207:keymap_custom.c ****     HELLO,
- 208:keymap_custom.c ****     VOLUP,
- 209:keymap_custom.c ****     ALT_TAB,
- 210:keymap_custom.c ****     ALT_TILDE,
- 211:keymap_custom.c **** };
- 212:keymap_custom.c **** 
- 213:keymap_custom.c **** 
- 214:keymap_custom.c **** /*
- 215:keymap_custom.c ****  * Fn action definition
- 216:keymap_custom.c ****  */
- 217:keymap_custom.c **** #ifdef KEYMAP_SECTION_ENABLE
- 218:keymap_custom.c **** const action_t fn_actions[] __attribute__ ((section (".keymap.fn_actions"))) = {
- 219:keymap_custom.c **** #else
- 220:keymap_custom.c **** const action_t fn_actions[] PROGMEM = {
- 221:keymap_custom.c **** #endif
- 222:keymap_custom.c ****     [0] = ACTION_DEFAULT_LAYER_SET(0),                // Default layer(not used)
- 223:keymap_custom.c ****     [1] = ACTION_LAYER_TAP_TOGGLE(1),                 // HHKB layer(toggle with 5 taps)
- 224:keymap_custom.c ****     [2] = ACTION_LAYER_MODS(3, MOD_LCTL),             // Cursor layer with Slash* /*KC_SLASH*/
- 225:keymap_custom.c ****     [3] = ACTION_LAYER_MOMENTARY(2),
- 226:keymap_custom.c ****     [4] = ACTION_MACRO(ALT_TILDE)                        // Macro: say hello
- 227:keymap_custom.c **** 
- 228:keymap_custom.c ****     // [3] = ACTION_LAYER_TAP_KEY(3, KC_SCLN),           // Mousekey layer with Semicolon*
- 229:keymap_custom.c ****     // [4] = ACTION_LAYER_TAP_KEY(4, KC_SPC),            // Mousekey layer with Space
- 230:keymap_custom.c ****    //  [5] = ACTION_LAYER_MOMENTARY(4),                  // Mousekey layer(IJKL)
- 231:keymap_custom.c ****    //  [6] = ACTION_MODS_TAP_KEY(MOD_RCTL, KC_ENT),      // RControl with tap Enter
- 232:keymap_custom.c ****    //  [7] = ACTION_MODS_ONESHOT(MOD_LSFT),              // Oneshot Shift
- 233:keymap_custom.c ****    //  [8] = ACTION_MACRO(ALT_TAB),                      // Application switching
- 234:keymap_custom.c ****    //  [9] = ACTION_MODS_KEY(MOD_LALT, KC_LEFT),
- 235:keymap_custom.c ****    // [10] = ACTION_MODS_KEY(MOD_LALT, KC_RIGHT),
- 236:keymap_custom.c **** 
- 237:keymap_custom.c **** //  [x] = ACTION_LMOD_TAP_KEY(KC_LCTL, KC_BSPC),        // LControl with tap Backspace
- 238:keymap_custom.c **** //  [x] = ACTION_LMOD_TAP_KEY(KC_LCTL, KC_ESC),         // LControl with tap Esc
- 239:keymap_custom.c **** //  [x] = ACTION_FUNCTION_TAP(LSHIFT_LPAREN),           // Function: LShift with tap '('
- 240:keymap_custom.c ****  // [x] = ACTION_MACRO(HELLO),                          // Macro: say hello
- 241:keymap_custom.c **** //  [x] = ACTION_MACRO(VOLUP),                          // Macro: media key
- 242:keymap_custom.c **** };
- 243:keymap_custom.c **** 
- 244:keymap_custom.c **** 
- 245:keymap_custom.c **** /*
- 246:keymap_custom.c ****  * Macro definition
- 247:keymap_custom.c ****  */
- 248:keymap_custom.c **** const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
- 249:keymap_custom.c **** {
-  16               		.loc 1 249 0
+ 201:keymap_custom.c **** 
+ 202:keymap_custom.c **** /* id for user defined functions */
+ 203:keymap_custom.c **** enum function_id {
+ 204:keymap_custom.c ****     UP,
+ 205:keymap_custom.c ****     DOWN,
+ 206:keymap_custom.c ****     LEFT,
+ 207:keymap_custom.c ****     RIGHT,
+ 208:keymap_custom.c ****     // LSHIFT_LPAREN,
+ 209:keymap_custom.c **** };
+ 210:keymap_custom.c **** 
+ 211:keymap_custom.c **** enum macro_id {
+ 212:keymap_custom.c ****     HELLO,
+ 213:keymap_custom.c ****     VOLUP,
+ 214:keymap_custom.c ****     ALT_TAB,
+ 215:keymap_custom.c ****     ALT_TILDE,
+ 216:keymap_custom.c **** };
+ 217:keymap_custom.c **** 
+ 218:keymap_custom.c **** 
+ 219:keymap_custom.c **** /*
+ 220:keymap_custom.c ****  * Fn action definition
+ 221:keymap_custom.c ****  */
+ 222:keymap_custom.c **** #ifdef KEYMAP_SECTION_ENABLE
+ 223:keymap_custom.c **** const action_t fn_actions[] __attribute__ ((section (".keymap.fn_actions"))) = {
+ 224:keymap_custom.c **** #else
+ 225:keymap_custom.c **** const action_t fn_actions[] PROGMEM = {
+ 226:keymap_custom.c **** #endif
+ 227:keymap_custom.c ****     [0] = ACTION_DEFAULT_LAYER_SET(0),                // Default layer(not used)
+ 228:keymap_custom.c ****     [1] = ACTION_LAYER_MODS(1, MOD_LGUI),             // Cursor layer with Slash* /*KC_SLASH*/
+ 229:keymap_custom.c ****     [2] = ACTION_LAYER_MODS(2, MOD_LCTL),             // Cursor layer with Slash* /*KC_SLASH*/
+ 230:keymap_custom.c ****     // [3] = ACTION_LAYER_MOMENTARY(2),
+ 231:keymap_custom.c ****     [6] = ACTION_LAYER_MOMENTARY(6),                 // HHKB layer(toggle with 5 taps)
+ 232:keymap_custom.c ****     // [4] = ACTION_MACRO(ALT_TILDE),                    // Macro: CMD + Tilde
+ 233:keymap_custom.c **** 
+ 234:keymap_custom.c ****     [10] = ACTION_FUNCTION(LEFT),
+ 235:keymap_custom.c ****     [11] = ACTION_FUNCTION(DOWN),
+ 236:keymap_custom.c ****     [12] = ACTION_FUNCTION(UP),
+ 237:keymap_custom.c ****     [13] = ACTION_FUNCTION(RIGHT)
+ 238:keymap_custom.c **** 
+ 239:keymap_custom.c ****     // [3] = ACTION_LAYER_TAP_KEY(3, KC_SCLN),           // Mousekey layer with Semicolon*
+ 240:keymap_custom.c ****     // [4] = ACTION_LAYER_TAP_KEY(4, KC_SPC),            // Mousekey layer with Space
+ 241:keymap_custom.c ****    //  [5] = ACTION_LAYER_MOMENTARY(4),                  // Mousekey layer(IJKL)
+ 242:keymap_custom.c ****    //  [6] = ACTION_MODS_TAP_KEY(MOD_RCTL, KC_ENT),      // RControl with tap Enter
+ 243:keymap_custom.c ****    //  [7] = ACTION_MODS_ONESHOT(MOD_LSFT),              // Oneshot Shift
+ 244:keymap_custom.c ****    //  [8] = ACTION_MACRO(ALT_TAB),                      // Application switching
+ 245:keymap_custom.c ****    //  [9] = ACTION_MODS_KEY(MOD_LALT, KC_LEFT),
+ 246:keymap_custom.c ****    // [10] = ACTION_MODS_KEY(MOD_LALT, KC_RIGHT),
+ 247:keymap_custom.c **** 
+ 248:keymap_custom.c **** //  [x] = ACTION_LMOD_TAP_KEY(KC_LCTL, KC_BSPC),        // LControl with tap Backspace
+ 249:keymap_custom.c **** //  [x] = ACTION_LMOD_TAP_KEY(KC_LCTL, KC_ESC),         // LControl with tap Esc
+ 250:keymap_custom.c **** //  [x] = ACTION_FUNCTION_TAP(LSHIFT_LPAREN),           // Function: LShift with tap '('
+ 251:keymap_custom.c ****  // [x] = ACTION_MACRO(HELLO),                          // Macro: say hello
+ 252:keymap_custom.c **** //  [x] = ACTION_MACRO(VOLUP),                          // Macro: media key
+ 253:keymap_custom.c **** };
+ 254:keymap_custom.c **** 
+ 255:keymap_custom.c **** 
+ 256:keymap_custom.c **** /*
+ 257:keymap_custom.c ****  * Macro definition
+ 258:keymap_custom.c ****  */
+ 259:keymap_custom.c **** const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
+ 260:keymap_custom.c **** {
+  16               		.loc 1 260 0
   17               		.cfi_startproc
   18               	.LVL0:
   19               	/* prologue: function */
@@ -269,8 +280,8 @@
   21               	/* stack size = 0 */
   22               	.L__stack_usage = 0
   23 0000 FC01      		movw r30,r24
- 250:keymap_custom.c ****     switch (id) {
-  24               		.loc 1 250 0
+ 261:keymap_custom.c ****     switch (id) {
+  24               		.loc 1 261 0
   25 0002 6130      		cpi r22,lo8(1)
   26 0004 01F0      		breq .L3
   27 0006 00F0      		brlo .L4
@@ -280,80 +291,80 @@
   31 000e 01F0      		breq .L6
   32 0010 00C0      		rjmp .L9
   33               	.L4:
- 251:keymap_custom.c ****         case HELLO:
- 252:keymap_custom.c ****             return (record->event.pressed ?
- 253:keymap_custom.c ****                     MACRO( I(0), T(H), T(E), T(L), T(L), W(255), T(O), END ) :
-  34               		.loc 1 253 0
+ 262:keymap_custom.c ****         case HELLO:
+ 263:keymap_custom.c ****             return (record->event.pressed ?
+ 264:keymap_custom.c ****                     MACRO( I(0), T(H), T(E), T(L), T(L), W(255), T(O), END ) :
+  34               		.loc 1 264 0
   35 0012 8281      		ldd r24,Z+2
   36               	.LVL1:
   37 0014 8823      		tst r24
   38 0016 01F0      		breq .L9
-  39 0018 80E0      		ldi r24,lo8(__m.2310)
-  40 001a 90E0      		ldi r25,hi8(__m.2310)
+  39 0018 80E0      		ldi r24,lo8(__m.2313)
+  40 001a 90E0      		ldi r25,hi8(__m.2313)
   41 001c 0895      		ret
   42               	.LVL2:
   43               	.L3:
- 254:keymap_custom.c ****                     MACRO_NONE );
- 255:keymap_custom.c ****         case VOLUP:
- 256:keymap_custom.c ****             return (record->event.pressed ?
- 257:keymap_custom.c ****                     MACRO( D(VOLU), U(VOLU), END ) :
-  44               		.loc 1 257 0
+ 265:keymap_custom.c ****                     MACRO_NONE );
+ 266:keymap_custom.c ****         case VOLUP:
+ 267:keymap_custom.c ****             return (record->event.pressed ?
+ 268:keymap_custom.c ****                     MACRO( D(VOLU), U(VOLU), END ) :
+  44               		.loc 1 268 0
   45 001e 8281      		ldd r24,Z+2
   46               	.LVL3:
   47 0020 8823      		tst r24
   48 0022 01F0      		breq .L9
-  49 0024 80E0      		ldi r24,lo8(__m.2313)
-  50 0026 90E0      		ldi r25,hi8(__m.2313)
+  49 0024 80E0      		ldi r24,lo8(__m.2316)
+  50 0026 90E0      		ldi r25,hi8(__m.2316)
   51 0028 0895      		ret
   52               	.LVL4:
   53               	.L5:
- 258:keymap_custom.c ****                     MACRO_NONE );
- 259:keymap_custom.c ****         case ALT_TAB:
- 260:keymap_custom.c ****             return (record->event.pressed ?
- 261:keymap_custom.c ****                     MACRO( D(LALT), D(TAB), END ) :
-  54               		.loc 1 261 0
+ 269:keymap_custom.c ****                     MACRO_NONE );
+ 270:keymap_custom.c ****         case ALT_TAB:
+ 271:keymap_custom.c ****             return (record->event.pressed ?
+ 272:keymap_custom.c ****                     MACRO( D(LALT), D(TAB), END ) :
+  54               		.loc 1 272 0
   55 002a 8281      		ldd r24,Z+2
   56               	.LVL5:
   57 002c 8823      		tst r24
   58 002e 01F0      		breq .L10
-  59 0030 80E0      		ldi r24,lo8(__m.2316)
-  60 0032 90E0      		ldi r25,hi8(__m.2316)
+  59 0030 80E0      		ldi r24,lo8(__m.2319)
+  60 0032 90E0      		ldi r25,hi8(__m.2319)
   61 0034 0895      		ret
   62               	.LVL6:
   63               	.L6:
- 262:keymap_custom.c ****                     MACRO( U(TAB), END ));
- 263:keymap_custom.c ****         case ALT_TILDE:
- 264:keymap_custom.c ****             return (record->event.pressed ?
- 265:keymap_custom.c ****                     MACRO( D(LGUI), D(GRV), END ) :
-  64               		.loc 1 265 0
+ 273:keymap_custom.c ****                     MACRO( U(TAB), END ));
+ 274:keymap_custom.c ****         case ALT_TILDE:
+ 275:keymap_custom.c ****             return (record->event.pressed ?
+ 276:keymap_custom.c ****                     MACRO( D(LGUI), D(GRV), END ) :
+  64               		.loc 1 276 0
   65 0036 8281      		ldd r24,Z+2
   66               	.LVL7:
   67 0038 8823      		tst r24
   68 003a 01F0      		breq .L11
-  69 003c 80E0      		ldi r24,lo8(__m.2321)
-  70 003e 90E0      		ldi r25,hi8(__m.2321)
+  69 003c 80E0      		ldi r24,lo8(__m.2324)
+  70 003e 90E0      		ldi r25,hi8(__m.2324)
   71 0040 0895      		ret
   72               	.L9:
- 253:keymap_custom.c ****                     MACRO( I(0), T(H), T(E), T(L), T(L), W(255), T(O), END ) :
-  73               		.loc 1 253 0
+ 264:keymap_custom.c ****                     MACRO( I(0), T(H), T(E), T(L), T(L), W(255), T(O), END ) :
+  73               		.loc 1 264 0
   74 0042 80E0      		ldi r24,0
   75 0044 90E0      		ldi r25,0
   76 0046 0895      		ret
   77               	.L10:
- 261:keymap_custom.c ****                     MACRO( D(LALT), D(TAB), END ) :
-  78               		.loc 1 261 0
-  79 0048 80E0      		ldi r24,lo8(__m.2318)
-  80 004a 90E0      		ldi r25,hi8(__m.2318)
+ 272:keymap_custom.c ****                     MACRO( D(LALT), D(TAB), END ) :
+  78               		.loc 1 272 0
+  79 0048 80E0      		ldi r24,lo8(__m.2321)
+  80 004a 90E0      		ldi r25,hi8(__m.2321)
   81 004c 0895      		ret
   82               	.L11:
-  83               		.loc 1 265 0
-  84 004e 80E0      		ldi r24,lo8(__m.2323)
-  85 0050 90E0      		ldi r25,hi8(__m.2323)
- 266:keymap_custom.c ****                     MACRO( U(GRV), END ));
- 267:keymap_custom.c ****     }
- 268:keymap_custom.c ****     return MACRO_NONE;
- 269:keymap_custom.c **** }
-  86               		.loc 1 269 0
+  83               		.loc 1 276 0
+  84 004e 80E0      		ldi r24,lo8(__m.2326)
+  85 0050 90E0      		ldi r25,hi8(__m.2326)
+ 277:keymap_custom.c ****                     MACRO( U(GRV), END ));
+ 278:keymap_custom.c ****     }
+ 279:keymap_custom.c ****     return MACRO_NONE;
+ 280:keymap_custom.c **** }
+  86               		.loc 1 280 0
   87 0052 0895      		ret
   88               		.cfi_endproc
   89               	.LFE4:
@@ -361,630 +372,651 @@
   92               	.global	action_function
   94               	action_function:
   95               	.LFB5:
- 270:keymap_custom.c **** 
- 271:keymap_custom.c **** 
- 272:keymap_custom.c **** 
- 273:keymap_custom.c **** /*
- 274:keymap_custom.c ****  * user defined action function
- 275:keymap_custom.c ****  */
- 276:keymap_custom.c **** void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
- 277:keymap_custom.c **** {
-  96               		.loc 1 277 0
+ 281:keymap_custom.c **** 
+ 282:keymap_custom.c **** 
+ 283:keymap_custom.c **** 
+ 284:keymap_custom.c **** /*
+ 285:keymap_custom.c ****  * user defined action function
+ 286:keymap_custom.c ****  */
+ 287:keymap_custom.c **** void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
+ 288:keymap_custom.c **** {
+  96               		.loc 1 288 0
   97               		.cfi_startproc
   98               	.LVL8:
-  99 0000 1F93      		push r17
+  99 0000 CF93      		push r28
  100               	.LCFI0:
  101               		.cfi_def_cfa_offset 3
- 102               		.cfi_offset 17, -2
- 103 0002 CF93      		push r28
+ 102               		.cfi_offset 28, -2
+ 103 0002 DF93      		push r29
  104               	.LCFI1:
  105               		.cfi_def_cfa_offset 4
- 106               		.cfi_offset 28, -3
- 107 0004 DF93      		push r29
- 108               	.LCFI2:
- 109               		.cfi_def_cfa_offset 5
- 110               		.cfi_offset 29, -4
- 111               	/* prologue: function */
- 112               	/* frame size = 0 */
- 113               	/* stack size = 3 */
- 114               	.L__stack_usage = 3
- 115 0006 EC01      		movw r28,r24
- 116 0008 162F      		mov r17,r22
- 278:keymap_custom.c ****     if (record->event.pressed) dprint("P"); else dprint("R");
- 117               		.loc 1 278 0
- 118 000a 9A81      		ldd r25,Y+2
- 119 000c 8091 0000 		lds r24,debug_config
- 120               	.LVL9:
- 121 0010 9923      		tst r25
- 122 0012 01F0      		breq .L15
- 123               		.loc 1 278 0 is_stmt 0 discriminator 1
- 124 0014 80FF      		sbrs r24,0
- 125 0016 00C0      		rjmp .L16
- 126 0018 80E0      		ldi r24,lo8(__c.2330)
- 127 001a 90E0      		ldi r25,hi8(__c.2330)
- 128 001c 00C0      		rjmp .L52
- 129               	.L15:
- 130               		.loc 1 278 0 discriminator 2
- 131 001e 80FF      		sbrs r24,0
- 132 0020 00C0      		rjmp .L16
- 133               		.loc 1 278 0 discriminator 1
- 134 0022 80E0      		ldi r24,lo8(__c.2332)
- 135 0024 90E0      		ldi r25,hi8(__c.2332)
- 136               	.L52:
- 137 0026 0E94 0000 		call xputs
- 138               	.LVL10:
- 139               	.L16:
- 279:keymap_custom.c ****     dprintf("%d", record->tap.count);
- 140               		.loc 1 279 0 is_stmt 1
- 141 002a 8091 0000 		lds r24,debug_config
- 142 002e 80FF      		sbrs r24,0
- 143 0030 00C0      		rjmp .L17
- 144               		.loc 1 279 0 is_stmt 0 discriminator 1
- 145 0032 8D81      		ldd r24,Y+5
- 146 0034 8295      		swap r24
- 147 0036 8F70      		andi r24,lo8(15)
- 148 0038 1F92      		push __zero_reg__
- 149               	.LCFI3:
- 150               		.cfi_def_cfa_offset 6
- 151 003a 8F93      		push r24
- 152               	.LCFI4:
- 153               		.cfi_def_cfa_offset 7
- 154 003c 80E0      		ldi r24,lo8(__c.2334)
- 155 003e 90E0      		ldi r25,hi8(__c.2334)
- 156 0040 9F93      		push r25
- 157               	.LCFI5:
- 158               		.cfi_def_cfa_offset 8
- 159 0042 8F93      		push r24
- 160               	.LCFI6:
- 161               		.cfi_def_cfa_offset 9
- 162 0044 0E94 0000 		call __xprintf
- 163               	.LVL11:
- 164 0048 0F90      		pop __tmp_reg__
- 165 004a 0F90      		pop __tmp_reg__
- 166 004c 0F90      		pop __tmp_reg__
- 167 004e 0F90      		pop __tmp_reg__
- 168               	.LCFI7:
- 169               		.cfi_def_cfa_offset 5
- 170               	.L17:
- 280:keymap_custom.c ****     if (record->tap.interrupted) dprint("i");
- 171               		.loc 1 280 0 is_stmt 1
- 172 0050 8D81      		ldd r24,Y+5
- 173 0052 80FF      		sbrs r24,0
- 174 0054 00C0      		rjmp .L18
- 175               		.loc 1 280 0 is_stmt 0 discriminator 1
- 176 0056 8091 0000 		lds r24,debug_config
- 177 005a 80FF      		sbrs r24,0
- 178 005c 00C0      		rjmp .L18
- 179 005e 80E0      		ldi r24,lo8(__c.2336)
- 180 0060 90E0      		ldi r25,hi8(__c.2336)
- 181 0062 0E94 0000 		call xputs
- 182               	.LVL12:
- 183               	.L18:
- 281:keymap_custom.c ****     dprint("\n");
- 184               		.loc 1 281 0 is_stmt 1
- 185 0066 8091 0000 		lds r24,debug_config
- 186 006a 80FF      		sbrs r24,0
- 187 006c 00C0      		rjmp .L19
- 188               		.loc 1 281 0 is_stmt 0 discriminator 1
- 189 006e 80E0      		ldi r24,lo8(__c.2338)
- 190 0070 90E0      		ldi r25,hi8(__c.2338)
- 191 0072 0E94 0000 		call xputs
- 192               	.LVL13:
- 193               	.L19:
- 282:keymap_custom.c **** 
- 283:keymap_custom.c ****     switch (id) {
- 194               		.loc 1 283 0 is_stmt 1
- 195 0076 1111      		cpse r17,__zero_reg__
- 196 0078 00C0      		rjmp .L14
- 284:keymap_custom.c ****         case LSHIFT_LPAREN:
- 285:keymap_custom.c ****             // Shift parentheses example: LShft + tap '('
- 286:keymap_custom.c ****             // http://stevelosh.com/blog/2012/10/a-modern-space-cadet/#shift-parentheses
- 287:keymap_custom.c ****             // http://geekhack.org/index.php?topic=41989.msg1304899#msg1304899
- 288:keymap_custom.c ****             if (record->event.pressed) {
- 197               		.loc 1 288 0
- 198 007a 9A81      		ldd r25,Y+2
- 199 007c 8D81      		ldd r24,Y+5
- 200 007e 9923      		tst r25
- 201 0080 01F0      		breq .L22
- 289:keymap_custom.c ****                 if (record->tap.count > 0 && !record->tap.interrupted) {
- 202               		.loc 1 289 0
- 203 0082 982F      		mov r25,r24
- 204 0084 9295      		swap r25
- 205 0086 9F70      		andi r25,lo8(15)
- 206 0088 01F0      		breq .L23
- 207               		.loc 1 289 0 is_stmt 0 discriminator 1
- 208 008a 80FF      		sbrs r24,0
- 209 008c 00C0      		rjmp .L14
- 210               	.L23:
- 290:keymap_custom.c ****                     if (record->tap.interrupted) {
- 291:keymap_custom.c ****                         dprint("tap interrupted\n");
- 292:keymap_custom.c ****                         register_mods(MOD_BIT(KC_LSHIFT));
- 293:keymap_custom.c ****                     }
- 294:keymap_custom.c ****                 } else {
- 295:keymap_custom.c ****                     register_mods(MOD_BIT(KC_LSHIFT));
- 211               		.loc 1 295 0 is_stmt 1
- 212 008e 82E0      		ldi r24,lo8(2)
- 213               	/* epilogue start */
- 296:keymap_custom.c ****                 }
- 297:keymap_custom.c ****             } else {
- 298:keymap_custom.c ****                 if (record->tap.count > 0 && !(record->tap.interrupted)) {
- 299:keymap_custom.c ****                     add_weak_mods(MOD_BIT(KC_LSHIFT));
- 300:keymap_custom.c ****                     send_keyboard_report();
- 301:keymap_custom.c ****                     register_code(KC_9);
- 302:keymap_custom.c ****                     unregister_code(KC_9);
- 303:keymap_custom.c ****                     del_weak_mods(MOD_BIT(KC_LSHIFT));
- 304:keymap_custom.c ****                     send_keyboard_report();
- 305:keymap_custom.c ****                     record->tap.count = 0;  // ad hoc: cancel tap
- 306:keymap_custom.c ****                 } else {
- 307:keymap_custom.c ****                     unregister_mods(MOD_BIT(KC_LSHIFT));
- 308:keymap_custom.c ****                 }
- 309:keymap_custom.c ****             }
- 310:keymap_custom.c ****             break;
- 311:keymap_custom.c ****     }
- 312:keymap_custom.c **** }
- 214               		.loc 1 312 0
- 215 0090 DF91      		pop r29
- 216 0092 CF91      		pop r28
- 217               	.LVL14:
- 218 0094 1F91      		pop r17
- 219               	.LVL15:
- 295:keymap_custom.c ****                     register_mods(MOD_BIT(KC_LSHIFT));
- 220               		.loc 1 295 0
- 221 0096 0C94 0000 		jmp register_mods
- 222               	.LVL16:
- 223               	.L22:
- 298:keymap_custom.c ****                 if (record->tap.count > 0 && !(record->tap.interrupted)) {
- 224               		.loc 1 298 0
- 225 009a 982F      		mov r25,r24
- 226 009c 9295      		swap r25
- 227 009e 9F70      		andi r25,lo8(15)
- 228 00a0 01F0      		breq .L24
- 298:keymap_custom.c ****                 if (record->tap.count > 0 && !(record->tap.interrupted)) {
- 229               		.loc 1 298 0 is_stmt 0 discriminator 1
- 230 00a2 80FD      		sbrc r24,0
- 231 00a4 00C0      		rjmp .L24
- 299:keymap_custom.c ****                     add_weak_mods(MOD_BIT(KC_LSHIFT));
- 232               		.loc 1 299 0 is_stmt 1
- 233 00a6 82E0      		ldi r24,lo8(2)
- 234 00a8 0E94 0000 		call add_weak_mods
- 235               	.LVL17:
- 300:keymap_custom.c ****                     send_keyboard_report();
- 236               		.loc 1 300 0
- 237 00ac 0E94 0000 		call send_keyboard_report
- 238               	.LVL18:
- 301:keymap_custom.c ****                     register_code(KC_9);
- 239               		.loc 1 301 0
- 240 00b0 86E2      		ldi r24,lo8(38)
- 241 00b2 0E94 0000 		call register_code
- 242               	.LVL19:
- 302:keymap_custom.c ****                     unregister_code(KC_9);
- 243               		.loc 1 302 0
- 244 00b6 86E2      		ldi r24,lo8(38)
- 245 00b8 0E94 0000 		call unregister_code
- 246               	.LVL20:
- 303:keymap_custom.c ****                     del_weak_mods(MOD_BIT(KC_LSHIFT));
- 247               		.loc 1 303 0
- 248 00bc 82E0      		ldi r24,lo8(2)
- 249 00be 0E94 0000 		call del_weak_mods
- 250               	.LVL21:
- 304:keymap_custom.c ****                     send_keyboard_report();
- 251               		.loc 1 304 0
- 252 00c2 0E94 0000 		call send_keyboard_report
- 253               	.LVL22:
- 305:keymap_custom.c ****                     record->tap.count = 0;  // ad hoc: cancel tap
- 254               		.loc 1 305 0
- 255 00c6 8D81      		ldd r24,Y+5
- 256 00c8 8F70      		andi r24,lo8(15)
- 257 00ca 8D83      		std Y+5,r24
- 258 00cc 00C0      		rjmp .L14
- 259               	.L24:
- 307:keymap_custom.c ****                     unregister_mods(MOD_BIT(KC_LSHIFT));
- 260               		.loc 1 307 0
- 261 00ce 82E0      		ldi r24,lo8(2)
- 262               	/* epilogue start */
- 263               		.loc 1 312 0
- 264 00d0 DF91      		pop r29
- 265 00d2 CF91      		pop r28
- 266               	.LVL23:
- 267 00d4 1F91      		pop r17
- 268               	.LVL24:
- 307:keymap_custom.c ****                     unregister_mods(MOD_BIT(KC_LSHIFT));
- 269               		.loc 1 307 0
- 270 00d6 0C94 0000 		jmp unregister_mods
- 271               	.LVL25:
- 272               	.L14:
- 273               	/* epilogue start */
- 274               		.loc 1 312 0
- 275 00da DF91      		pop r29
- 276 00dc CF91      		pop r28
- 277               	.LVL26:
- 278 00de 1F91      		pop r17
- 279               	.LVL27:
- 280 00e0 0895      		ret
- 281               		.cfi_endproc
- 282               	.LFE5:
- 284               		.section	.progmem.data.__c.2338,"a",@progbits
- 287               	__c.2338:
- 288 0000 0A00      		.string	"\n"
- 289               		.section	.progmem.data.__c.2336,"a",@progbits
- 292               	__c.2336:
- 293 0000 6900      		.string	"i"
- 294               		.section	.progmem.data.__c.2334,"a",@progbits
- 297               	__c.2334:
- 298 0000 2564 00   		.string	"%d"
- 299               		.section	.progmem.data.__c.2332,"a",@progbits
- 302               	__c.2332:
- 303 0000 5200      		.string	"R"
- 304               		.section	.progmem.data.__c.2330,"a",@progbits
- 307               	__c.2330:
- 308 0000 5000      		.string	"P"
- 309               		.section	.progmem.data.__m.2323,"a",@progbits
- 312               	__m.2323:
- 313 0000 02        		.byte	2
- 314 0001 35        		.byte	53
- 315 0002 00        		.byte	0
- 316               		.section	.progmem.data.__m.2321,"a",@progbits
- 319               	__m.2321:
- 320 0000 01        		.byte	1
- 321 0001 E3        		.byte	-29
- 322 0002 01        		.byte	1
- 323 0003 35        		.byte	53
- 324 0004 00        		.byte	0
- 325               		.section	.progmem.data.__m.2318,"a",@progbits
- 328               	__m.2318:
- 329 0000 02        		.byte	2
- 330 0001 2B        		.byte	43
- 331 0002 00        		.byte	0
- 332               		.section	.progmem.data.__m.2316,"a",@progbits
- 335               	__m.2316:
- 336 0000 01        		.byte	1
- 337 0001 E2        		.byte	-30
- 338 0002 01        		.byte	1
- 339 0003 2B        		.byte	43
- 340 0004 00        		.byte	0
- 341               		.section	.progmem.data.__m.2313,"a",@progbits
- 344               	__m.2313:
- 345 0000 01        		.byte	1
- 346 0001 A9        		.byte	-87
- 347 0002 02        		.byte	2
- 348 0003 A9        		.byte	-87
- 349 0004 00        		.byte	0
- 350               		.section	.progmem.data.__m.2310,"a",@progbits
- 353               	__m.2310:
- 354 0000 75        		.byte	117
- 355 0001 00        		.byte	0
- 356 0002 01        		.byte	1
- 357 0003 0B        		.byte	11
- 358 0004 02        		.byte	2
- 359 0005 0B        		.byte	11
- 360 0006 01        		.byte	1
- 361 0007 08        		.byte	8
- 362 0008 02        		.byte	2
- 363 0009 08        		.byte	8
- 364 000a 01        		.byte	1
- 365 000b 0F        		.byte	15
- 366 000c 02        		.byte	2
- 367 000d 0F        		.byte	15
- 368 000e 01        		.byte	1
- 369 000f 0F        		.byte	15
- 370 0010 02        		.byte	2
- 371 0011 0F        		.byte	15
- 372 0012 74        		.byte	116
- 373 0013 FF        		.byte	-1
- 374 0014 01        		.byte	1
- 375 0015 12        		.byte	18
- 376 0016 02        		.byte	2
- 377 0017 12        		.byte	18
- 378 0018 00        		.byte	0
- 379               	.global	fn_actions
- 380               		.section	.progmem.data.fn_actions,"a",@progbits
- 383               	fn_actions:
- 384 0000 018C      		.word	-29695
- 385 0002 F0A1      		.word	-24080
- 386 0004 C1A3      		.word	-23615
- 387 0006 F1A2      		.word	-23823
- 388 0008 03C0      		.word	-16381
- 389               	.global	keymaps
- 390               		.section	.progmem.data.keymaps,"a",@progbits
- 393               	keymaps:
- 394 0000 1F        		.byte	31
- 395 0001 14        		.byte	20
- 396 0002 1A        		.byte	26
- 397 0003 16        		.byte	22
- 398 0004 04        		.byte	4
- 399 0005 1D        		.byte	29
- 400 0006 1B        		.byte	27
- 401 0007 06        		.byte	6
- 402 0008 20        		.byte	32
- 403 0009 21        		.byte	33
- 404 000a 15        		.byte	21
- 405 000b 08        		.byte	8
- 406 000c 07        		.byte	7
- 407 000d 09        		.byte	9
- 408 000e 19        		.byte	25
- 409 000f 05        		.byte	5
- 410 0010 22        		.byte	34
- 411 0011 23        		.byte	35
- 412 0012 1C        		.byte	28
- 413 0013 17        		.byte	23
- 414 0014 0A        		.byte	10
- 415 0015 0B        		.byte	11
- 416 0016 11        		.byte	17
- 417 0017 00        		.byte	0
- 418 0018 1E        		.byte	30
- 419 0019 29        		.byte	41
- 420 001a 2B        		.byte	43
- 421 001b C3        		.byte	-61
- 422 001c E1        		.byte	-31
- 423 001d E2        		.byte	-30
- 424 001e E3        		.byte	-29
- 425 001f 2C        		.byte	44
- 426 0020 24        		.byte	36
- 427 0021 25        		.byte	37
- 428 0022 18        		.byte	24
- 429 0023 0C        		.byte	12
- 430 0024 0E        		.byte	14
- 431 0025 0D        		.byte	13
- 432 0026 10        		.byte	16
- 433 0027 00        		.byte	0
- 434 0028 31        		.byte	49
- 435 0029 35        		.byte	53
- 436 002a 2A        		.byte	42
- 437 002b 28        		.byte	40
- 438 002c C1        		.byte	-63
- 439 002d E5        		.byte	-27
- 440 002e E6        		.byte	-26
- 441 002f E7        		.byte	-25
- 442 0030 26        		.byte	38
- 443 0031 27        		.byte	39
- 444 0032 12        		.byte	18
- 445 0033 13        		.byte	19
- 446 0034 33        		.byte	51
- 447 0035 0F        		.byte	15
- 448 0036 36        		.byte	54
- 449 0037 00        		.byte	0
- 450 0038 2D        		.byte	45
- 451 0039 2E        		.byte	46
- 452 003a 30        		.byte	48
- 453 003b 2F        		.byte	47
- 454 003c 34        		.byte	52
- 455 003d 38        		.byte	56
- 456 003e 37        		.byte	55
- 457 003f 00        		.byte	0
- 458 0040 3B        		.byte	59
- 459 0041 00        		.byte	0
- 460 0042 00        		.byte	0
- 461 0043 A9        		.byte	-87
- 462 0044 AA        		.byte	-86
- 463 0045 00        		.byte	0
- 464 0046 00        		.byte	0
- 465 0047 00        		.byte	0
- 466 0048 3C        		.byte	60
- 467 0049 3D        		.byte	61
- 468 004a 00        		.byte	0
- 469 004b 00        		.byte	0
- 470 004c A8        		.byte	-88
- 471 004d 00        		.byte	0
- 472 004e 00        		.byte	0
- 473 004f 00        		.byte	0
- 474 0050 3E        		.byte	62
- 475 0051 3F        		.byte	63
- 476 0052 00        		.byte	0
- 477 0053 00        		.byte	0
- 478 0054 00        		.byte	0
- 479 0055 55        		.byte	85
- 480 0056 57        		.byte	87
- 481 0057 00        		.byte	0
- 482 0058 3A        		.byte	58
- 483 0059 35        		.byte	53
- 484 005a 39        		.byte	57
- 485 005b E0        		.byte	-32
- 486 005c E1        		.byte	-31
- 487 005d E2        		.byte	-30
- 488 005e E3        		.byte	-29
- 489 005f 01        		.byte	1
- 490 0060 40        		.byte	64
- 491 0061 41        		.byte	65
- 492 0062 00        		.byte	0
- 493 0063 46        		.byte	70
- 494 0064 4A        		.byte	74
- 495 0065 54        		.byte	84
- 496 0066 56        		.byte	86
- 497 0067 00        		.byte	0
- 498 0068 49        		.byte	73
- 499 0069 4C        		.byte	76
- 500 006a 2A        		.byte	42
- 501 006b 28        		.byte	40
- 502 006c 01        		.byte	1
- 503 006d E5        		.byte	-27
- 504 006e E6        		.byte	-26
- 505 006f E7        		.byte	-25
- 506 0070 42        		.byte	66
- 507 0071 43        		.byte	67
- 508 0072 47        		.byte	71
- 509 0073 48        		.byte	72
- 510 0074 50        		.byte	80
- 511 0075 4B        		.byte	75
- 512 0076 4D        		.byte	77
- 513 0077 00        		.byte	0
- 514 0078 44        		.byte	68
- 515 0079 45        		.byte	69
- 516 007a C4        		.byte	-60
- 517 007b 52        		.byte	82
- 518 007c 4F        		.byte	79
- 519 007d 51        		.byte	81
- 520 007e 4E        		.byte	78
- 521 007f 00        		.byte	0
- 522 0080 01        		.byte	1
- 523 0081 01        		.byte	1
- 524 0082 01        		.byte	1
- 525 0083 01        		.byte	1
- 526 0084 01        		.byte	1
- 527 0085 01        		.byte	1
- 528 0086 01        		.byte	1
- 529 0087 01        		.byte	1
- 530 0088 01        		.byte	1
- 531 0089 01        		.byte	1
- 532 008a 01        		.byte	1
- 533 008b 01        		.byte	1
- 534 008c 01        		.byte	1
- 535 008d 2A        		.byte	42
- 536 008e 01        		.byte	1
- 537 008f 01        		.byte	1
- 538 0090 01        		.byte	1
- 539 0091 01        		.byte	1
- 540 0092 01        		.byte	1
- 541 0093 01        		.byte	1
- 542 0094 4C        		.byte	76
- 543 0095 50        		.byte	80
- 544 0096 01        		.byte	1
- 545 0097 00        		.byte	0
- 546 0098 01        		.byte	1
- 547 0099 35        		.byte	53
- 548 009a 2B        		.byte	43
- 549 009b C3        		.byte	-61
- 550 009c E1        		.byte	-31
- 551 009d E2        		.byte	-30
- 552 009e E3        		.byte	-29
- 553 009f 2C        		.byte	44
- 554 00a0 01        		.byte	1
- 555 00a1 01        		.byte	1
- 556 00a2 01        		.byte	1
- 557 00a3 01        		.byte	1
- 558 00a4 52        		.byte	82
- 559 00a5 51        		.byte	81
- 560 00a6 01        		.byte	1
- 561 00a7 00        		.byte	0
- 562 00a8 49        		.byte	73
- 563 00a9 4C        		.byte	76
- 564 00aa 2A        		.byte	42
- 565 00ab 01        		.byte	1
- 566 00ac 01        		.byte	1
- 567 00ad E5        		.byte	-27
- 568 00ae E6        		.byte	-26
- 569 00af E7        		.byte	-25
- 570 00b0 01        		.byte	1
- 571 00b1 01        		.byte	1
- 572 00b2 01        		.byte	1
- 573 00b3 01        		.byte	1
- 574 00b4 01        		.byte	1
- 575 00b5 4F        		.byte	79
- 576 00b6 01        		.byte	1
- 577 00b7 00        		.byte	0
- 578 00b8 01        		.byte	1
- 579 00b9 01        		.byte	1
- 580 00ba 01        		.byte	1
- 581 00bb 01        		.byte	1
- 582 00bc 01        		.byte	1
- 583 00bd 01        		.byte	1
- 584 00be 01        		.byte	1
- 585 00bf 00        		.byte	0
- 586 00c0 01        		.byte	1
- 587 00c1 01        		.byte	1
- 588 00c2 01        		.byte	1
- 589 00c3 01        		.byte	1
- 590 00c4 01        		.byte	1
- 591 00c5 01        		.byte	1
- 592 00c6 01        		.byte	1
- 593 00c7 01        		.byte	1
- 594 00c8 01        		.byte	1
- 595 00c9 01        		.byte	1
- 596 00ca 01        		.byte	1
- 597 00cb 01        		.byte	1
- 598 00cc 01        		.byte	1
- 599 00cd 2A        		.byte	42
- 600 00ce 01        		.byte	1
- 601 00cf 01        		.byte	1
- 602 00d0 01        		.byte	1
- 603 00d1 01        		.byte	1
- 604 00d2 01        		.byte	1
- 605 00d3 01        		.byte	1
- 606 00d4 01        		.byte	1
- 607 00d5 50        		.byte	80
- 608 00d6 01        		.byte	1
- 609 00d7 00        		.byte	0
- 610 00d8 01        		.byte	1
- 611 00d9 35        		.byte	53
- 612 00da 2B        		.byte	43
- 613 00db C2        		.byte	-62
- 614 00dc E1        		.byte	-31
- 615 00dd E2        		.byte	-30
- 616 00de E3        		.byte	-29
- 617 00df 2C        		.byte	44
- 618 00e0 01        		.byte	1
- 619 00e1 01        		.byte	1
- 620 00e2 01        		.byte	1
- 621 00e3 01        		.byte	1
- 622 00e4 52        		.byte	82
- 623 00e5 51        		.byte	81
- 624 00e6 01        		.byte	1
- 625 00e7 00        		.byte	0
- 626 00e8 49        		.byte	73
- 627 00e9 4C        		.byte	76
- 628 00ea 2A        		.byte	42
- 629 00eb 01        		.byte	1
- 630 00ec 01        		.byte	1
- 631 00ed E5        		.byte	-27
- 632 00ee E6        		.byte	-26
- 633 00ef E7        		.byte	-25
- 634 00f0 01        		.byte	1
- 635 00f1 01        		.byte	1
- 636 00f2 01        		.byte	1
- 637 00f3 01        		.byte	1
- 638 00f4 01        		.byte	1
- 639 00f5 4F        		.byte	79
- 640 00f6 01        		.byte	1
- 641 00f7 00        		.byte	0
- 642 00f8 01        		.byte	1
- 643 00f9 01        		.byte	1
- 644 00fa 01        		.byte	1
- 645 00fb 01        		.byte	1
- 646 00fc 01        		.byte	1
- 647 00fd 01        		.byte	1
- 648 00fe 01        		.byte	1
- 649 00ff 00        		.byte	0
- 650               		.text
- 651               	.Letext0:
- 652               		.file 2 "/usr/local/CrossPack-AVR-20131216/avr/include/stdint.h"
- 653               		.file 3 "./tmk_core/common/keycode.h"
- 654               		.file 4 "./tmk_core/common/keyboard.h"
- 655               		.file 5 "./tmk_core/common/action_code.h"
- 656               		.file 6 "./tmk_core/common/action_macro.h"
- 657               		.file 7 "./tmk_core/common/action.h"
- 658               		.file 8 "./tmk_core/common/debug.h"
- 659               		.file 9 "./tmk_core/common/avr/xprintf.h"
- 660               		.file 10 "./tmk_core/common/action_util.h"
+ 106               		.cfi_offset 29, -3
+ 107               	/* prologue: function */
+ 108               	/* frame size = 0 */
+ 109               	/* stack size = 2 */
+ 110               	.L__stack_usage = 2
+ 111 0004 EC01      		movw r28,r24
+ 289:keymap_custom.c **** // #   define MODS_GUI_MASK   (MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
+ 290:keymap_custom.c **** // #   define MODS_ALT_MASK   (MOD_BIT(KC_LALT)|MOD_BIT(KC_RALT))
+ 291:keymap_custom.c **** #   define MODS_CTRL_MASK   (MOD_BIT(KC_LCTRL)|MOD_BIT(KC_RCTRL))
+ 292:keymap_custom.c **** // #   define MODS_SFT_MASK   (MOD_BIT(KC_LSFT)|MOD_BIT(KC_RSFT))
+ 293:keymap_custom.c **** //     static uint8_t gui_mod;
+ 294:keymap_custom.c **** //     static uint8_t alt_mod;
+ 295:keymap_custom.c ****     static uint8_t ctrl_mod;
+ 296:keymap_custom.c ****     // static uint8_t sft_mod;
+ 297:keymap_custom.c ****     // if (record->event.pressed) dprint("P"); else dprint("R");
+ 298:keymap_custom.c ****     // dprintf("%d", record->tap.count);
+ 299:keymap_custom.c ****     // if (record->tap.interrupted) dprint("i");
+ 300:keymap_custom.c ****     // dprint("\n");
+ 301:keymap_custom.c **** 
+ 302:keymap_custom.c ****     switch (id) {
+ 112               		.loc 1 302 0
+ 113 0006 6130      		cpi r22,lo8(1)
+ 114 0008 01F0      		breq .L16
+ 115 000a 00F0      		brlo .L17
+ 116 000c 6230      		cpi r22,lo8(2)
+ 117 000e 01F0      		breq .L18
+ 118 0010 6330      		cpi r22,lo8(3)
+ 119 0012 01F0      		breq .L19
+ 120 0014 00C0      		rjmp .L27
+ 121               	.L17:
+ 303:keymap_custom.c ****         case UP:
+ 304:keymap_custom.c ****             ctrl_mod = get_mods()&MODS_CTRL_MASK;
+ 122               		.loc 1 304 0
+ 123 0016 0E94 0000 		call get_mods
+ 124               	.LVL9:
+ 125 001a 8171      		andi r24,lo8(17)
+ 126 001c 8093 0000 		sts ctrl_mod.2333,r24
+ 305:keymap_custom.c ****             if(record->event.pressed) {
+ 127               		.loc 1 305 0
+ 128 0020 9A81      		ldd r25,Y+2
+ 129 0022 9923      		tst r25
+ 130 0024 01F0      		breq .L20
+ 306:keymap_custom.c ****                 del_mods(ctrl_mod);
+ 131               		.loc 1 306 0
+ 132 0026 0E94 0000 		call del_mods
+ 133               	.LVL10:
+ 307:keymap_custom.c ****                 add_key(KC_UP);
+ 134               		.loc 1 307 0
+ 135 002a 82E5      		ldi r24,lo8(82)
+ 136 002c 00C0      		rjmp .L25
+ 137               	.L20:
+ 308:keymap_custom.c ****                 send_keyboard_report();
+ 309:keymap_custom.c ****                 add_mods(ctrl_mod);
+ 310:keymap_custom.c ****             } else {
+ 311:keymap_custom.c ****                 del_key(KC_UP);
+ 138               		.loc 1 311 0
+ 139 002e 82E5      		ldi r24,lo8(82)
+ 140 0030 00C0      		rjmp .L26
+ 141               	.LVL11:
+ 142               	.L16:
+ 312:keymap_custom.c ****                 // add_mods(KC_FN2);
+ 313:keymap_custom.c ****                 register_mods(ctrl_mod);
+ 314:keymap_custom.c ****                 send_keyboard_report();
+ 315:keymap_custom.c ****             }
+ 316:keymap_custom.c ****             return;
+ 317:keymap_custom.c **** 
+ 318:keymap_custom.c ****         case DOWN:
+ 319:keymap_custom.c ****             ctrl_mod = get_mods()&MODS_CTRL_MASK;
+ 143               		.loc 1 319 0
+ 144 0032 0E94 0000 		call get_mods
+ 145               	.LVL12:
+ 146 0036 8171      		andi r24,lo8(17)
+ 147 0038 8093 0000 		sts ctrl_mod.2333,r24
+ 320:keymap_custom.c ****             if(record->event.pressed) {
+ 148               		.loc 1 320 0
+ 149 003c 9A81      		ldd r25,Y+2
+ 150 003e 9923      		tst r25
+ 151 0040 01F0      		breq .L21
+ 321:keymap_custom.c ****                 del_mods(ctrl_mod);
+ 152               		.loc 1 321 0
+ 153 0042 0E94 0000 		call del_mods
+ 154               	.LVL13:
+ 322:keymap_custom.c ****                 add_key(KC_DOWN);
+ 155               		.loc 1 322 0
+ 156 0046 81E5      		ldi r24,lo8(81)
+ 157               	.L25:
+ 158 0048 0E94 0000 		call add_key
+ 159               	.LVL14:
+ 323:keymap_custom.c ****                 send_keyboard_report();
+ 160               		.loc 1 323 0
+ 161 004c 0E94 0000 		call send_keyboard_report
+ 162               	.LVL15:
+ 324:keymap_custom.c ****                 add_mods(ctrl_mod);
+ 163               		.loc 1 324 0
+ 164 0050 8091 0000 		lds r24,ctrl_mod.2333
+ 165               	/* epilogue start */
+ 325:keymap_custom.c ****             } else {
+ 326:keymap_custom.c ****                 del_key(KC_DOWN);
+ 327:keymap_custom.c ****                 // add_mods(KC_FN2);
+ 328:keymap_custom.c ****                 register_mods(ctrl_mod);
+ 329:keymap_custom.c ****                 send_keyboard_report();
+ 330:keymap_custom.c ****             }
+ 331:keymap_custom.c ****             return;
+ 332:keymap_custom.c **** 
+ 333:keymap_custom.c ****         case LEFT:
+ 334:keymap_custom.c ****             ctrl_mod = get_mods()&MODS_CTRL_MASK;
+ 335:keymap_custom.c ****             if(record->event.pressed) {
+ 336:keymap_custom.c ****                 del_mods(ctrl_mod);
+ 337:keymap_custom.c ****                 add_key(KC_LEFT);
+ 338:keymap_custom.c ****                 send_keyboard_report();
+ 339:keymap_custom.c ****                 add_mods(ctrl_mod);
+ 340:keymap_custom.c ****             } else {
+ 341:keymap_custom.c ****                 del_key(KC_LEFT);
+ 342:keymap_custom.c ****                 // add_mods(KC_FN2);
+ 343:keymap_custom.c ****                 register_mods(ctrl_mod);
+ 344:keymap_custom.c ****                 send_keyboard_report();
+ 345:keymap_custom.c ****             }
+ 346:keymap_custom.c ****             return;
+ 347:keymap_custom.c **** 
+ 348:keymap_custom.c ****         case RIGHT:
+ 349:keymap_custom.c ****             ctrl_mod = get_mods()&MODS_CTRL_MASK;
+ 350:keymap_custom.c ****             if(record->event.pressed) {
+ 351:keymap_custom.c ****                 del_mods(ctrl_mod);
+ 352:keymap_custom.c ****                 add_key(KC_RIGHT);
+ 353:keymap_custom.c ****                 send_keyboard_report();
+ 354:keymap_custom.c ****                 add_mods(ctrl_mod);
+ 355:keymap_custom.c ****             } else {
+ 356:keymap_custom.c ****                 del_key(KC_RIGHT);
+ 357:keymap_custom.c ****                 // add_mods(KC_FN2);
+ 358:keymap_custom.c ****                 register_mods(ctrl_mod);
+ 359:keymap_custom.c ****                 send_keyboard_report();
+ 360:keymap_custom.c ****             }
+ 361:keymap_custom.c ****             return;
+ 362:keymap_custom.c **** 
+ 363:keymap_custom.c **** 
+ 364:keymap_custom.c ****         // case LSHIFT_LPAREN:
+ 365:keymap_custom.c ****         //     // Shift parentheses example: LShft + tap '('
+ 366:keymap_custom.c ****         //     // http://stevelosh.com/blog/2012/10/a-modern-space-cadet/#shift-parentheses
+ 367:keymap_custom.c ****         //     // http://geekhack.org/index.php?topic=41989.msg1304899#msg1304899
+ 368:keymap_custom.c ****         //     if (record->event.pressed) {
+ 369:keymap_custom.c ****         //         if (record->tap.count > 0 && !record->tap.interrupted) {
+ 370:keymap_custom.c ****         //             if (record->tap.interrupted) {
+ 371:keymap_custom.c ****         //                 dprint("tap interrupted\n");
+ 372:keymap_custom.c ****         //                 register_mods(MOD_BIT(KC_LSHIFT));
+ 373:keymap_custom.c ****         //             }
+ 374:keymap_custom.c ****         //         } else {
+ 375:keymap_custom.c ****         //             register_mods(MOD_BIT(KC_LSHIFT));
+ 376:keymap_custom.c ****         //         }
+ 377:keymap_custom.c ****         //     } else {
+ 378:keymap_custom.c ****         //         if (record->tap.count > 0 && !(record->tap.interrupted)) {
+ 379:keymap_custom.c ****         //             add_weak_mods(MOD_BIT(KC_LSHIFT));
+ 380:keymap_custom.c ****         //             send_keyboard_report();
+ 381:keymap_custom.c ****         //             register_code(KC_9);
+ 382:keymap_custom.c ****         //             unregister_code(KC_9);
+ 383:keymap_custom.c ****         //             del_weak_mods(MOD_BIT(KC_LSHIFT));
+ 384:keymap_custom.c ****         //             send_keyboard_report();
+ 385:keymap_custom.c ****         //             record->tap.count = 0;  // ad hoc: cancel tap
+ 386:keymap_custom.c ****         //         } else {
+ 387:keymap_custom.c ****         //             unregister_mods(MOD_BIT(KC_LSHIFT));
+ 388:keymap_custom.c ****         //         }
+ 389:keymap_custom.c ****         //     }
+ 390:keymap_custom.c ****         //     break;
+ 391:keymap_custom.c ****     }
+ 392:keymap_custom.c **** }
+ 166               		.loc 1 392 0
+ 167 0054 DF91      		pop r29
+ 168 0056 CF91      		pop r28
+ 169               	.LVL16:
+ 324:keymap_custom.c ****                 add_mods(ctrl_mod);
+ 170               		.loc 1 324 0
+ 171 0058 0C94 0000 		jmp add_mods
+ 172               	.LVL17:
+ 173               	.L21:
+ 326:keymap_custom.c ****                 del_key(KC_DOWN);
+ 174               		.loc 1 326 0
+ 175 005c 81E5      		ldi r24,lo8(81)
+ 176 005e 00C0      		rjmp .L26
+ 177               	.LVL18:
+ 178               	.L18:
+ 334:keymap_custom.c ****             ctrl_mod = get_mods()&MODS_CTRL_MASK;
+ 179               		.loc 1 334 0
+ 180 0060 0E94 0000 		call get_mods
+ 181               	.LVL19:
+ 182 0064 8171      		andi r24,lo8(17)
+ 183 0066 8093 0000 		sts ctrl_mod.2333,r24
+ 335:keymap_custom.c ****             if(record->event.pressed) {
+ 184               		.loc 1 335 0
+ 185 006a 9A81      		ldd r25,Y+2
+ 186 006c 9923      		tst r25
+ 187 006e 01F0      		breq .L22
+ 336:keymap_custom.c ****                 del_mods(ctrl_mod);
+ 188               		.loc 1 336 0
+ 189 0070 0E94 0000 		call del_mods
+ 190               	.LVL20:
+ 337:keymap_custom.c ****                 add_key(KC_LEFT);
+ 191               		.loc 1 337 0
+ 192 0074 80E5      		ldi r24,lo8(80)
+ 193 0076 00C0      		rjmp .L25
+ 194               	.L22:
+ 341:keymap_custom.c ****                 del_key(KC_LEFT);
+ 195               		.loc 1 341 0
+ 196 0078 80E5      		ldi r24,lo8(80)
+ 197 007a 00C0      		rjmp .L26
+ 198               	.LVL21:
+ 199               	.L19:
+ 349:keymap_custom.c ****             ctrl_mod = get_mods()&MODS_CTRL_MASK;
+ 200               		.loc 1 349 0
+ 201 007c 0E94 0000 		call get_mods
+ 202               	.LVL22:
+ 203 0080 8171      		andi r24,lo8(17)
+ 204 0082 8093 0000 		sts ctrl_mod.2333,r24
+ 350:keymap_custom.c ****             if(record->event.pressed) {
+ 205               		.loc 1 350 0
+ 206 0086 9A81      		ldd r25,Y+2
+ 207 0088 9923      		tst r25
+ 208 008a 01F0      		breq .L23
+ 351:keymap_custom.c ****                 del_mods(ctrl_mod);
+ 209               		.loc 1 351 0
+ 210 008c 0E94 0000 		call del_mods
+ 211               	.LVL23:
+ 352:keymap_custom.c ****                 add_key(KC_RIGHT);
+ 212               		.loc 1 352 0
+ 213 0090 8FE4      		ldi r24,lo8(79)
+ 214 0092 00C0      		rjmp .L25
+ 215               	.L23:
+ 356:keymap_custom.c ****                 del_key(KC_RIGHT);
+ 216               		.loc 1 356 0
+ 217 0094 8FE4      		ldi r24,lo8(79)
+ 218               	.L26:
+ 219 0096 0E94 0000 		call del_key
+ 220               	.LVL24:
+ 358:keymap_custom.c ****                 register_mods(ctrl_mod);
+ 221               		.loc 1 358 0
+ 222 009a 8091 0000 		lds r24,ctrl_mod.2333
+ 223 009e 0E94 0000 		call register_mods
+ 224               	.LVL25:
+ 225               	/* epilogue start */
+ 226               		.loc 1 392 0
+ 227 00a2 DF91      		pop r29
+ 228 00a4 CF91      		pop r28
+ 229               	.LVL26:
+ 359:keymap_custom.c ****                 send_keyboard_report();
+ 230               		.loc 1 359 0
+ 231 00a6 0C94 0000 		jmp send_keyboard_report
+ 232               	.LVL27:
+ 233               	.L27:
+ 234               	/* epilogue start */
+ 235               		.loc 1 392 0
+ 236 00aa DF91      		pop r29
+ 237 00ac CF91      		pop r28
+ 238 00ae 0895      		ret
+ 239               		.cfi_endproc
+ 240               	.LFE5:
+ 242               		.section	.bss.ctrl_mod.2333,"aw",@nobits
+ 245               	ctrl_mod.2333:
+ 246 0000 00        		.zero	1
+ 247               		.section	.progmem.data.__m.2326,"a",@progbits
+ 250               	__m.2326:
+ 251 0000 02        		.byte	2
+ 252 0001 35        		.byte	53
+ 253 0002 00        		.byte	0
+ 254               		.section	.progmem.data.__m.2324,"a",@progbits
+ 257               	__m.2324:
+ 258 0000 01        		.byte	1
+ 259 0001 E3        		.byte	-29
+ 260 0002 01        		.byte	1
+ 261 0003 35        		.byte	53
+ 262 0004 00        		.byte	0
+ 263               		.section	.progmem.data.__m.2321,"a",@progbits
+ 266               	__m.2321:
+ 267 0000 02        		.byte	2
+ 268 0001 2B        		.byte	43
+ 269 0002 00        		.byte	0
+ 270               		.section	.progmem.data.__m.2319,"a",@progbits
+ 273               	__m.2319:
+ 274 0000 01        		.byte	1
+ 275 0001 E2        		.byte	-30
+ 276 0002 01        		.byte	1
+ 277 0003 2B        		.byte	43
+ 278 0004 00        		.byte	0
+ 279               		.section	.progmem.data.__m.2316,"a",@progbits
+ 282               	__m.2316:
+ 283 0000 01        		.byte	1
+ 284 0001 A9        		.byte	-87
+ 285 0002 02        		.byte	2
+ 286 0003 A9        		.byte	-87
+ 287 0004 00        		.byte	0
+ 288               		.section	.progmem.data.__m.2313,"a",@progbits
+ 291               	__m.2313:
+ 292 0000 75        		.byte	117
+ 293 0001 00        		.byte	0
+ 294 0002 01        		.byte	1
+ 295 0003 0B        		.byte	11
+ 296 0004 02        		.byte	2
+ 297 0005 0B        		.byte	11
+ 298 0006 01        		.byte	1
+ 299 0007 08        		.byte	8
+ 300 0008 02        		.byte	2
+ 301 0009 08        		.byte	8
+ 302 000a 01        		.byte	1
+ 303 000b 0F        		.byte	15
+ 304 000c 02        		.byte	2
+ 305 000d 0F        		.byte	15
+ 306 000e 01        		.byte	1
+ 307 000f 0F        		.byte	15
+ 308 0010 02        		.byte	2
+ 309 0011 0F        		.byte	15
+ 310 0012 74        		.byte	116
+ 311 0013 FF        		.byte	-1
+ 312 0014 01        		.byte	1
+ 313 0015 12        		.byte	18
+ 314 0016 02        		.byte	2
+ 315 0017 12        		.byte	18
+ 316 0018 00        		.byte	0
+ 317               	.global	fn_actions
+ 318               		.section	.progmem.data.fn_actions,"a",@progbits
+ 321               	fn_actions:
+ 322 0000 018C      		.word	-29695
+ 323 0002 C8A1      		.word	-24120
+ 324 0004 C1A2      		.word	-23871
+ 325 0006 0000 0000 		.zero	6
+ 325      0000 
+ 326 000c F1A6      		.word	-22799
+ 327 000e 0000 0000 		.zero	6
+ 327      0000 
+ 328 0014 02F0      		.word	-4094
+ 329 0016 01F0      		.word	-4095
+ 330 0018 00F0      		.word	-4096
+ 331 001a 03F0      		.word	-4093
+ 332               	.global	keymaps
+ 333               		.section	.progmem.data.keymaps,"a",@progbits
+ 336               	keymaps:
+ 337 0000 1F        		.byte	31
+ 338 0001 14        		.byte	20
+ 339 0002 1A        		.byte	26
+ 340 0003 16        		.byte	22
+ 341 0004 04        		.byte	4
+ 342 0005 1D        		.byte	29
+ 343 0006 1B        		.byte	27
+ 344 0007 06        		.byte	6
+ 345 0008 20        		.byte	32
+ 346 0009 21        		.byte	33
+ 347 000a 15        		.byte	21
+ 348 000b 08        		.byte	8
+ 349 000c 07        		.byte	7
+ 350 000d 09        		.byte	9
+ 351 000e 19        		.byte	25
+ 352 000f 05        		.byte	5
+ 353 0010 22        		.byte	34
+ 354 0011 23        		.byte	35
+ 355 0012 1C        		.byte	28
+ 356 0013 17        		.byte	23
+ 357 0014 0A        		.byte	10
+ 358 0015 0B        		.byte	11
+ 359 0016 11        		.byte	17
+ 360 0017 00        		.byte	0
+ 361 0018 1E        		.byte	30
+ 362 0019 29        		.byte	41
+ 363 001a 2B        		.byte	43
+ 364 001b C2        		.byte	-62
+ 365 001c E1        		.byte	-31
+ 366 001d E2        		.byte	-30
+ 367 001e C1        		.byte	-63
+ 368 001f 2C        		.byte	44
+ 369 0020 24        		.byte	36
+ 370 0021 25        		.byte	37
+ 371 0022 18        		.byte	24
+ 372 0023 0C        		.byte	12
+ 373 0024 0E        		.byte	14
+ 374 0025 0D        		.byte	13
+ 375 0026 10        		.byte	16
+ 376 0027 00        		.byte	0
+ 377 0028 31        		.byte	49
+ 378 0029 35        		.byte	53
+ 379 002a 2A        		.byte	42
+ 380 002b 28        		.byte	40
+ 381 002c C6        		.byte	-58
+ 382 002d E5        		.byte	-27
+ 383 002e E6        		.byte	-26
+ 384 002f E7        		.byte	-25
+ 385 0030 26        		.byte	38
+ 386 0031 27        		.byte	39
+ 387 0032 12        		.byte	18
+ 388 0033 13        		.byte	19
+ 389 0034 33        		.byte	51
+ 390 0035 0F        		.byte	15
+ 391 0036 36        		.byte	54
+ 392 0037 00        		.byte	0
+ 393 0038 2D        		.byte	45
+ 394 0039 2E        		.byte	46
+ 395 003a 30        		.byte	48
+ 396 003b 2F        		.byte	47
+ 397 003c 34        		.byte	52
+ 398 003d 38        		.byte	56
+ 399 003e 37        		.byte	55
+ 400 003f 00        		.byte	0
+ 401 0040 1F        		.byte	31
+ 402 0041 14        		.byte	20
+ 403 0042 1A        		.byte	26
+ 404 0043 16        		.byte	22
+ 405 0044 04        		.byte	4
+ 406 0045 1D        		.byte	29
+ 407 0046 1B        		.byte	27
+ 408 0047 06        		.byte	6
+ 409 0048 20        		.byte	32
+ 410 0049 21        		.byte	33
+ 411 004a 15        		.byte	21
+ 412 004b 08        		.byte	8
+ 413 004c 07        		.byte	7
+ 414 004d 09        		.byte	9
+ 415 004e 19        		.byte	25
+ 416 004f 05        		.byte	5
+ 417 0050 22        		.byte	34
+ 418 0051 23        		.byte	35
+ 419 0052 1C        		.byte	28
+ 420 0053 17        		.byte	23
+ 421 0054 0A        		.byte	10
+ 422 0055 0B        		.byte	11
+ 423 0056 11        		.byte	17
+ 424 0057 00        		.byte	0
+ 425 0058 1E        		.byte	30
+ 426 0059 35        		.byte	53
+ 427 005a 2B        		.byte	43
+ 428 005b E0        		.byte	-32
+ 429 005c E1        		.byte	-31
+ 430 005d E2        		.byte	-30
+ 431 005e 01        		.byte	1
+ 432 005f 2C        		.byte	44
+ 433 0060 24        		.byte	36
+ 434 0061 25        		.byte	37
+ 435 0062 18        		.byte	24
+ 436 0063 0C        		.byte	12
+ 437 0064 0E        		.byte	14
+ 438 0065 0D        		.byte	13
+ 439 0066 10        		.byte	16
+ 440 0067 00        		.byte	0
+ 441 0068 31        		.byte	49
+ 442 0069 35        		.byte	53
+ 443 006a 2A        		.byte	42
+ 444 006b 28        		.byte	40
+ 445 006c 01        		.byte	1
+ 446 006d E5        		.byte	-27
+ 447 006e E6        		.byte	-26
+ 448 006f E7        		.byte	-25
+ 449 0070 26        		.byte	38
+ 450 0071 27        		.byte	39
+ 451 0072 12        		.byte	18
+ 452 0073 13        		.byte	19
+ 453 0074 33        		.byte	51
+ 454 0075 0F        		.byte	15
+ 455 0076 36        		.byte	54
+ 456 0077 00        		.byte	0
+ 457 0078 2D        		.byte	45
+ 458 0079 2E        		.byte	46
+ 459 007a 30        		.byte	48
+ 460 007b 2F        		.byte	47
+ 461 007c 34        		.byte	52
+ 462 007d 38        		.byte	56
+ 463 007e 37        		.byte	55
+ 464 007f 00        		.byte	0
+ 465 0080 01        		.byte	1
+ 466 0081 01        		.byte	1
+ 467 0082 01        		.byte	1
+ 468 0083 01        		.byte	1
+ 469 0084 01        		.byte	1
+ 470 0085 01        		.byte	1
+ 471 0086 01        		.byte	1
+ 472 0087 01        		.byte	1
+ 473 0088 01        		.byte	1
+ 474 0089 D2        		.byte	-46
+ 475 008a 01        		.byte	1
+ 476 008b D0        		.byte	-48
+ 477 008c 01        		.byte	1
+ 478 008d 01        		.byte	1
+ 479 008e 01        		.byte	1
+ 480 008f D1        		.byte	-47
+ 481 0090 01        		.byte	1
+ 482 0091 D3        		.byte	-45
+ 483 0092 01        		.byte	1
+ 484 0093 01        		.byte	1
+ 485 0094 01        		.byte	1
+ 486 0095 CA        		.byte	-54
+ 487 0096 01        		.byte	1
+ 488 0097 00        		.byte	0
+ 489 0098 01        		.byte	1
+ 490 0099 29        		.byte	41
+ 491 009a 2B        		.byte	43
+ 492 009b 01        		.byte	1
+ 493 009c E1        		.byte	-31
+ 494 009d E2        		.byte	-30
+ 495 009e E3        		.byte	-29
+ 496 009f 2C        		.byte	44
+ 497 00a0 01        		.byte	1
+ 498 00a1 01        		.byte	1
+ 499 00a2 01        		.byte	1
+ 500 00a3 01        		.byte	1
+ 501 00a4 CC        		.byte	-52
+ 502 00a5 CB        		.byte	-53
+ 503 00a6 01        		.byte	1
+ 504 00a7 00        		.byte	0
+ 505 00a8 49        		.byte	73
+ 506 00a9 4C        		.byte	76
+ 507 00aa 2A        		.byte	42
+ 508 00ab 01        		.byte	1
+ 509 00ac 01        		.byte	1
+ 510 00ad E5        		.byte	-27
+ 511 00ae E6        		.byte	-26
+ 512 00af E7        		.byte	-25
+ 513 00b0 01        		.byte	1
+ 514 00b1 01        		.byte	1
+ 515 00b2 01        		.byte	1
+ 516 00b3 01        		.byte	1
+ 517 00b4 01        		.byte	1
+ 518 00b5 CD        		.byte	-51
+ 519 00b6 01        		.byte	1
+ 520 00b7 00        		.byte	0
+ 521 00b8 01        		.byte	1
+ 522 00b9 01        		.byte	1
+ 523 00ba 01        		.byte	1
+ 524 00bb 01        		.byte	1
+ 525 00bc 01        		.byte	1
+ 526 00bd 01        		.byte	1
+ 527 00be 01        		.byte	1
+ 528 00bf 00        		.byte	0
+ 529 00c0 0000 0000 		.zero	192
+ 529      0000 0000 
+ 529      0000 0000 
+ 529      0000 0000 
+ 529      0000 0000 
+ 530 0180 3B        		.byte	59
+ 531 0181 00        		.byte	0
+ 532 0182 00        		.byte	0
+ 533 0183 A9        		.byte	-87
+ 534 0184 AA        		.byte	-86
+ 535 0185 00        		.byte	0
+ 536 0186 00        		.byte	0
+ 537 0187 00        		.byte	0
+ 538 0188 3C        		.byte	60
+ 539 0189 3D        		.byte	61
+ 540 018a 00        		.byte	0
+ 541 018b 00        		.byte	0
+ 542 018c A8        		.byte	-88
+ 543 018d 00        		.byte	0
+ 544 018e 00        		.byte	0
+ 545 018f 00        		.byte	0
+ 546 0190 3E        		.byte	62
+ 547 0191 3F        		.byte	63
+ 548 0192 00        		.byte	0
+ 549 0193 00        		.byte	0
+ 550 0194 00        		.byte	0
+ 551 0195 55        		.byte	85
+ 552 0196 57        		.byte	87
+ 553 0197 00        		.byte	0
+ 554 0198 3A        		.byte	58
+ 555 0199 A5        		.byte	-91
+ 556 019a 39        		.byte	57
+ 557 019b E0        		.byte	-32
+ 558 019c E1        		.byte	-31
+ 559 019d E2        		.byte	-30
+ 560 019e E3        		.byte	-29
+ 561 019f 01        		.byte	1
+ 562 01a0 40        		.byte	64
+ 563 01a1 41        		.byte	65
+ 564 01a2 00        		.byte	0
+ 565 01a3 46        		.byte	70
+ 566 01a4 4A        		.byte	74
+ 567 01a5 54        		.byte	84
+ 568 01a6 56        		.byte	86
+ 569 01a7 00        		.byte	0
+ 570 01a8 49        		.byte	73
+ 571 01a9 4C        		.byte	76
+ 572 01aa 2A        		.byte	42
+ 573 01ab 28        		.byte	40
+ 574 01ac 01        		.byte	1
+ 575 01ad E5        		.byte	-27
+ 576 01ae E6        		.byte	-26
+ 577 01af E7        		.byte	-25
+ 578 01b0 42        		.byte	66
+ 579 01b1 43        		.byte	67
+ 580 01b2 47        		.byte	71
+ 581 01b3 48        		.byte	72
+ 582 01b4 50        		.byte	80
+ 583 01b5 4B        		.byte	75
+ 584 01b6 4D        		.byte	77
+ 585 01b7 00        		.byte	0
+ 586 01b8 44        		.byte	68
+ 587 01b9 45        		.byte	69
+ 588 01ba C4        		.byte	-60
+ 589 01bb 52        		.byte	82
+ 590 01bc 4F        		.byte	79
+ 591 01bd 51        		.byte	81
+ 592 01be 4E        		.byte	78
+ 593 01bf 00        		.byte	0
+ 594               		.text
+ 595               	.Letext0:
+ 596               		.file 2 "/usr/local/CrossPack-AVR-20131216/avr/include/stdint.h"
+ 597               		.file 3 "./tmk_core/common/keycode.h"
+ 598               		.file 4 "./tmk_core/common/keyboard.h"
+ 599               		.file 5 "./tmk_core/common/action_code.h"
+ 600               		.file 6 "./tmk_core/common/action_macro.h"
+ 601               		.file 7 "./tmk_core/common/action.h"
+ 602               		.file 8 "./tmk_core/common/action_util.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 keymap_custom.c
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:2      *ABS*:0000003e __SP_H__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:3      *ABS*:0000003d __SP_L__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:4      *ABS*:0000003f __SREG__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:13     .text.action_get_macro:00000000 action_get_macro
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:353    .progmem.data.__m.2310:00000000 __m.2310
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:344    .progmem.data.__m.2313:00000000 __m.2313
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:335    .progmem.data.__m.2316:00000000 __m.2316
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:319    .progmem.data.__m.2321:00000000 __m.2321
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:328    .progmem.data.__m.2318:00000000 __m.2318
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:312    .progmem.data.__m.2323:00000000 __m.2323
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:94     .text.action_function:00000000 action_function
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:307    .progmem.data.__c.2330:00000000 __c.2330
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:302    .progmem.data.__c.2332:00000000 __c.2332
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:297    .progmem.data.__c.2334:00000000 __c.2334
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:292    .progmem.data.__c.2336:00000000 __c.2336
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:287    .progmem.data.__c.2338:00000000 __c.2338
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:383    .progmem.data.fn_actions:00000000 fn_actions
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//cc9DEXkl.s:393    .progmem.data.keymaps:00000000 keymaps
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:2      *ABS*:0000003e __SP_H__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:3      *ABS*:0000003d __SP_L__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:4      *ABS*:0000003f __SREG__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:13     .text.action_get_macro:00000000 action_get_macro
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:291    .progmem.data.__m.2313:00000000 __m.2313
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:282    .progmem.data.__m.2316:00000000 __m.2316
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:273    .progmem.data.__m.2319:00000000 __m.2319
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:257    .progmem.data.__m.2324:00000000 __m.2324
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:266    .progmem.data.__m.2321:00000000 __m.2321
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:250    .progmem.data.__m.2326:00000000 __m.2326
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:94     .text.action_function:00000000 action_function
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:245    .bss.ctrl_mod.2333:00000000 ctrl_mod.2333
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:321    .progmem.data.fn_actions:00000000 fn_actions
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccvKanRr.s:336    .progmem.data.keymaps:00000000 keymaps
 
 UNDEFINED SYMBOLS
-debug_config
-xputs
-__xprintf
-register_mods
-add_weak_mods
+get_mods
+del_mods
+add_key
 send_keyboard_report
-register_code
-unregister_code
-del_weak_mods
-unregister_mods
+add_mods
+del_key
+register_mods
+__do_clear_bss

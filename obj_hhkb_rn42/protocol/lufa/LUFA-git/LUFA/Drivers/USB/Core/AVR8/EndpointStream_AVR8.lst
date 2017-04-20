@@ -5404,33 +5404,33 @@
  4024               		.file 11 "/usr/local/CrossPack-AVR-20131216/avr/include/avr/eeprom.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 EndpointStream_AVR8.c
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:2      *ABS*:0000003e __SP_H__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:3      *ABS*:0000003d __SP_L__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:4      *ABS*:0000003f __SREG__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:13     .text.Endpoint_Discard_Stream:00000000 Endpoint_Discard_Stream
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:153    .text.Endpoint_Null_Stream:00000000 Endpoint_Null_Stream
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:292    .text.Endpoint_Write_Stream_LE:00000000 Endpoint_Write_Stream_LE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:454    .text.Endpoint_Write_Stream_BE:00000000 Endpoint_Write_Stream_BE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:625    .text.Endpoint_Read_Stream_LE:00000000 Endpoint_Read_Stream_LE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:784    .text.Endpoint_Read_Stream_BE:00000000 Endpoint_Read_Stream_BE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:953    .text.Endpoint_Write_PStream_LE:00000000 Endpoint_Write_PStream_LE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:1124   .text.Endpoint_Write_PStream_BE:00000000 Endpoint_Write_PStream_BE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:1303   .text.Endpoint_Write_EStream_LE:00000000 Endpoint_Write_EStream_LE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:1467   .text.Endpoint_Write_EStream_BE:00000000 Endpoint_Write_EStream_BE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:1639   .text.Endpoint_Read_EStream_LE:00000000 Endpoint_Read_EStream_LE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:1802   .text.Endpoint_Read_EStream_BE:00000000 Endpoint_Read_EStream_BE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:1973   .text.Endpoint_Write_Control_Stream_LE:00000000 Endpoint_Write_Control_Stream_LE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:2180   .text.Endpoint_Write_Control_Stream_BE:00000000 Endpoint_Write_Control_Stream_BE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:2399   .text.Endpoint_Read_Control_Stream_LE:00000000 Endpoint_Read_Control_Stream_LE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:2556   .text.Endpoint_Read_Control_Stream_BE:00000000 Endpoint_Read_Control_Stream_BE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:2707   .text.Endpoint_Write_Control_PStream_LE:00000000 Endpoint_Write_Control_PStream_LE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:2923   .text.Endpoint_Write_Control_PStream_BE:00000000 Endpoint_Write_Control_PStream_BE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:3150   .text.Endpoint_Write_Control_EStream_LE:00000000 Endpoint_Write_Control_EStream_LE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:3404   .text.Endpoint_Write_Control_EStream_BE:00000000 Endpoint_Write_Control_EStream_BE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:3665   .text.Endpoint_Read_Control_EStream_LE:00000000 Endpoint_Read_Control_EStream_LE
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccMZiK8C.s:3844   .text.Endpoint_Read_Control_EStream_BE:00000000 Endpoint_Read_Control_EStream_BE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:2      *ABS*:0000003e __SP_H__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:3      *ABS*:0000003d __SP_L__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:4      *ABS*:0000003f __SREG__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:13     .text.Endpoint_Discard_Stream:00000000 Endpoint_Discard_Stream
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:153    .text.Endpoint_Null_Stream:00000000 Endpoint_Null_Stream
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:292    .text.Endpoint_Write_Stream_LE:00000000 Endpoint_Write_Stream_LE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:454    .text.Endpoint_Write_Stream_BE:00000000 Endpoint_Write_Stream_BE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:625    .text.Endpoint_Read_Stream_LE:00000000 Endpoint_Read_Stream_LE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:784    .text.Endpoint_Read_Stream_BE:00000000 Endpoint_Read_Stream_BE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:953    .text.Endpoint_Write_PStream_LE:00000000 Endpoint_Write_PStream_LE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:1124   .text.Endpoint_Write_PStream_BE:00000000 Endpoint_Write_PStream_BE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:1303   .text.Endpoint_Write_EStream_LE:00000000 Endpoint_Write_EStream_LE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:1467   .text.Endpoint_Write_EStream_BE:00000000 Endpoint_Write_EStream_BE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:1639   .text.Endpoint_Read_EStream_LE:00000000 Endpoint_Read_EStream_LE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:1802   .text.Endpoint_Read_EStream_BE:00000000 Endpoint_Read_EStream_BE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:1973   .text.Endpoint_Write_Control_Stream_LE:00000000 Endpoint_Write_Control_Stream_LE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:2180   .text.Endpoint_Write_Control_Stream_BE:00000000 Endpoint_Write_Control_Stream_BE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:2399   .text.Endpoint_Read_Control_Stream_LE:00000000 Endpoint_Read_Control_Stream_LE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:2556   .text.Endpoint_Read_Control_Stream_BE:00000000 Endpoint_Read_Control_Stream_BE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:2707   .text.Endpoint_Write_Control_PStream_LE:00000000 Endpoint_Write_Control_PStream_LE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:2923   .text.Endpoint_Write_Control_PStream_BE:00000000 Endpoint_Write_Control_PStream_BE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:3150   .text.Endpoint_Write_Control_EStream_LE:00000000 Endpoint_Write_Control_EStream_LE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:3404   .text.Endpoint_Write_Control_EStream_BE:00000000 Endpoint_Write_Control_EStream_BE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:3665   .text.Endpoint_Read_Control_EStream_LE:00000000 Endpoint_Read_Control_EStream_LE
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//cchyeORE.s:3844   .text.Endpoint_Read_Control_EStream_BE:00000000 Endpoint_Read_Control_EStream_BE
 
 UNDEFINED SYMBOLS
 Endpoint_WaitUntilReady

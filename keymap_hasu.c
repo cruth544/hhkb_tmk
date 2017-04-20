@@ -1,4 +1,4 @@
-/* 
+    /*
  * Hasu: my personal keymap
  */
 #include "keymap_common.h"
@@ -41,7 +41,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      * `-----------------------------------------------------------'
      *       |Gui|Alt  |         Space         |Alt  |Gui|
      *       `-------------------------------------------'
-     */ 
+     */
     [1] = \
     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
            CAPS,NO,  NO,  NO,  NO,  NO,  NO,  NO,  PSCR,SLCK,PAUS, UP,  NO,  BSPC, \
@@ -124,7 +124,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      * `-----------------------------------------------------------'
      *      |Gui |Alt  |          Mb1          |Alt  |Fn0|
      *      `--------------------------------------------'
-     * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel 
+     * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel
      */
     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
            TAB, NO,  NO,  NO,  NO,  NO,  NO,  WH_D,WH_U,RGHT,NO,  NO,  NO,  BSPC, \
@@ -144,7 +144,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      * `-----------------------------------------------------------'
      *      |Gui |Alt  |          Fn0          |Alt  |Fn0|
      *      `--------------------------------------------'
-     * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel 
+     * Mc: Mouse Cursor / Mb: Mouse Button / Mw: Mouse Wheel
      */
     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
            FN8, NO,  NO,  NO,  NO,  NO,  NO,  WH_D,WH_U,RGHT,NO,  FN9, FN10,FN8, \

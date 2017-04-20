@@ -694,17 +694,17 @@
  394               		.file 4 "rn42/battery.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 battery.c
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYHYdJw.s:2      *ABS*:0000003e __SP_H__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYHYdJw.s:3      *ABS*:0000003d __SP_L__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYHYdJw.s:4      *ABS*:0000003f __SREG__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYHYdJw.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYHYdJw.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYHYdJw.s:13     .text.battery_led:00000000 battery_led
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYHYdJw.s:60     .text.battery_init:00000000 battery_init
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYHYdJw.s:171    .text.battery_charging:00000000 battery_charging
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYHYdJw.s:242    .text.battery_voltage:00000000 battery_voltage
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYHYdJw.s:331    .text.battery_status:00000000 battery_status
-/var/folders/3y/n8cf8g5x3x555hcmfv9bj9nc0000gn/T//ccYHYdJw.s:389    .bss.low.1634:00000000 low.1634
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyQ0w4H.s:2      *ABS*:0000003e __SP_H__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyQ0w4H.s:3      *ABS*:0000003d __SP_L__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyQ0w4H.s:4      *ABS*:0000003f __SREG__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyQ0w4H.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyQ0w4H.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyQ0w4H.s:13     .text.battery_led:00000000 battery_led
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyQ0w4H.s:60     .text.battery_init:00000000 battery_init
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyQ0w4H.s:171    .text.battery_charging:00000000 battery_charging
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyQ0w4H.s:242    .text.battery_voltage:00000000 battery_voltage
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyQ0w4H.s:331    .text.battery_status:00000000 battery_status
+/var/folders/60/7jfz_t4j1gl3nbdqv9nkvh7rr0y5vx/T//ccyQ0w4H.s:389    .bss.low.1634:00000000 low.1634
 
 UNDEFINED SYMBOLS
 __do_clear_bss
