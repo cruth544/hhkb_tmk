@@ -63,10 +63,10 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      *       `-------------------------------------------`
      */
     [2] = \
-    KEYMAP(ESC, TRNS, TRNS, TRNS, FN18, TRNS, FN19, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, INS, DEL, \
-           TAB , TRNS, TRNS, FN16, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, BSPC, \
-           TRNS  , TRNS, TRNS, TRNS, TRNS, TRNS, FN10, FN11,  FN12,  FN13, TRNS, TRNS, TRNS, \
-           LSFT   , TRNS, TRNS, TRNS, TRNS, FN17, TRNS, TRNS, TRNS, TRNS, TRNS, RSFT, TRNS, \
+    KEYMAP(ESC, TRNS, TRNS, TRNS, FN19, TRNS, FN20, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, INS, DEL, \
+           TAB , TRNS, FN15, FN17, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, BSPC, \
+           TRNS  , TRNS, TRNS, TRNS, FN14, FN16, FN10, FN11,  FN12,  FN13, TRNS, TRNS, TRNS, \
+           LSFT   , TRNS, TRNS, TRNS, TRNS, FN18, TRNS, TRNS, TRNS, TRNS, TRNS, RSFT, TRNS, \
                 LALT, LGUI,            SPC             , RGUI, RALT),
 
 
@@ -205,6 +205,11 @@ enum function_id {
     DOWN,
     LEFT,
     RIGHT,
+
+    BCKSPC,
+    DEL_WORD,
+    FWD_DEL,
+
     END_WORD,
     BEGIN_WORD,
     END_LINE,
@@ -240,10 +245,14 @@ const action_t fn_actions[] PROGMEM = {
     [12] = ACTION_FUNCTION(UP),
     [13] = ACTION_FUNCTION(RIGHT),
 
-    [16] = ACTION_FUNCTION(END_WORD),
-    [17] = ACTION_FUNCTION(BEGIN_WORD),
-    [18] = ACTION_FUNCTION(END_LINE),
-    [19] = ACTION_FUNCTION(BEGIN_LINE)
+    [14] = ACTION_FUNCTION(BCKSPC),
+    [15] = ACTION_FUNCTION(DEL_WORD),
+    [16] = ACTION_FUNCTION(FWD_DEL),
+
+    [17] = ACTION_FUNCTION(END_WORD),
+    [18] = ACTION_FUNCTION(BEGIN_WORD),
+    [19] = ACTION_FUNCTION(END_LINE),
+    [20] = ACTION_FUNCTION(BEGIN_LINE)
 
     // [3] = ACTION_LAYER_TAP_KEY(3, KC_SCLN),           // Mousekey layer with Semicolon*
     // [4] = ACTION_LAYER_TAP_KEY(4, KC_SPC),            // Mousekey layer with Space
@@ -309,6 +318,9 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
     // dprint("\n");
 
     switch (id) {
+        // ****************************************
+        // VIM: LEFT, DOWN, UP, RIGHT
+        // ****************************************
         case UP:
             ctrl_mod = get_mods()&MODS_CTRL_MASK;
             if(record->event.pressed) {
@@ -365,6 +377,57 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
             }
             return;
 
+        // ****************************************
+        // BACKSPACE, DELETE_WORD, FORWARD_DELETE
+        // ****************************************
+        case BCKSPC:
+            ctrl_mod = get_mods()&MODS_CTRL_MASK;
+            if(record->event.pressed) {
+                del_mods(ctrl_mod);
+                add_key(KC_BSPC);
+                send_keyboard_report();
+                add_mods(ctrl_mod);
+            } else {
+                del_key(KC_BSPC);
+                register_mods(ctrl_mod);
+                send_keyboard_report();
+            }
+            return;
+
+        case DEL_WORD:
+            ctrl_mod = get_mods()&MODS_CTRL_MASK;
+            if(record->event.pressed) {
+                del_mods(ctrl_mod);
+                add_weak_mods(MOD_BIT(KC_LALT));
+                add_key(KC_BSPC);
+                send_keyboard_report();
+                del_weak_mods(MOD_BIT(KC_LALT));
+                add_mods(ctrl_mod);
+            } else {
+                del_key(KC_BSPC);
+                register_mods(ctrl_mod);
+                send_keyboard_report();
+            }
+            return;
+
+        case FWD_DEL:
+            ctrl_mod = get_mods()&MODS_CTRL_MASK;
+            if(record->event.pressed) {
+                del_mods(ctrl_mod);
+                add_key(KC_DEL);
+                send_keyboard_report();
+                add_mods(ctrl_mod);
+            } else {
+                del_key(KC_DEL);
+                register_mods(ctrl_mod);
+                send_keyboard_report();
+            }
+            return;
+
+        // ****************************************
+        // END_WORD, BEGIN_WORD, END_LINE, BEGIN_LINE
+        // ****************************************
+
         case END_WORD:
             ctrl_mod = get_mods()&MODS_CTRL_MASK;
             if(record->event.pressed) {
@@ -379,8 +442,8 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                 register_mods(ctrl_mod);
                 send_keyboard_report();
             }
-
             return;
+
         case BEGIN_WORD:
             ctrl_mod = get_mods()&MODS_CTRL_MASK;
             if(record->event.pressed) {
@@ -395,8 +458,8 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                 register_mods(ctrl_mod);
                 send_keyboard_report();
             }
-
             return;
+
         case END_LINE:
             ctrl_mod = get_mods()&MODS_CTRL_MASK;
             if(record->event.pressed) {
@@ -411,8 +474,8 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                 register_mods(ctrl_mod);
                 send_keyboard_report();
             }
-
             return;
+
         case BEGIN_LINE:
             ctrl_mod = get_mods()&MODS_CTRL_MASK;
             if(record->event.pressed) {
