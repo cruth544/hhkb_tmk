@@ -205,6 +205,10 @@ enum function_id {
     DOWN,
     LEFT,
     RIGHT,
+    END_WORD,
+    BEGIN_WORD,
+    END_LINE,
+    BEGIN_LINE,
     // LSHIFT_LPAREN,
 };
 
@@ -234,7 +238,12 @@ const action_t fn_actions[] PROGMEM = {
     [10] = ACTION_FUNCTION(LEFT),
     [11] = ACTION_FUNCTION(DOWN),
     [12] = ACTION_FUNCTION(UP),
-    [13] = ACTION_FUNCTION(RIGHT)
+    [13] = ACTION_FUNCTION(RIGHT),
+
+    [16] = ACTION_FUNCTION(END_WORD),
+    [17] = ACTION_FUNCTION(BEGIN_WORD),
+    [18] = ACTION_FUNCTION(END_LINE),
+    [19] = ACTION_FUNCTION(BEGIN_LINE)
 
     // [3] = ACTION_LAYER_TAP_KEY(3, KC_SCLN),           // Mousekey layer with Semicolon*
     // [4] = ACTION_LAYER_TAP_KEY(4, KC_SPC),            // Mousekey layer with Space
@@ -290,8 +299,8 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 // #   define MODS_ALT_MASK   (MOD_BIT(KC_LALT)|MOD_BIT(KC_RALT))
 #   define MODS_CTRL_MASK   (MOD_BIT(KC_LCTRL)|MOD_BIT(KC_RCTRL))
 // #   define MODS_SFT_MASK   (MOD_BIT(KC_LSFT)|MOD_BIT(KC_RSFT))
-//     static uint8_t gui_mod;
-//     static uint8_t alt_mod;
+    // static uint8_t gui_mod;
+    // static uint8_t alt_mod;
     static uint8_t ctrl_mod;
     // static uint8_t sft_mod;
     // if (record->event.pressed) dprint("P"); else dprint("R");
@@ -309,7 +318,6 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                 add_mods(ctrl_mod);
             } else {
                 del_key(KC_UP);
-                // add_mods(KC_FN2);
                 register_mods(ctrl_mod);
                 send_keyboard_report();
             }
@@ -324,7 +332,6 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                 add_mods(ctrl_mod);
             } else {
                 del_key(KC_DOWN);
-                // add_mods(KC_FN2);
                 register_mods(ctrl_mod);
                 send_keyboard_report();
             }
@@ -339,7 +346,6 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                 add_mods(ctrl_mod);
             } else {
                 del_key(KC_LEFT);
-                // add_mods(KC_FN2);
                 register_mods(ctrl_mod);
                 send_keyboard_report();
             }
@@ -354,12 +360,74 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                 add_mods(ctrl_mod);
             } else {
                 del_key(KC_RIGHT);
-                // add_mods(KC_FN2);
                 register_mods(ctrl_mod);
                 send_keyboard_report();
             }
             return;
 
+        case END_WORD:
+            ctrl_mod = get_mods()&MODS_CTRL_MASK;
+            if(record->event.pressed) {
+                del_mods(ctrl_mod);
+                add_weak_mods(MOD_BIT(KC_LALT));
+                add_key(KC_RIGHT);
+                send_keyboard_report();
+                del_weak_mods(MOD_BIT(KC_LALT));
+                add_mods(ctrl_mod);
+            } else {
+                del_key(KC_RIGHT);
+                register_mods(ctrl_mod);
+                send_keyboard_report();
+            }
+
+            return;
+        case BEGIN_WORD:
+            ctrl_mod = get_mods()&MODS_CTRL_MASK;
+            if(record->event.pressed) {
+                del_mods(ctrl_mod);
+                add_weak_mods(MOD_BIT(KC_LALT));
+                add_key(KC_LEFT);
+                send_keyboard_report();
+                del_weak_mods(MOD_BIT(KC_LALT));
+                add_mods(ctrl_mod);
+            } else {
+                del_key(KC_LEFT);
+                register_mods(ctrl_mod);
+                send_keyboard_report();
+            }
+
+            return;
+        case END_LINE:
+            ctrl_mod = get_mods()&MODS_CTRL_MASK;
+            if(record->event.pressed) {
+                del_mods(ctrl_mod);
+                add_weak_mods(MOD_BIT(KC_LGUI));
+                add_key(KC_RIGHT);
+                send_keyboard_report();
+                del_weak_mods(MOD_BIT(KC_LGUI));
+                add_mods(ctrl_mod);
+            } else {
+                del_key(KC_RIGHT);
+                register_mods(ctrl_mod);
+                send_keyboard_report();
+            }
+
+            return;
+        case BEGIN_LINE:
+            ctrl_mod = get_mods()&MODS_CTRL_MASK;
+            if(record->event.pressed) {
+                del_mods(ctrl_mod);
+                add_weak_mods(MOD_BIT(KC_LGUI));
+                add_key(KC_LEFT);
+                send_keyboard_report();
+                del_weak_mods(MOD_BIT(KC_LGUI));
+                add_mods(ctrl_mod);
+            } else {
+                del_key(KC_LEFT);
+                register_mods(ctrl_mod);
+                send_keyboard_report();
+            }
+            return;
 
         // case LSHIFT_LPAREN:
         //     // Shift parentheses example: LShft + tap '('
