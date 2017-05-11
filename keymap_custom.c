@@ -43,9 +43,9 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      *       `-------------------------------------------`
      */
     [1] = \
-    KEYMAP(GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSLS,GRV, \
-           TAB ,   Q,   W,   E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,BSPC, \
-           LCTL ,   A,   S,   D,   F,   G,   H,    J,   K ,  L, SCLN, QUOT,ENT, \
+    KEYMAP(GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0, MINS, EQL, BSLS, GRV, \
+           TAB ,   Q,   W,   E,   R,   T,   Y,   U,   I,   O,  P, LBRC, RBRC, BSPC, \
+           LCTL ,   A,   S,   D,   F,   G,   H,    J,   K ,  L, SCLN, QUOT, ENT, \
            LSFT  ,   Z,   X,   C,   V,   B,   N,   M, COMM, DOT, SLSH, RSFT,TRNS, \
                 LALT, TRNS,           SPC           , RGUI, RALT),
 
@@ -64,10 +64,10 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      */
     [2] = \
     KEYMAP(ESC, TRNS, TRNS, TRNS, FN19, TRNS, FN20, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, INS, DEL, \
-           TAB , TRNS, FN15, FN17, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, BSPC, \
-           TRNS  , TRNS, TRNS, TRNS, FN14, FN16, FN10, FN11,  FN12,  FN13, TRNS, TRNS, TRNS, \
-           LSFT   , TRNS, TRNS, TRNS, TRNS, FN18, TRNS, TRNS, TRNS, TRNS, TRNS, RSFT, TRNS, \
-                LALT, LGUI,            SPC             , RGUI, RALT),
+           TAB , TRNS, TRNS, FN17, TRNS, TRNS, TRNS, TRNS, PPLS, TRNS, TRNS, TRNS, TRNS, BSPC, \
+           TRNS  , TRNS, TRNS, FN15, FN14, FN16, FN10, FN11,  FN12,  FN13, TRNS, TRNS, ENT, \
+           LSFT   , TRNS, TRNS, TRNS,   A , FN18, TRNS, TRNS, TRNS, TRNS, TRNS, RSFT, TRNS, \
+                LALT, LGUI,    /*SPC*/ FN9 /*SPC*/    , RGUI, RALT),
 
 
 
@@ -86,10 +86,10 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      */
     [6] = \
     KEYMAP(PWR, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
-           CAPS,NO,  NO,  NO,  NO,  NO,  NO,  NO,  PSCR,SLCK,PAUS, UP,  FN4,  BSPC, \
-           LCTL,VOLD,VOLU,MUTE,NO,  NO,  PAST,PSLS,HOME,PGUP,LEFT,RGHT,ENT, \
-           LSFT,NO,  NO,  NO,  NO,  NO,  PPLS,PMNS,END, PGDN,DOWN,RSFT,TRNS, \
-                LALT,LGUI,          TRNS,               RGUI,RALT),
+           CAPS,  NO, MPRV, MPLY, MNXT,  NO,  NO,  NO,  NO, NO, NO, UP,  FN4,  BSPC, \
+           LCTL, VOLD,VOLU,MUTE,  NO,  NO, PAST, PSLS,HOME, PGUP, LEFT, RGHT, ENT, \
+            LSFT,  NO,  NO,  NO,  NO,  NO, PPLS, PMNS, END, PGDN, DOWN, RSFT, FN6, \
+                LALT, LGUI,          TRNS,             RGUI, RALT),
 
 #if 0
     /* Layer 3: Fn3 Mouse mode(IJKL)[Semicolon]
@@ -201,6 +201,8 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
 
 /* id for user defined functions */
 enum function_id {
+    SPACE,
+
     UP,
     DOWN,
     LEFT,
@@ -233,13 +235,15 @@ const action_t fn_actions[] __attribute__ ((section (".keymap.fn_actions"))) = {
 #else
 const action_t fn_actions[] PROGMEM = {
 #endif
-    [0] = ACTION_DEFAULT_LAYER_SET(0),                // Default layer(not used)
-    [1] = ACTION_LAYER_MODS(1, MOD_LGUI),             // Cursor layer with Slash* /*KC_SLASH*/
-    [2] = ACTION_LAYER_MODS(2, MOD_LCTL),             // Cursor layer with Slash* /*KC_SLASH*/
+    [0]  = ACTION_DEFAULT_LAYER_SET(0),                // Default layer(not used)
+    [1]  = ACTION_LAYER_MODS(1, MOD_LGUI),             // Cursor layer with Slash* /*KC_SLASH*/
+    [2]  = ACTION_LAYER_MODS(2, MOD_LCTL),             // Cursor layer with Slash* /*KC_SLASH*/
+    // [2]  = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC)
     // [3] = ACTION_LAYER_MOMENTARY(2),
-    [6] = ACTION_LAYER_MOMENTARY(6),                 // HHKB layer(toggle with 5 taps)
+    [6]  = ACTION_LAYER_MOMENTARY(6),                 // HHKB layer
     // [4] = ACTION_MACRO(ALT_TILDE),                    // Macro: CMD + Tilde
 
+    [9]  = ACTION_FUNCTION(SPACE),
     [10] = ACTION_FUNCTION(LEFT),
     [11] = ACTION_FUNCTION(DOWN),
     [12] = ACTION_FUNCTION(UP),
@@ -304,11 +308,11 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
  */
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
-// #   define MODS_GUI_MASK   (MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
+#   define MODS_GUI_MASK   (MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
 // #   define MODS_ALT_MASK   (MOD_BIT(KC_LALT)|MOD_BIT(KC_RALT))
 #   define MODS_CTRL_MASK   (MOD_BIT(KC_LCTRL)|MOD_BIT(KC_RCTRL))
 // #   define MODS_SFT_MASK   (MOD_BIT(KC_LSFT)|MOD_BIT(KC_RSFT))
-    // static uint8_t gui_mod;
+    static uint8_t gui_mod;
     // static uint8_t alt_mod;
     static uint8_t ctrl_mod;
     // static uint8_t sft_mod;
@@ -318,6 +322,20 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
     // dprint("\n");
 
     switch (id) {
+        case SPACE:
+            ctrl_mod = get_mods()&MODS_CTRL_MASK;
+            if(record->event.pressed) {
+                del_mods(ctrl_mod);
+                add_key(KC_SPC);
+                send_keyboard_report();
+                add_mods(ctrl_mod);
+            } else {
+                del_key(KC_SPC);
+                register_mods(ctrl_mod);
+                send_keyboard_report();
+            }
+            return;
+
         // ****************************************
         // VIM: LEFT, DOWN, UP, RIGHT
         // ****************************************
