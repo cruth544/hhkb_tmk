@@ -587,7 +587,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x6068
+.text           0x00000000     0x6086
  *(.vectors)
  .vectors       0x00000000       0xac /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm32u4.o
                 0x00000000                __vectors
@@ -595,394 +595,394 @@ END GROUP
  *(.vectors)
  *(.progmem.gcc*)
  .progmem.gcc_sw_table.action_function
-                0x000000ac       0x18 obj_hhkb_rn42/keymap_custom.o
+                0x000000ac       0x1a obj_hhkb_rn42/keymap_custom.o
  .progmem.gcc_sw_table.command_console_extra
-                0x000000c4       0x92 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000000c6       0x92 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.gcc_sw_table.USB_Device_ProcessControlRequest
-                0x00000156       0x14 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
+                0x00000158       0x14 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
  .progmem.gcc_sw_table.process_action
-                0x0000016a       0x20 obj_hhkb_rn42/common/action.o
-                0x0000018a                . = ALIGN (0x2)
-                0x0000018a                __trampolines_start = .
+                0x0000016c       0x20 obj_hhkb_rn42/common/action.o
+                0x0000018c                . = ALIGN (0x2)
+                0x0000018c                __trampolines_start = .
  *(.trampolines)
- .trampolines   0x0000018a        0x0 linker stubs
+ .trampolines   0x0000018c        0x0 linker stubs
  *(.trampolines*)
-                0x0000018a                __trampolines_end = .
+                0x0000018c                __trampolines_end = .
  *(.progmem*)
- .progmem.data.__m.2334
-                0x0000018a        0x3 obj_hhkb_rn42/keymap_custom.o
- .progmem.data.__m.2332
-                0x0000018d        0x5 obj_hhkb_rn42/keymap_custom.o
- .progmem.data.__m.2329
-                0x00000192        0x3 obj_hhkb_rn42/keymap_custom.o
- .progmem.data.__m.2327
-                0x00000195        0x5 obj_hhkb_rn42/keymap_custom.o
- .progmem.data.__m.2324
-                0x0000019a        0x5 obj_hhkb_rn42/keymap_custom.o
- .progmem.data.__m.2321
-                0x0000019f       0x19 obj_hhkb_rn42/keymap_custom.o
+ .progmem.data.__m.2335
+                0x0000018c        0x3 obj_hhkb_rn42/keymap_custom.o
+ .progmem.data.__m.2333
+                0x0000018f        0x5 obj_hhkb_rn42/keymap_custom.o
+ .progmem.data.__m.2330
+                0x00000194        0x3 obj_hhkb_rn42/keymap_custom.o
+ .progmem.data.__m.2328
+                0x00000197        0x5 obj_hhkb_rn42/keymap_custom.o
+ .progmem.data.__m.2325
+                0x0000019c        0x5 obj_hhkb_rn42/keymap_custom.o
+ .progmem.data.__m.2322
+                0x000001a1       0x19 obj_hhkb_rn42/keymap_custom.o
  .progmem.data.fn_actions
-                0x000001b8       0x2a obj_hhkb_rn42/keymap_custom.o
-                0x000001b8                fn_actions
+                0x000001ba       0x2a obj_hhkb_rn42/keymap_custom.o
+                0x000001ba                fn_actions
  .progmem.data.keymaps
-                0x000001e2      0x1c0 obj_hhkb_rn42/keymap_custom.o
-                0x000001e2                keymaps
+                0x000001e4      0x1c0 obj_hhkb_rn42/keymap_custom.o
+                0x000001e4                keymaps
  .progmem.data.__c.2271
-                0x000003a2        0x3 obj_hhkb_rn42/rn42/rn42.o
+                0x000003a4        0x3 obj_hhkb_rn42/rn42/rn42.o
  .progmem.data.__c.2265
-                0x000003a5        0x5 obj_hhkb_rn42/rn42/rn42.o
+                0x000003a7        0x5 obj_hhkb_rn42/rn42/rn42.o
  .progmem.data.__c.4830
-                0x000003aa        0x6 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000003ac        0x6 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4828
-                0x000003b0        0xa obj_hhkb_rn42/rn42/rn42_task.o
+                0x000003b2        0xa obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4826
-                0x000003ba        0xa obj_hhkb_rn42/rn42/rn42_task.o
+                0x000003bc        0xa obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4824
-                0x000003c4        0x7 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000003c6        0x7 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4822
-                0x000003cb        0xa obj_hhkb_rn42/rn42/rn42_task.o
+                0x000003cd        0xa obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4820
-                0x000003d5        0x7 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000003d7        0x7 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4818
-                0x000003dc       0x14 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000003de       0x14 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4816
-                0x000003f0        0xb obj_hhkb_rn42/rn42/rn42_task.o
+                0x000003f2        0xb obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4814
-                0x000003fb        0x7 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000003fd        0x7 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4809
-                0x00000402        0x6 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000404        0x6 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4807
-                0x00000408       0x19 obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000040a       0x19 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4802
-                0x00000421        0x4 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000423        0x4 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4800
-                0x00000425        0x4 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000427        0x4 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4797
-                0x00000429        0x4 obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000042b        0x4 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4795
-                0x0000042d       0x1a obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000042f       0x1a obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4837
-                0x00000447        0x6 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000449        0x6 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4835
-                0x0000044d        0x7 obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000044f        0x7 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4918
-                0x00000454        0xa obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000456        0xa obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4916
-                0x0000045e        0xb obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000460        0xb obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4913
-                0x00000469        0x6 obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000046b        0x6 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4911
-                0x0000046f        0x6 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000471        0x6 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4909
-                0x00000475        0x6 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000477        0x6 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4907
-                0x0000047b        0xb obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000047d        0xb obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4904
-                0x00000486       0x1d obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000488       0x1d obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4898
-                0x000004a3        0xa obj_hhkb_rn42/rn42/rn42_task.o
+                0x000004a5        0xa obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4896
-                0x000004ad       0x19 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000004af       0x19 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4894
-                0x000004c6        0x2 obj_hhkb_rn42/rn42/rn42_task.o
- .progmem.data.__c.4892
                 0x000004c8        0x2 obj_hhkb_rn42/rn42/rn42_task.o
+ .progmem.data.__c.4892
+                0x000004ca        0x2 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4889
-                0x000004ca        0x4 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000004cc        0x4 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4886
-                0x000004ce        0x7 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000004d0        0x7 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4883
-                0x000004d5        0x6 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000004d7        0x6 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4879
-                0x000004db        0x5 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000004dd        0x5 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4876
-                0x000004e0        0xa obj_hhkb_rn42/rn42/rn42_task.o
+                0x000004e2        0xa obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4874
-                0x000004ea        0xf obj_hhkb_rn42/rn42/rn42_task.o
+                0x000004ec        0xf obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4872
-                0x000004f9       0x11 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000004fb       0x11 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4870
-                0x0000050a       0x1b obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000050c       0x1b obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4868
-                0x00000525        0xa obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000527        0xa obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4866
-                0x0000052f        0xf obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000531        0xf obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4864
-                0x0000053e        0xe obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000540        0xe obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4862
-                0x0000054c       0x19 obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000054e       0x19 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4858
-                0x00000565       0x20 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000567       0x20 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4856
-                0x00000585       0x12 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000587       0x12 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4854
-                0x00000597       0x1b obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000599       0x1b obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4852
-                0x000005b2       0x27 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000005b4       0x27 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4850
-                0x000005d9       0x1a obj_hhkb_rn42/rn42/rn42_task.o
+                0x000005db       0x1a obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4848
-                0x000005f3       0x15 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000005f5       0x15 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4846
-                0x00000608       0x24 obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000060a       0x24 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4786
-                0x0000062c       0x15 obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000062e       0x15 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4772
-                0x00000641       0x12 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000643       0x12 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4766
-                0x00000653        0x6 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00000655        0x6 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4764
-                0x00000659        0x3 obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000065b        0x3 obj_hhkb_rn42/rn42/rn42_task.o
  .progmem.data.__c.4722
-                0x0000065c        0x4 obj_hhkb_rn42/rn42/main.o
+                0x0000065e        0x4 obj_hhkb_rn42/rn42/main.o
  .progmem.data.__c.4720
-                0x00000660       0x10 obj_hhkb_rn42/rn42/main.o
+                0x00000662       0x10 obj_hhkb_rn42/rn42/main.o
  .progmem.data.__c.4718
-                0x00000670        0xc obj_hhkb_rn42/rn42/main.o
+                0x00000672        0xc obj_hhkb_rn42/rn42/main.o
  .progmem.data.__c.4716
-                0x0000067c        0xb obj_hhkb_rn42/rn42/main.o
+                0x0000067e        0xb obj_hhkb_rn42/rn42/main.o
  .progmem.data.__c.4716
-                0x00000687        0x4 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x00000689        0x4 obj_hhkb_rn42/protocol/lufa/lufa.o
  .progmem.data.__c.4711
-                0x0000068b        0x4 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x0000068d        0x4 obj_hhkb_rn42/protocol/lufa/lufa.o
  .progmem.data.ProductString
-                0x0000068f       0x14 obj_hhkb_rn42/protocol/lufa/descriptor.o
-                0x0000068f                ProductString
+                0x00000691       0x14 obj_hhkb_rn42/protocol/lufa/descriptor.o
+                0x00000691                ProductString
  .progmem.data.ManufacturerString
-                0x000006a3       0x10 obj_hhkb_rn42/protocol/lufa/descriptor.o
-                0x000006a3                ManufacturerString
+                0x000006a5       0x10 obj_hhkb_rn42/protocol/lufa/descriptor.o
+                0x000006a5                ManufacturerString
  .progmem.data.LanguageString
-                0x000006b3        0x4 obj_hhkb_rn42/protocol/lufa/descriptor.o
-                0x000006b3                LanguageString
+                0x000006b5        0x4 obj_hhkb_rn42/protocol/lufa/descriptor.o
+                0x000006b5                LanguageString
  .progmem.data.ConfigurationDescriptor
-                0x000006b7       0x74 obj_hhkb_rn42/protocol/lufa/descriptor.o
-                0x000006b7                ConfigurationDescriptor
+                0x000006b9       0x74 obj_hhkb_rn42/protocol/lufa/descriptor.o
+                0x000006b9                ConfigurationDescriptor
  .progmem.data.DeviceDescriptor
-                0x0000072b       0x12 obj_hhkb_rn42/protocol/lufa/descriptor.o
-                0x0000072b                DeviceDescriptor
+                0x0000072d       0x12 obj_hhkb_rn42/protocol/lufa/descriptor.o
+                0x0000072d                DeviceDescriptor
  .progmem.data.ConsoleReport
-                0x0000073d       0x22 obj_hhkb_rn42/protocol/lufa/descriptor.o
-                0x0000073d                ConsoleReport
+                0x0000073f       0x22 obj_hhkb_rn42/protocol/lufa/descriptor.o
+                0x0000073f                ConsoleReport
  .progmem.data.ExtrakeyReport
-                0x0000075f       0x36 obj_hhkb_rn42/protocol/lufa/descriptor.o
-                0x0000075f                ExtrakeyReport
+                0x00000761       0x36 obj_hhkb_rn42/protocol/lufa/descriptor.o
+                0x00000761                ExtrakeyReport
  .progmem.data.MouseReport
-                0x00000795       0x4d obj_hhkb_rn42/protocol/lufa/descriptor.o
-                0x00000795                MouseReport
+                0x00000797       0x4d obj_hhkb_rn42/protocol/lufa/descriptor.o
+                0x00000797                MouseReport
  .progmem.data.KeyboardReport
-                0x000007e2       0x40 obj_hhkb_rn42/protocol/lufa/descriptor.o
-                0x000007e2                KeyboardReport
+                0x000007e4       0x40 obj_hhkb_rn42/protocol/lufa/descriptor.o
+                0x000007e4                KeyboardReport
  .progmem.data.__c.2055
-                0x00000822       0x10 obj_hhkb_rn42/common/host.o
+                0x00000824       0x10 obj_hhkb_rn42/common/host.o
  .progmem.data.__c.2050
-                0x00000832        0xe obj_hhkb_rn42/common/host.o
+                0x00000834        0xe obj_hhkb_rn42/common/host.o
  .progmem.data.__c.2042
-                0x00000840        0x2 obj_hhkb_rn42/common/host.o
+                0x00000842        0x2 obj_hhkb_rn42/common/host.o
  .progmem.data.__c.2037
-                0x00000842        0x6 obj_hhkb_rn42/common/host.o
+                0x00000844        0x6 obj_hhkb_rn42/common/host.o
  .progmem.data.__c.2034
-                0x00000848        0xb obj_hhkb_rn42/common/host.o
+                0x0000084a        0xb obj_hhkb_rn42/common/host.o
  .progmem.data.__c.2384
-                0x00000853        0xb obj_hhkb_rn42/common/keyboard.o
+                0x00000855        0xb obj_hhkb_rn42/common/keyboard.o
  .progmem.data.__c.1714
-                0x0000085e        0xe obj_hhkb_rn42/common/matrix.o
+                0x00000860        0xe obj_hhkb_rn42/common/matrix.o
  .progmem.data.__c.1711
-                0x0000086c        0xe obj_hhkb_rn42/common/matrix.o
+                0x0000086e        0xe obj_hhkb_rn42/common/matrix.o
  .progmem.data.__c.2090
-                0x0000087a       0x12 obj_hhkb_rn42/common/action_util.o
+                0x0000087c       0x12 obj_hhkb_rn42/common/action_util.o
  .progmem.data.__c.2115
-                0x0000088c        0x3 obj_hhkb_rn42/common/mousekey.o
+                0x0000088e        0x3 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2113
-                0x0000088f        0x3 obj_hhkb_rn42/common/mousekey.o
+                0x00000891        0x3 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2111
-                0x00000892        0x2 obj_hhkb_rn42/common/mousekey.o
+                0x00000894        0x2 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2109
-                0x00000894        0x3 obj_hhkb_rn42/common/mousekey.o
+                0x00000896        0x3 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2107
-                0x00000897        0x3 obj_hhkb_rn42/common/mousekey.o
+                0x00000899        0x3 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2105
-                0x0000089a        0x3 obj_hhkb_rn42/common/mousekey.o
+                0x0000089c        0x3 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2103
-                0x0000089d        0x2 obj_hhkb_rn42/common/mousekey.o
+                0x0000089f        0x2 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2101
-                0x0000089f        0x3 obj_hhkb_rn42/common/mousekey.o
+                0x000008a1        0x3 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2099
-                0x000008a2        0x2 obj_hhkb_rn42/common/mousekey.o
+                0x000008a4        0x2 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2097
-                0x000008a4        0x3 obj_hhkb_rn42/common/mousekey.o
+                0x000008a6        0x3 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2095
-                0x000008a7        0x2 obj_hhkb_rn42/common/mousekey.o
+                0x000008a9        0x2 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2093
-                0x000008a9        0x3 obj_hhkb_rn42/common/mousekey.o
+                0x000008ab        0x3 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2091
-                0x000008ac        0x2 obj_hhkb_rn42/common/mousekey.o
+                0x000008ae        0x2 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2089
-                0x000008ae        0x5 obj_hhkb_rn42/common/mousekey.o
+                0x000008b0        0x5 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2087
-                0x000008b3       0x23 obj_hhkb_rn42/common/mousekey.o
+                0x000008b5       0x23 obj_hhkb_rn42/common/mousekey.o
  .progmem.data.__c.2729
-                0x000008d6       0x1b obj_hhkb_rn42/common/command.o
+                0x000008d8       0x1b obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2726
-                0x000008f1       0x19 obj_hhkb_rn42/common/command.o
+                0x000008f3       0x19 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2723
-                0x0000090a       0x15 obj_hhkb_rn42/common/command.o
+                0x0000090c       0x15 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2720
-                0x0000091f       0x13 obj_hhkb_rn42/common/command.o
+                0x00000921       0x13 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2717
-                0x00000932       0x12 obj_hhkb_rn42/common/command.o
+                0x00000934       0x12 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2713
-                0x00000944        0xf obj_hhkb_rn42/common/command.o
+                0x00000946        0xf obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2706
-                0x00000953       0x1b obj_hhkb_rn42/common/command.o
+                0x00000955       0x1b obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2703
-                0x0000096e       0x19 obj_hhkb_rn42/common/command.o
+                0x00000970       0x19 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2700
-                0x00000987       0x15 obj_hhkb_rn42/common/command.o
+                0x00000989       0x15 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2697
-                0x0000099c       0x13 obj_hhkb_rn42/common/command.o
+                0x0000099e       0x13 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2694
-                0x000009af       0x12 obj_hhkb_rn42/common/command.o
+                0x000009b1       0x12 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2690
-                0x000009c1        0xf obj_hhkb_rn42/common/command.o
+                0x000009c3        0xf obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2683
-                0x000009d0        0x2 obj_hhkb_rn42/common/command.o
+                0x000009d2        0x2 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2681
-                0x000009d2        0x3 obj_hhkb_rn42/common/command.o
+                0x000009d4        0x3 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2679
-                0x000009d5       0x17 obj_hhkb_rn42/common/command.o
+                0x000009d7       0x17 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2677
-                0x000009ec        0x2 obj_hhkb_rn42/common/command.o
+                0x000009ee        0x2 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2675
-                0x000009ee        0x3 obj_hhkb_rn42/common/command.o
+                0x000009f0        0x3 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2673
-                0x000009f1       0x15 obj_hhkb_rn42/common/command.o
+                0x000009f3       0x15 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2671
-                0x00000a06        0x2 obj_hhkb_rn42/common/command.o
+                0x00000a08        0x2 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2669
-                0x00000a08        0x3 obj_hhkb_rn42/common/command.o
+                0x00000a0a        0x3 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2667
-                0x00000a0b       0x11 obj_hhkb_rn42/common/command.o
+                0x00000a0d       0x11 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2665
-                0x00000a1c        0x2 obj_hhkb_rn42/common/command.o
+                0x00000a1e        0x2 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2663
-                0x00000a1e        0x3 obj_hhkb_rn42/common/command.o
+                0x00000a20        0x3 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2661
-                0x00000a21        0xf obj_hhkb_rn42/common/command.o
+                0x00000a23        0xf obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2659
-                0x00000a30        0x2 obj_hhkb_rn42/common/command.o
+                0x00000a32        0x2 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2657
-                0x00000a32        0x3 obj_hhkb_rn42/common/command.o
+                0x00000a34        0x3 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2655
-                0x00000a35       0x12 obj_hhkb_rn42/common/command.o
+                0x00000a37       0x12 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2653
-                0x00000a47        0x2 obj_hhkb_rn42/common/command.o
+                0x00000a49        0x2 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2651
-                0x00000a49        0x3 obj_hhkb_rn42/common/command.o
+                0x00000a4b        0x3 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2649
-                0x00000a4c       0x12 obj_hhkb_rn42/common/command.o
+                0x00000a4e       0x12 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2647
-                0x00000a5e        0xe obj_hhkb_rn42/common/command.o
+                0x00000a60        0xe obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2767
-                0x00000a6c        0x3 obj_hhkb_rn42/common/command.o
+                0x00000a6e        0x3 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2765
-                0x00000a6f        0x6 obj_hhkb_rn42/common/command.o
+                0x00000a71        0x6 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2763
-                0x00000a75        0x2 obj_hhkb_rn42/common/command.o
+                0x00000a77        0x2 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2760
-                0x00000a77        0xd obj_hhkb_rn42/common/command.o
+                0x00000a79        0xd obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2746
-                0x00000a84        0x4 obj_hhkb_rn42/common/command.o
+                0x00000a86        0x4 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2736
-                0x00000a88       0x4e obj_hhkb_rn42/common/command.o
+                0x00000a8a       0x4e obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2734
-                0x00000ad6       0xfb obj_hhkb_rn42/common/command.o
+                0x00000ad8       0xfb obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2639
-                0x00000bd1        0x2 obj_hhkb_rn42/common/command.o
+                0x00000bd3        0x2 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2636
-                0x00000bd3        0x4 obj_hhkb_rn42/common/command.o
+                0x00000bd5        0x4 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2641
-                0x00000bd7        0x4 obj_hhkb_rn42/common/command.o
+                0x00000bd9        0x4 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2785
-                0x00000bdb        0x5 obj_hhkb_rn42/common/command.o
+                0x00000bdd        0x5 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2625
-                0x00000be0       0x27 obj_hhkb_rn42/common/command.o
+                0x00000be2       0x27 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2555
-                0x00000c07       0x93 obj_hhkb_rn42/common/command.o
+                0x00000c09       0x93 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2620
-                0x00000c9a        0x2 obj_hhkb_rn42/common/command.o
+                0x00000c9c        0x2 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2611
-                0x00000c9c       0x17 obj_hhkb_rn42/common/command.o
+                0x00000c9e       0x17 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2609
-                0x00000cb3       0x13 obj_hhkb_rn42/common/command.o
+                0x00000cb5       0x13 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2607
-                0x00000cc6       0x17 obj_hhkb_rn42/common/command.o
+                0x00000cc8       0x17 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2605
-                0x00000cdd       0x1a obj_hhkb_rn42/common/command.o
+                0x00000cdf       0x1a obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2603
-                0x00000cf7        0xe obj_hhkb_rn42/common/command.o
+                0x00000cf9        0xe obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2600
-                0x00000d05       0x2e obj_hhkb_rn42/common/command.o
+                0x00000d07       0x2e obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2598
-                0x00000d33       0x36 obj_hhkb_rn42/common/command.o
+                0x00000d35       0x36 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2596
-                0x00000d69       0x2d obj_hhkb_rn42/common/command.o
+                0x00000d6b       0x2d obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2594
-                0x00000d96       0x37 obj_hhkb_rn42/common/command.o
+                0x00000d98       0x37 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2592
-                0x00000dcd       0x2d obj_hhkb_rn42/common/command.o
+                0x00000dcf       0x2d obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2590
-                0x00000dfa        0xf obj_hhkb_rn42/common/command.o
+                0x00000dfc        0xf obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2587
-                0x00000e09        0xd obj_hhkb_rn42/common/command.o
+                0x00000e0b        0xd obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2585
-                0x00000e16        0xc obj_hhkb_rn42/common/command.o
+                0x00000e18        0xc obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2582
-                0x00000e22       0x10 obj_hhkb_rn42/common/command.o
+                0x00000e24       0x10 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2580
-                0x00000e32        0xf obj_hhkb_rn42/common/command.o
+                0x00000e34        0xf obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2577
-                0x00000e41        0xe obj_hhkb_rn42/common/command.o
+                0x00000e43        0xe obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2575
-                0x00000e4f        0xd obj_hhkb_rn42/common/command.o
+                0x00000e51        0xd obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2572
-                0x00000e5c        0xc obj_hhkb_rn42/common/command.o
+                0x00000e5e        0xc obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2570
-                0x00000e68        0xd obj_hhkb_rn42/common/command.o
+                0x00000e6a        0xd obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2567
-                0x00000e75       0x11 obj_hhkb_rn42/common/command.o
+                0x00000e77       0x11 obj_hhkb_rn42/common/command.o
  .progmem.data.__c.2564
-                0x00000e86        0x4 obj_hhkb_rn42/common/command.o
-                0x00000e8a                . = ALIGN (0x2)
+                0x00000e88        0x4 obj_hhkb_rn42/common/command.o
+                0x00000e8c                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x00000e8a                __ctors_start = .
+                0x00000e8c                __ctors_start = .
  *(.ctors)
-                0x00000e8a                __ctors_end = .
-                0x00000e8a                __dtors_start = .
+                0x00000e8c                __ctors_end = .
+                0x00000e8c                __dtors_start = .
  *(.dtors)
-                0x00000e8a                __dtors_end = .
+                0x00000e8c                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000e8a        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm32u4.o
-                0x00000e8a                __init
+ .init0         0x00000e8c        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm32u4.o
+                0x00000e8c                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000e8a        0xc /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm32u4.o
+ .init2         0x00000e8c        0xc /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm32u4.o
  *(.init2)
  *(.init3)
- .init3         0x00000e96       0x4e obj_hhkb_rn42/common/avr/bootloader.o
-                0x00000e96                bootloader_jump_after_watchdog_reset
+ .init3         0x00000e98       0x4e obj_hhkb_rn42/common/avr/bootloader.o
+                0x00000e98                bootloader_jump_after_watchdog_reset
  *(.init3)
  *(.init4)
- .init4         0x00000ee4       0x16 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
-                0x00000ee4                __do_copy_data
- .init4         0x00000efa       0x10 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
-                0x00000efa                __do_clear_bss
+ .init4         0x00000ee6       0x16 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
+                0x00000ee6                __do_copy_data
+ .init4         0x00000efc       0x10 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
+                0x00000efc                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -993,614 +993,614 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000f0a        0x8 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm32u4.o
+ .init9         0x00000f0c        0x8 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm32u4.o
  *(.init9)
  *(.text)
- .text          0x00000f12        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm32u4.o
-                0x00000f12                __vector_42
-                0x00000f12                __vector_22
-                0x00000f12                __vector_28
-                0x00000f12                __vector_1
-                0x00000f12                __vector_32
-                0x00000f12                __vector_34
-                0x00000f12                __vector_24
-                0x00000f12                __bad_interrupt
-                0x00000f12                __vector_6
-                0x00000f12                __vector_31
-                0x00000f12                __vector_35
-                0x00000f12                __vector_39
-                0x00000f12                __vector_3
-                0x00000f12                __vector_23
-                0x00000f12                __vector_30
-                0x00000f12                __vector_13
-                0x00000f12                __vector_17
-                0x00000f12                __vector_19
-                0x00000f12                __vector_7
-                0x00000f12                __vector_41
-                0x00000f12                __vector_27
-                0x00000f12                __vector_5
-                0x00000f12                __vector_33
-                0x00000f12                __vector_37
-                0x00000f12                __vector_4
-                0x00000f12                __vector_9
-                0x00000f12                __vector_2
-                0x00000f12                __vector_15
-                0x00000f12                __vector_36
-                0x00000f12                __vector_29
-                0x00000f12                __vector_40
-                0x00000f12                __vector_8
-                0x00000f12                __vector_26
-                0x00000f12                __vector_14
-                0x00000f12                __vector_16
-                0x00000f12                __vector_18
-                0x00000f12                __vector_20
-                0x00000f12                __vector_38
- .text          0x00000f16       0x6e obj_hhkb_rn42/rn42/suart.o
-                0x00000f16                xmit
-                0x00000f36                rcvr
-                0x00000f5c                recv
- .text          0x00000f84      0x15c obj_hhkb_rn42/common/avr/xprintf.o
-                0x00000f84                xputc
-                0x00000f9c                xputs
-                0x00000faa                xitoa
-                0x000010ce                __xprintf
-                0x000010e0                . = ALIGN (0x2)
+ .text          0x00000f14        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm32u4.o
+                0x00000f14                __vector_42
+                0x00000f14                __vector_22
+                0x00000f14                __vector_28
+                0x00000f14                __vector_1
+                0x00000f14                __vector_32
+                0x00000f14                __vector_34
+                0x00000f14                __vector_24
+                0x00000f14                __bad_interrupt
+                0x00000f14                __vector_6
+                0x00000f14                __vector_31
+                0x00000f14                __vector_35
+                0x00000f14                __vector_39
+                0x00000f14                __vector_3
+                0x00000f14                __vector_23
+                0x00000f14                __vector_30
+                0x00000f14                __vector_13
+                0x00000f14                __vector_17
+                0x00000f14                __vector_19
+                0x00000f14                __vector_7
+                0x00000f14                __vector_41
+                0x00000f14                __vector_27
+                0x00000f14                __vector_5
+                0x00000f14                __vector_33
+                0x00000f14                __vector_37
+                0x00000f14                __vector_4
+                0x00000f14                __vector_9
+                0x00000f14                __vector_2
+                0x00000f14                __vector_15
+                0x00000f14                __vector_36
+                0x00000f14                __vector_29
+                0x00000f14                __vector_40
+                0x00000f14                __vector_8
+                0x00000f14                __vector_26
+                0x00000f14                __vector_14
+                0x00000f14                __vector_16
+                0x00000f14                __vector_18
+                0x00000f14                __vector_20
+                0x00000f14                __vector_38
+ .text          0x00000f18       0x6e obj_hhkb_rn42/rn42/suart.o
+                0x00000f18                xmit
+                0x00000f38                rcvr
+                0x00000f5e                recv
+ .text          0x00000f86      0x15c obj_hhkb_rn42/common/avr/xprintf.o
+                0x00000f86                xputc
+                0x00000f9e                xputs
+                0x00000fac                xitoa
+                0x000010d0                __xprintf
+                0x000010e2                . = ALIGN (0x2)
  *(.text.*)
  .text.action_get_macro
-                0x000010e0       0x54 obj_hhkb_rn42/keymap_custom.o
-                0x000010e0                action_get_macro
+                0x000010e2       0x54 obj_hhkb_rn42/keymap_custom.o
+                0x000010e2                action_get_macro
  .text.action_function
-                0x00001134      0x1bc obj_hhkb_rn42/keymap_custom.o
-                0x00001134                action_function
+                0x00001136      0x1d8 obj_hhkb_rn42/keymap_custom.o
+                0x00001136                action_function
  .text.KEY_POWER_OFF
-                0x000012f0        0xc obj_hhkb_rn42/matrix.o
+                0x0000130e        0xc obj_hhkb_rn42/matrix.o
  .text.KEY_POWER_ON
-                0x000012fc       0x1a obj_hhkb_rn42/matrix.o
+                0x0000131a       0x1a obj_hhkb_rn42/matrix.o
  .text.matrix_init
-                0x00001316       0x56 obj_hhkb_rn42/matrix.o
-                0x00001316                matrix_init
+                0x00001334       0x56 obj_hhkb_rn42/matrix.o
+                0x00001334                matrix_init
  .text.matrix_scan
-                0x0000136c      0x1aa obj_hhkb_rn42/matrix.o
-                0x0000136c                matrix_scan
+                0x0000138a      0x1aa obj_hhkb_rn42/matrix.o
+                0x0000138a                matrix_scan
  .text.matrix_get_row
-                0x00001516       0x10 obj_hhkb_rn42/matrix.o
-                0x00001516                matrix_get_row
+                0x00001534       0x10 obj_hhkb_rn42/matrix.o
+                0x00001534                matrix_get_row
  .text.matrix_power_up
-                0x00001526        0x4 obj_hhkb_rn42/matrix.o
-                0x00001526                matrix_power_up
+                0x00001544        0x4 obj_hhkb_rn42/matrix.o
+                0x00001544                matrix_power_up
  .text.matrix_power_down
-                0x0000152a        0x4 obj_hhkb_rn42/matrix.o
-                0x0000152a                matrix_power_down
- .text.led_set  0x0000152e        0xe obj_hhkb_rn42/led.o
-                0x0000152e                led_set
+                0x00001548        0x4 obj_hhkb_rn42/matrix.o
+                0x00001548                matrix_power_down
+ .text.led_set  0x0000154c        0xe obj_hhkb_rn42/led.o
+                0x0000154c                led_set
  .text.serial_init
-                0x0000153c       0x32 obj_hhkb_rn42/serial_uart.o
-                0x0000153c                serial_init
+                0x0000155a       0x32 obj_hhkb_rn42/serial_uart.o
+                0x0000155a                serial_init
  .text.serial_recv2
-                0x0000156e       0x46 obj_hhkb_rn42/serial_uart.o
-                0x0000156e                serial_recv2
+                0x0000158c       0x46 obj_hhkb_rn42/serial_uart.o
+                0x0000158c                serial_recv2
  .text.serial_send
-                0x000015b4        0xe obj_hhkb_rn42/serial_uart.o
-                0x000015b4                serial_send
+                0x000015d2        0xe obj_hhkb_rn42/serial_uart.o
+                0x000015d2                serial_send
  .text.__vector_25
-                0x000015c2       0x74 obj_hhkb_rn42/serial_uart.o
-                0x000015c2                __vector_25
+                0x000015e0       0x74 obj_hhkb_rn42/serial_uart.o
+                0x000015e0                __vector_25
  .text.keyboard_leds
-                0x00001636        0x6 obj_hhkb_rn42/rn42/rn42.o
+                0x00001654        0x6 obj_hhkb_rn42/rn42/rn42.o
  .text.send_system
-                0x0000163c        0x2 obj_hhkb_rn42/rn42/rn42.o
+                0x0000165a        0x2 obj_hhkb_rn42/rn42/rn42.o
  .text.config_keyboard_leds
-                0x0000163e        0x6 obj_hhkb_rn42/rn42/rn42.o
+                0x0000165c        0x6 obj_hhkb_rn42/rn42/rn42.o
  .text.config_send_keyboard
-                0x00001644        0x2 obj_hhkb_rn42/rn42/rn42.o
+                0x00001662        0x2 obj_hhkb_rn42/rn42/rn42.o
  .text.config_send_mouse
-                0x00001646        0x2 obj_hhkb_rn42/rn42/rn42.o
+                0x00001664        0x2 obj_hhkb_rn42/rn42/rn42.o
  .text.config_send_system
-                0x00001648        0x2 obj_hhkb_rn42/rn42/rn42.o
+                0x00001666        0x2 obj_hhkb_rn42/rn42/rn42.o
  .text.config_send_consumer
-                0x0000164a        0x2 obj_hhkb_rn42/rn42/rn42.o
+                0x00001668        0x2 obj_hhkb_rn42/rn42/rn42.o
  .text.send_consumer
-                0x0000164c       0xc0 obj_hhkb_rn42/rn42/rn42.o
+                0x0000166a       0xc0 obj_hhkb_rn42/rn42/rn42.o
  .text.send_mouse
-                0x0000170c       0x34 obj_hhkb_rn42/rn42/rn42.o
+                0x0000172a       0x34 obj_hhkb_rn42/rn42/rn42.o
  .text.send_keyboard
-                0x00001740       0x4c obj_hhkb_rn42/rn42/rn42.o
+                0x0000175e       0x4c obj_hhkb_rn42/rn42/rn42.o
  .text.rn42_getc
-                0x0000178c        0x4 obj_hhkb_rn42/rn42/rn42.o
-                0x0000178c                rn42_getc
+                0x000017aa        0x4 obj_hhkb_rn42/rn42/rn42.o
+                0x000017aa                rn42_getc
  .text.rn42_gets
-                0x00001790       0x62 obj_hhkb_rn42/rn42/rn42.o
-                0x00001790                rn42_gets
+                0x000017ae       0x62 obj_hhkb_rn42/rn42/rn42.o
+                0x000017ae                rn42_gets
  .text.rn42_putc
-                0x000017f2        0x4 obj_hhkb_rn42/rn42/rn42.o
-                0x000017f2                rn42_putc
+                0x00001810        0x4 obj_hhkb_rn42/rn42/rn42.o
+                0x00001810                rn42_putc
  .text.rn42_autoconnecting
-                0x000017f6        0xa obj_hhkb_rn42/rn42/rn42.o
-                0x000017f6                rn42_autoconnecting
+                0x00001814        0xa obj_hhkb_rn42/rn42/rn42.o
+                0x00001814                rn42_autoconnecting
  .text.rn42_autoconnect
-                0x00001800        0x6 obj_hhkb_rn42/rn42/rn42.o
-                0x00001800                rn42_autoconnect
+                0x0000181e        0x6 obj_hhkb_rn42/rn42/rn42.o
+                0x0000181e                rn42_autoconnect
  .text.rn42_init
-                0x00001806       0x20 obj_hhkb_rn42/rn42/rn42.o
-                0x00001806                rn42_init
+                0x00001824       0x20 obj_hhkb_rn42/rn42/rn42.o
+                0x00001824                rn42_init
  .text.rn42_disconnect
-                0x00001826        0x6 obj_hhkb_rn42/rn42/rn42.o
-                0x00001826                rn42_disconnect
+                0x00001844        0x6 obj_hhkb_rn42/rn42/rn42.o
+                0x00001844                rn42_disconnect
  .text.rn42_rts
-                0x0000182c        0x8 obj_hhkb_rn42/rn42/rn42.o
-                0x0000182c                rn42_rts
+                0x0000184a        0x8 obj_hhkb_rn42/rn42/rn42.o
+                0x0000184a                rn42_rts
  .text.rn42_linked
-                0x00001834        0xa obj_hhkb_rn42/rn42/rn42.o
-                0x00001834                rn42_linked
+                0x00001852        0xa obj_hhkb_rn42/rn42/rn42.o
+                0x00001852                rn42_linked
  .text.rn42_set_leds
-                0x0000183e        0x6 obj_hhkb_rn42/rn42/rn42.o
-                0x0000183e                rn42_set_leds
+                0x0000185c        0x6 obj_hhkb_rn42/rn42/rn42.o
+                0x0000185c                rn42_set_leds
  .text.rn42_send_str
-                0x00001844       0x1e obj_hhkb_rn42/rn42/rn42.o
-                0x00001844                rn42_send_str
+                0x00001862       0x1e obj_hhkb_rn42/rn42/rn42.o
+                0x00001862                rn42_send_str
  .text.rn42_print_response
-                0x00001862       0x30 obj_hhkb_rn42/rn42/rn42.o
-                0x00001862                rn42_print_response
+                0x00001880       0x30 obj_hhkb_rn42/rn42/rn42.o
+                0x00001880                rn42_print_response
  .text.rn42_send_command
-                0x00001892       0x4c obj_hhkb_rn42/rn42/rn42.o
-                0x00001892                rn42_send_command
+                0x000018b0       0x4c obj_hhkb_rn42/rn42/rn42.o
+                0x000018b0                rn42_send_command
  .text.enter_command_mode
-                0x000018de       0x76 obj_hhkb_rn42/rn42/rn42_task.o
+                0x000018fc       0x76 obj_hhkb_rn42/rn42/rn42_task.o
  .text.exit_command_mode
-                0x00001954       0x24 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00001972       0x24 obj_hhkb_rn42/rn42/rn42_task.o
  .text.rn42_task_init
-                0x00001978        0x4 obj_hhkb_rn42/rn42/rn42_task.o
-                0x00001978                rn42_task_init
+                0x00001996        0x4 obj_hhkb_rn42/rn42/rn42_task.o
+                0x00001996                rn42_task_init
  .text.rn42_task
-                0x0000197c      0x226 obj_hhkb_rn42/rn42/rn42_task.o
-                0x0000197c                rn42_task
+                0x0000199a      0x226 obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000199a                rn42_task
  .text.command_extra
-                0x00001ba2      0x45a obj_hhkb_rn42/rn42/rn42_task.o
-                0x00001ba2                command_extra
+                0x00001bc0      0x45a obj_hhkb_rn42/rn42/rn42_task.o
+                0x00001bc0                command_extra
  .text.command_console_extra
-                0x00001ffc      0x2e6 obj_hhkb_rn42/rn42/rn42_task.o
-                0x00001ffc                command_console_extra
+                0x0000201a      0x2e6 obj_hhkb_rn42/rn42/rn42_task.o
+                0x0000201a                command_console_extra
  .text.battery_led
-                0x000022e2       0x22 obj_hhkb_rn42/rn42/battery.o
-                0x000022e2                battery_led
+                0x00002300       0x22 obj_hhkb_rn42/rn42/battery.o
+                0x00002300                battery_led
  .text.battery_init
-                0x00002304       0x8a obj_hhkb_rn42/rn42/battery.o
-                0x00002304                battery_init
+                0x00002322       0x8a obj_hhkb_rn42/rn42/battery.o
+                0x00002322                battery_init
  .text.battery_charging
-                0x0000238e       0x42 obj_hhkb_rn42/rn42/battery.o
-                0x0000238e                battery_charging
+                0x000023ac       0x42 obj_hhkb_rn42/rn42/battery.o
+                0x000023ac                battery_charging
  .text.battery_voltage
-                0x000023d0       0x6e obj_hhkb_rn42/rn42/battery.o
-                0x000023d0                battery_voltage
+                0x000023ee       0x6e obj_hhkb_rn42/rn42/battery.o
+                0x000023ee                battery_voltage
  .text.battery_status
-                0x0000243e       0x38 obj_hhkb_rn42/rn42/battery.o
-                0x0000243e                battery_status
+                0x0000245c       0x38 obj_hhkb_rn42/rn42/battery.o
+                0x0000245c                battery_status
  .text.sendchar_func
-                0x00002476       0x14 obj_hhkb_rn42/rn42/main.o
+                0x00002494       0x14 obj_hhkb_rn42/rn42/main.o
  .text.startup.main
-                0x0000248a       0xfa obj_hhkb_rn42/rn42/main.o
-                0x0000248a                main
+                0x000024a8       0xfa obj_hhkb_rn42/rn42/main.o
+                0x000024a8                main
  .text.keyboard_leds
-                0x00002584        0x6 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x000025a2        0x6 obj_hhkb_rn42/protocol/lufa/lufa.o
  .text.sendchar
-                0x0000258a       0xc8 obj_hhkb_rn42/protocol/lufa/lufa.o
-                0x0000258a                sendchar
+                0x000025a8       0xc8 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x000025a8                sendchar
  .text.send_consumer
-                0x00002652       0x66 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x00002670       0x66 obj_hhkb_rn42/protocol/lufa/lufa.o
  .text.send_system
-                0x000026b8       0x68 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x000026d6       0x68 obj_hhkb_rn42/protocol/lufa/lufa.o
  .text.send_mouse
-                0x00002720       0x46 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x0000273e       0x46 obj_hhkb_rn42/protocol/lufa/lufa.o
  .text.send_keyboard
-                0x00002766       0x62 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x00002784       0x62 obj_hhkb_rn42/protocol/lufa/lufa.o
  .text.EVENT_USB_Device_Connect
-                0x000027c8       0x24 obj_hhkb_rn42/protocol/lufa/lufa.o
-                0x000027c8                EVENT_USB_Device_Connect
+                0x000027e6       0x24 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x000027e6                EVENT_USB_Device_Connect
  .text.EVENT_USB_Device_Disconnect
-                0x000027ec        0xe obj_hhkb_rn42/protocol/lufa/lufa.o
-                0x000027ec                EVENT_USB_Device_Disconnect
+                0x0000280a        0xe obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x0000280a                EVENT_USB_Device_Disconnect
  .text.EVENT_USB_Device_Reset
-                0x000027fa        0x2 obj_hhkb_rn42/protocol/lufa/lufa.o
-                0x000027fa                EVENT_USB_Device_Reset
+                0x00002818        0x2 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x00002818                EVENT_USB_Device_Reset
  .text.EVENT_USB_Device_StartOfFrame
-                0x000027fc       0x80 obj_hhkb_rn42/protocol/lufa/lufa.o
-                0x000027fc                EVENT_USB_Device_StartOfFrame
+                0x0000281a       0x80 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x0000281a                EVENT_USB_Device_StartOfFrame
  .text.EVENT_USB_Device_ConfigurationChanged
-                0x0000287c       0x28 obj_hhkb_rn42/protocol/lufa/lufa.o
-                0x0000287c                EVENT_USB_Device_ConfigurationChanged
+                0x0000289a       0x28 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x0000289a                EVENT_USB_Device_ConfigurationChanged
  .text.EVENT_USB_Device_ControlRequest
-                0x000028a4      0x160 obj_hhkb_rn42/protocol/lufa/lufa.o
-                0x000028a4                EVENT_USB_Device_ControlRequest
+                0x000028c2      0x160 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x000028c2                EVENT_USB_Device_ControlRequest
  .text.hook_usb_suspend_entry
-                0x00002a04       0x1a obj_hhkb_rn42/protocol/lufa/lufa.o
-                0x00002a04                hook_usb_suspend_entry
+                0x00002a22       0x1a obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x00002a22                hook_usb_suspend_entry
  .text.EVENT_USB_Device_Suspend
-                0x00002a1e        0x4 obj_hhkb_rn42/protocol/lufa/lufa.o
-                0x00002a1e                EVENT_USB_Device_Suspend
+                0x00002a3c        0x4 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x00002a3c                EVENT_USB_Device_Suspend
  .text.hook_usb_wakeup
-                0x00002a22        0xe obj_hhkb_rn42/protocol/lufa/lufa.o
-                0x00002a22                hook_usb_wakeup
+                0x00002a40        0xe obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x00002a40                hook_usb_wakeup
  .text.EVENT_USB_Device_WakeUp
-                0x00002a30        0x4 obj_hhkb_rn42/protocol/lufa/lufa.o
-                0x00002a30                EVENT_USB_Device_WakeUp
+                0x00002a4e        0x4 obj_hhkb_rn42/protocol/lufa/lufa.o
+                0x00002a4e                EVENT_USB_Device_WakeUp
  .text.CALLBACK_USB_GetDescriptor
-                0x00002a34       0xb2 obj_hhkb_rn42/protocol/lufa/descriptor.o
-                0x00002a34                CALLBACK_USB_GetDescriptor
+                0x00002a52       0xb2 obj_hhkb_rn42/protocol/lufa/descriptor.o
+                0x00002a52                CALLBACK_USB_GetDescriptor
  .text.USB_Device_SendRemoteWakeup
-                0x00002ae6       0x2c obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.o
-                0x00002ae6                USB_Device_SendRemoteWakeup
+                0x00002b04       0x2c obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.o
+                0x00002b04                USB_Device_SendRemoteWakeup
  .text.Endpoint_Write_Stream_LE
-                0x00002b12       0x92 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
-                0x00002b12                Endpoint_Write_Stream_LE
+                0x00002b30       0x92 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
+                0x00002b30                Endpoint_Write_Stream_LE
  .text.Endpoint_Write_Control_Stream_LE
-                0x00002ba4       0xc2 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
-                0x00002ba4                Endpoint_Write_Control_Stream_LE
+                0x00002bc2       0xc2 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
+                0x00002bc2                Endpoint_Write_Control_Stream_LE
  .text.Endpoint_Write_Control_PStream_LE
-                0x00002c66       0xc4 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
-                0x00002c66                Endpoint_Write_Control_PStream_LE
+                0x00002c84       0xc4 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
+                0x00002c84                Endpoint_Write_Control_PStream_LE
  .text.Endpoint_ConfigureEndpoint_Prv
-                0x00002d2a       0x6a obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
-                0x00002d2a                Endpoint_ConfigureEndpoint_Prv
+                0x00002d48       0x6a obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
+                0x00002d48                Endpoint_ConfigureEndpoint_Prv
  .text.Endpoint_ClearStatusStage
-                0x00002d94       0x42 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
-                0x00002d94                Endpoint_ClearStatusStage
+                0x00002db2       0x42 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
+                0x00002db2                Endpoint_ClearStatusStage
  .text.Endpoint_WaitUntilReady
-                0x00002dd6       0x60 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
-                0x00002dd6                Endpoint_WaitUntilReady
+                0x00002df4       0x60 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
+                0x00002df4                Endpoint_WaitUntilReady
  .text.USB_Disable
-                0x00002e36       0x34 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
-                0x00002e36                USB_Disable
+                0x00002e54       0x34 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
+                0x00002e54                USB_Disable
  .text.USB_ResetInterface
-                0x00002e6a       0x86 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
-                0x00002e6a                USB_ResetInterface
+                0x00002e88       0x86 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
+                0x00002e88                USB_ResetInterface
  .text.USB_Init
-                0x00002ef0       0x22 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
-                0x00002ef0                USB_Init
+                0x00002f0e       0x22 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
+                0x00002f0e                USB_Init
  .text.USB_INT_DisableAllInterrupts
-                0x00002f12       0x10 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
-                0x00002f12                USB_INT_DisableAllInterrupts
+                0x00002f30       0x10 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
+                0x00002f30                USB_INT_DisableAllInterrupts
  .text.USB_INT_ClearAllInterrupts
-                0x00002f22        0xa obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
-                0x00002f22                USB_INT_ClearAllInterrupts
+                0x00002f40        0xa obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
+                0x00002f40                USB_INT_ClearAllInterrupts
  .text.__vector_10
-                0x00002f2c      0x1a4 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
-                0x00002f2c                __vector_10
+                0x00002f4a      0x1a4 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
+                0x00002f4a                __vector_10
  .text.__vector_11
-                0x000030d0       0x78 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
-                0x000030d0                __vector_11
+                0x000030ee       0x78 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
+                0x000030ee                __vector_11
  .text.USB_Device_ProcessControlRequest
-                0x00003148      0x29c obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
-                0x00003148                USB_Device_ProcessControlRequest
+                0x00003166      0x29c obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
+                0x00003166                USB_Device_ProcessControlRequest
  .text.host_set_driver
-                0x000033e4        0xa obj_hhkb_rn42/common/host.o
-                0x000033e4                host_set_driver
+                0x00003402        0xa obj_hhkb_rn42/common/host.o
+                0x00003402                host_set_driver
  .text.host_get_driver
-                0x000033ee        0xa obj_hhkb_rn42/common/host.o
-                0x000033ee                host_get_driver
+                0x0000340c        0xa obj_hhkb_rn42/common/host.o
+                0x0000340c                host_get_driver
  .text.host_keyboard_leds
-                0x000033f8       0x18 obj_hhkb_rn42/common/host.o
-                0x000033f8                host_keyboard_leds
+                0x00003416       0x18 obj_hhkb_rn42/common/host.o
+                0x00003416                host_keyboard_leds
  .text.host_keyboard_send
-                0x00003410       0x8a obj_hhkb_rn42/common/host.o
-                0x00003410                host_keyboard_send
+                0x0000342e       0x8a obj_hhkb_rn42/common/host.o
+                0x0000342e                host_keyboard_send
  .text.host_mouse_send
-                0x0000349a       0x16 obj_hhkb_rn42/common/host.o
-                0x0000349a                host_mouse_send
+                0x000034b8       0x16 obj_hhkb_rn42/common/host.o
+                0x000034b8                host_mouse_send
  .text.host_system_send
-                0x000034b0       0x5c obj_hhkb_rn42/common/host.o
-                0x000034b0                host_system_send
+                0x000034ce       0x5c obj_hhkb_rn42/common/host.o
+                0x000034ce                host_system_send
  .text.host_consumer_send
-                0x0000350c       0x5c obj_hhkb_rn42/common/host.o
-                0x0000350c                host_consumer_send
+                0x0000352a       0x5c obj_hhkb_rn42/common/host.o
+                0x0000352a                host_consumer_send
  .text.keyboard_init
-                0x00003568        0x8 obj_hhkb_rn42/common/keyboard.o
-                0x00003568                keyboard_init
+                0x00003586        0x8 obj_hhkb_rn42/common/keyboard.o
+                0x00003586                keyboard_init
  .text.keyboard_task
-                0x00003570      0x17a obj_hhkb_rn42/common/keyboard.o
-                0x00003570                keyboard_task
+                0x0000358e      0x17a obj_hhkb_rn42/common/keyboard.o
+                0x0000358e                keyboard_task
  .text.keyboard_set_leds
-                0x000036ea        0x4 obj_hhkb_rn42/common/keyboard.o
-                0x000036ea                keyboard_set_leds
+                0x00003708        0x4 obj_hhkb_rn42/common/keyboard.o
+                0x00003708                keyboard_set_leds
  .text.matrix_clear
-                0x000036ee        0x2 obj_hhkb_rn42/common/matrix.o
-                0x000036ee                matrix_clear
+                0x0000370c        0x2 obj_hhkb_rn42/common/matrix.o
+                0x0000370c                matrix_clear
  .text.matrix_print
-                0x000036f0       0x68 obj_hhkb_rn42/common/matrix.o
-                0x000036f0                matrix_print
+                0x0000370e       0x68 obj_hhkb_rn42/common/matrix.o
+                0x0000370e                matrix_print
  .text.action_exec
-                0x00003758       0x84 obj_hhkb_rn42/common/action.o
-                0x00003758                action_exec
+                0x00003776       0x84 obj_hhkb_rn42/common/action.o
+                0x00003776                action_exec
  .text.register_code
-                0x000037dc      0x154 obj_hhkb_rn42/common/action.o
-                0x000037dc                register_code
+                0x000037fa      0x154 obj_hhkb_rn42/common/action.o
+                0x000037fa                register_code
  .text.unregister_code
-                0x00003930       0x50 obj_hhkb_rn42/common/action.o
-                0x00003930                unregister_code
+                0x0000394e       0x50 obj_hhkb_rn42/common/action.o
+                0x0000394e                unregister_code
  .text.register_mods
-                0x00003980        0xe obj_hhkb_rn42/common/action.o
-                0x00003980                register_mods
+                0x0000399e        0xe obj_hhkb_rn42/common/action.o
+                0x0000399e                register_mods
  .text.unregister_mods
-                0x0000398e        0xe obj_hhkb_rn42/common/action.o
-                0x0000398e                unregister_mods
+                0x000039ac        0xe obj_hhkb_rn42/common/action.o
+                0x000039ac                unregister_mods
  .text.process_action
-                0x0000399c      0x63e obj_hhkb_rn42/common/action.o
-                0x0000399c                process_action
+                0x000039ba      0x63e obj_hhkb_rn42/common/action.o
+                0x000039ba                process_action
  .text.clear_keyboard_but_mods
-                0x00003fda       0x24 obj_hhkb_rn42/common/action.o
-                0x00003fda                clear_keyboard_but_mods
+                0x00003ff8       0x24 obj_hhkb_rn42/common/action.o
+                0x00003ff8                clear_keyboard_but_mods
  .text.clear_keyboard
-                0x00003ffe        0x8 obj_hhkb_rn42/common/action.o
-                0x00003ffe                clear_keyboard
+                0x0000401c        0x8 obj_hhkb_rn42/common/action.o
+                0x0000401c                clear_keyboard
  .text.is_tap_key
-                0x00004006       0x6e obj_hhkb_rn42/common/action.o
-                0x00004006                is_tap_key
+                0x00004024       0x6e obj_hhkb_rn42/common/action.o
+                0x00004024                is_tap_key
  .text.debug_event
-                0x00004074       0x1e obj_hhkb_rn42/common/action.o
-                0x00004074                debug_event
+                0x00004092       0x1e obj_hhkb_rn42/common/action.o
+                0x00004092                debug_event
  .text.debug_record
-                0x00004092       0x20 obj_hhkb_rn42/common/action.o
-                0x00004092                debug_record
+                0x000040b0       0x20 obj_hhkb_rn42/common/action.o
+                0x000040b0                debug_record
  .text.debug_waiting_buffer
-                0x000040b2       0x42 obj_hhkb_rn42/common/action_tapping.o
+                0x000040d0       0x42 obj_hhkb_rn42/common/action_tapping.o
  .text.debug_tapping_key
-                0x000040f4       0x1c obj_hhkb_rn42/common/action_tapping.o
+                0x00004112       0x1c obj_hhkb_rn42/common/action_tapping.o
  .text.waiting_buffer_scan_tap
-                0x00004110       0xd0 obj_hhkb_rn42/common/action_tapping.o
+                0x0000412e       0xd0 obj_hhkb_rn42/common/action_tapping.o
  .text.process_tapping
-                0x000041e0      0x3da obj_hhkb_rn42/common/action_tapping.o
+                0x000041fe      0x3da obj_hhkb_rn42/common/action_tapping.o
  .text.action_tapping_process
-                0x000045ba      0x15a obj_hhkb_rn42/common/action_tapping.o
-                0x000045ba                action_tapping_process
+                0x000045d8      0x15a obj_hhkb_rn42/common/action_tapping.o
+                0x000045d8                action_tapping_process
  .text.action_macro_play
-                0x00004714      0x13a obj_hhkb_rn42/common/action_macro.o
-                0x00004714                action_macro_play
+                0x00004732      0x13a obj_hhkb_rn42/common/action_macro.o
+                0x00004732                action_macro_play
  .text.default_layer_state_set
-                0x0000484e       0x18 obj_hhkb_rn42/common/action_layer.o
+                0x0000486c       0x18 obj_hhkb_rn42/common/action_layer.o
  .text.layer_state_set
-                0x00004866       0x18 obj_hhkb_rn42/common/action_layer.o
+                0x00004884       0x18 obj_hhkb_rn42/common/action_layer.o
  .text.default_layer_debug
-                0x0000487e        0x2 obj_hhkb_rn42/common/action_layer.o
-                0x0000487e                default_layer_debug
+                0x0000489c        0x2 obj_hhkb_rn42/common/action_layer.o
+                0x0000489c                default_layer_debug
  .text.default_layer_set
-                0x00004880        0x4 obj_hhkb_rn42/common/action_layer.o
-                0x00004880                default_layer_set
+                0x0000489e        0x4 obj_hhkb_rn42/common/action_layer.o
+                0x0000489e                default_layer_set
  .text.default_layer_or
-                0x00004884       0x24 obj_hhkb_rn42/common/action_layer.o
-                0x00004884                default_layer_or
+                0x000048a2       0x24 obj_hhkb_rn42/common/action_layer.o
+                0x000048a2                default_layer_or
  .text.default_layer_and
-                0x000048a8       0x24 obj_hhkb_rn42/common/action_layer.o
-                0x000048a8                default_layer_and
+                0x000048c6       0x24 obj_hhkb_rn42/common/action_layer.o
+                0x000048c6                default_layer_and
  .text.default_layer_xor
-                0x000048cc       0x24 obj_hhkb_rn42/common/action_layer.o
-                0x000048cc                default_layer_xor
+                0x000048ea       0x24 obj_hhkb_rn42/common/action_layer.o
+                0x000048ea                default_layer_xor
  .text.layer_clear
-                0x000048f0        0xa obj_hhkb_rn42/common/action_layer.o
-                0x000048f0                layer_clear
+                0x0000490e        0xa obj_hhkb_rn42/common/action_layer.o
+                0x0000490e                layer_clear
  .text.layer_move
-                0x000048fa       0x1e obj_hhkb_rn42/common/action_layer.o
-                0x000048fa                layer_move
+                0x00004918       0x1e obj_hhkb_rn42/common/action_layer.o
+                0x00004918                layer_move
  .text.layer_on
-                0x00004918       0x36 obj_hhkb_rn42/common/action_layer.o
-                0x00004918                layer_on
+                0x00004936       0x36 obj_hhkb_rn42/common/action_layer.o
+                0x00004936                layer_on
  .text.layer_off
-                0x0000494e       0x3e obj_hhkb_rn42/common/action_layer.o
-                0x0000494e                layer_off
+                0x0000496c       0x3e obj_hhkb_rn42/common/action_layer.o
+                0x0000496c                layer_off
  .text.layer_invert
-                0x0000498c       0x36 obj_hhkb_rn42/common/action_layer.o
-                0x0000498c                layer_invert
+                0x000049aa       0x36 obj_hhkb_rn42/common/action_layer.o
+                0x000049aa                layer_invert
  .text.layer_or
-                0x000049c2       0x24 obj_hhkb_rn42/common/action_layer.o
-                0x000049c2                layer_or
+                0x000049e0       0x24 obj_hhkb_rn42/common/action_layer.o
+                0x000049e0                layer_or
  .text.layer_and
-                0x000049e6       0x24 obj_hhkb_rn42/common/action_layer.o
-                0x000049e6                layer_and
+                0x00004a04       0x24 obj_hhkb_rn42/common/action_layer.o
+                0x00004a04                layer_and
  .text.layer_xor
-                0x00004a0a       0x24 obj_hhkb_rn42/common/action_layer.o
-                0x00004a0a                layer_xor
+                0x00004a28       0x24 obj_hhkb_rn42/common/action_layer.o
+                0x00004a28                layer_xor
  .text.layer_debug
-                0x00004a2e        0x2 obj_hhkb_rn42/common/action_layer.o
-                0x00004a2e                layer_debug
+                0x00004a4c        0x2 obj_hhkb_rn42/common/action_layer.o
+                0x00004a4c                layer_debug
  .text.layer_switch_get_action
-                0x00004a30       0x84 obj_hhkb_rn42/common/action_layer.o
-                0x00004a30                layer_switch_get_action
- .text.add_key  0x00004ab4       0x42 obj_hhkb_rn42/common/action_util.o
-                0x00004ab4                add_key
- .text.del_key  0x00004af6       0x26 obj_hhkb_rn42/common/action_util.o
-                0x00004af6                del_key
+                0x00004a4e       0x84 obj_hhkb_rn42/common/action_layer.o
+                0x00004a4e                layer_switch_get_action
+ .text.add_key  0x00004ad2       0x42 obj_hhkb_rn42/common/action_util.o
+                0x00004ad2                add_key
+ .text.del_key  0x00004b14       0x26 obj_hhkb_rn42/common/action_util.o
+                0x00004b14                del_key
  .text.clear_keys
-                0x00004b1c       0x1c obj_hhkb_rn42/common/action_util.o
-                0x00004b1c                clear_keys
+                0x00004b3a       0x1c obj_hhkb_rn42/common/action_util.o
+                0x00004b3a                clear_keys
  .text.get_mods
-                0x00004b38        0x6 obj_hhkb_rn42/common/action_util.o
-                0x00004b38                get_mods
+                0x00004b56        0x6 obj_hhkb_rn42/common/action_util.o
+                0x00004b56                get_mods
  .text.add_mods
-                0x00004b3e        0xc obj_hhkb_rn42/common/action_util.o
-                0x00004b3e                add_mods
+                0x00004b5c        0xc obj_hhkb_rn42/common/action_util.o
+                0x00004b5c                add_mods
  .text.del_mods
-                0x00004b4a        0xe obj_hhkb_rn42/common/action_util.o
-                0x00004b4a                del_mods
+                0x00004b68        0xe obj_hhkb_rn42/common/action_util.o
+                0x00004b68                del_mods
  .text.set_mods
-                0x00004b58        0x6 obj_hhkb_rn42/common/action_util.o
-                0x00004b58                set_mods
+                0x00004b76        0x6 obj_hhkb_rn42/common/action_util.o
+                0x00004b76                set_mods
  .text.clear_mods
-                0x00004b5e        0x6 obj_hhkb_rn42/common/action_util.o
-                0x00004b5e                clear_mods
+                0x00004b7c        0x6 obj_hhkb_rn42/common/action_util.o
+                0x00004b7c                clear_mods
  .text.add_weak_mods
-                0x00004b64        0xc obj_hhkb_rn42/common/action_util.o
-                0x00004b64                add_weak_mods
+                0x00004b82        0xc obj_hhkb_rn42/common/action_util.o
+                0x00004b82                add_weak_mods
  .text.del_weak_mods
-                0x00004b70        0xe obj_hhkb_rn42/common/action_util.o
-                0x00004b70                del_weak_mods
+                0x00004b8e        0xe obj_hhkb_rn42/common/action_util.o
+                0x00004b8e                del_weak_mods
  .text.clear_weak_mods
-                0x00004b7e        0x6 obj_hhkb_rn42/common/action_util.o
-                0x00004b7e                clear_weak_mods
+                0x00004b9c        0x6 obj_hhkb_rn42/common/action_util.o
+                0x00004b9c                clear_weak_mods
  .text.set_oneshot_mods
-                0x00004b84       0x12 obj_hhkb_rn42/common/action_util.o
-                0x00004b84                set_oneshot_mods
+                0x00004ba2       0x12 obj_hhkb_rn42/common/action_util.o
+                0x00004ba2                set_oneshot_mods
  .text.clear_oneshot_mods
-                0x00004b96        0xe obj_hhkb_rn42/common/action_util.o
-                0x00004b96                clear_oneshot_mods
+                0x00004bb4        0xe obj_hhkb_rn42/common/action_util.o
+                0x00004bb4                clear_oneshot_mods
  .text.has_anykey
-                0x00004ba4       0x26 obj_hhkb_rn42/common/action_util.o
-                0x00004ba4                has_anykey
+                0x00004bc2       0x26 obj_hhkb_rn42/common/action_util.o
+                0x00004bc2                has_anykey
  .text.send_keyboard_report
-                0x00004bca       0xb2 obj_hhkb_rn42/common/action_util.o
-                0x00004bca                send_keyboard_report
+                0x00004be8       0xb2 obj_hhkb_rn42/common/action_util.o
+                0x00004be8                send_keyboard_report
  .text.print_set_sendchar
-                0x00004c7c        0xa obj_hhkb_rn42/common/print.o
-                0x00004c7c                print_set_sendchar
- .text.bitrev   0x00004c86       0x24 obj_hhkb_rn42/common/util.o
-                0x00004c86                bitrev
+                0x00004c9a        0xa obj_hhkb_rn42/common/print.o
+                0x00004c9a                print_set_sendchar
+ .text.bitrev   0x00004ca4       0x24 obj_hhkb_rn42/common/util.o
+                0x00004ca4                bitrev
  .text.hook_keyboard_loop
-                0x00004caa        0x2 obj_hhkb_rn42/common/hook.o
-                0x00004caa                hook_keyboard_loop
+                0x00004cc8        0x2 obj_hhkb_rn42/common/hook.o
+                0x00004cc8                hook_keyboard_loop
  .text.hook_matrix_change
-                0x00004cac       0x1e obj_hhkb_rn42/common/hook.o
-                0x00004cac                hook_matrix_change
+                0x00004cca       0x1e obj_hhkb_rn42/common/hook.o
+                0x00004cca                hook_matrix_change
  .text.hook_default_layer_change
-                0x00004cca        0x2 obj_hhkb_rn42/common/hook.o
-                0x00004cca                hook_default_layer_change
+                0x00004ce8        0x2 obj_hhkb_rn42/common/hook.o
+                0x00004ce8                hook_default_layer_change
  .text.hook_layer_change
-                0x00004ccc        0x2 obj_hhkb_rn42/common/hook.o
-                0x00004ccc                hook_layer_change
+                0x00004cea        0x2 obj_hhkb_rn42/common/hook.o
+                0x00004cea                hook_layer_change
  .text.hook_keyboard_leds_change
-                0x00004cce        0x4 obj_hhkb_rn42/common/hook.o
-                0x00004cce                hook_keyboard_leds_change
+                0x00004cec        0x4 obj_hhkb_rn42/common/hook.o
+                0x00004cec                hook_keyboard_leds_change
  .text.suspend_power_down
-                0x00004cd2       0x4c obj_hhkb_rn42/common/avr/suspend.o
-                0x00004cd2                suspend_power_down
+                0x00004cf0       0x4c obj_hhkb_rn42/common/avr/suspend.o
+                0x00004cf0                suspend_power_down
  .text.suspend_wakeup_condition
-                0x00004d1e       0x2a obj_hhkb_rn42/common/avr/suspend.o
-                0x00004d1e                suspend_wakeup_condition
+                0x00004d3c       0x2a obj_hhkb_rn42/common/avr/suspend.o
+                0x00004d3c                suspend_wakeup_condition
  .text.suspend_wakeup_init
-                0x00004d48        0x8 obj_hhkb_rn42/common/avr/suspend.o
-                0x00004d48                suspend_wakeup_init
+                0x00004d66        0x8 obj_hhkb_rn42/common/avr/suspend.o
+                0x00004d66                suspend_wakeup_init
  .text.__vector_12
-                0x00004d50       0x52 obj_hhkb_rn42/common/avr/suspend.o
-                0x00004d50                __vector_12
+                0x00004d6e       0x52 obj_hhkb_rn42/common/avr/suspend.o
+                0x00004d6e                __vector_12
  .text.timer_init
-                0x00004da2       0x12 obj_hhkb_rn42/common/avr/timer.o
-                0x00004da2                timer_init
+                0x00004dc0       0x12 obj_hhkb_rn42/common/avr/timer.o
+                0x00004dc0                timer_init
  .text.timer_read
-                0x00004db4       0x18 obj_hhkb_rn42/common/avr/timer.o
-                0x00004db4                timer_read
+                0x00004dd2       0x18 obj_hhkb_rn42/common/avr/timer.o
+                0x00004dd2                timer_read
  .text.timer_read32
-                0x00004dcc       0x18 obj_hhkb_rn42/common/avr/timer.o
-                0x00004dcc                timer_read32
+                0x00004dea       0x18 obj_hhkb_rn42/common/avr/timer.o
+                0x00004dea                timer_read32
  .text.timer_elapsed
-                0x00004de4       0x52 obj_hhkb_rn42/common/avr/timer.o
-                0x00004de4                timer_elapsed
+                0x00004e02       0x52 obj_hhkb_rn42/common/avr/timer.o
+                0x00004e02                timer_elapsed
  .text.timer_elapsed32
-                0x00004e36       0x58 obj_hhkb_rn42/common/avr/timer.o
-                0x00004e36                timer_elapsed32
+                0x00004e54       0x58 obj_hhkb_rn42/common/avr/timer.o
+                0x00004e54                timer_elapsed32
  .text.__vector_21
-                0x00004e8e       0x4a obj_hhkb_rn42/common/avr/timer.o
-                0x00004e8e                __vector_21
+                0x00004eac       0x4a obj_hhkb_rn42/common/avr/timer.o
+                0x00004eac                __vector_21
  .text.bootloader_jump
-                0x00004ed8       0x46 obj_hhkb_rn42/common/avr/bootloader.o
-                0x00004ed8                bootloader_jump
+                0x00004ef6       0x46 obj_hhkb_rn42/common/avr/bootloader.o
+                0x00004ef6                bootloader_jump
  .text.keymap_key_to_keycode
-                0x00004f1e       0x24 obj_hhkb_rn42/common/keymap.o
-                0x00004f1e                keymap_key_to_keycode
+                0x00004f3c       0x24 obj_hhkb_rn42/common/keymap.o
+                0x00004f3c                keymap_key_to_keycode
  .text.keymap_fn_to_action
-                0x00004f42       0x12 obj_hhkb_rn42/common/keymap.o
-                0x00004f42                keymap_fn_to_action
+                0x00004f60       0x12 obj_hhkb_rn42/common/keymap.o
+                0x00004f60                keymap_fn_to_action
  .text.action_for_key
-                0x00004f54      0x140 obj_hhkb_rn42/common/keymap.o
-                0x00004f54                action_for_key
+                0x00004f72      0x140 obj_hhkb_rn42/common/keymap.o
+                0x00004f72                action_for_key
  .text.move_unit
-                0x00005094       0x90 obj_hhkb_rn42/common/mousekey.o
+                0x000050b2       0x90 obj_hhkb_rn42/common/mousekey.o
  .text.wheel_unit
-                0x00005124       0x72 obj_hhkb_rn42/common/mousekey.o
+                0x00005142       0x72 obj_hhkb_rn42/common/mousekey.o
  .text.mousekey_on
-                0x00005196       0xd0 obj_hhkb_rn42/common/mousekey.o
-                0x00005196                mousekey_on
+                0x000051b4       0xd0 obj_hhkb_rn42/common/mousekey.o
+                0x000051b4                mousekey_on
  .text.mousekey_off
-                0x00005266      0x10a obj_hhkb_rn42/common/mousekey.o
-                0x00005266                mousekey_off
+                0x00005284      0x10a obj_hhkb_rn42/common/mousekey.o
+                0x00005284                mousekey_off
  .text.mousekey_send
-                0x00005370      0x11a obj_hhkb_rn42/common/mousekey.o
-                0x00005370                mousekey_send
+                0x0000538e      0x11a obj_hhkb_rn42/common/mousekey.o
+                0x0000538e                mousekey_send
  .text.mousekey_task
-                0x0000548a      0x142 obj_hhkb_rn42/common/mousekey.o
-                0x0000548a                mousekey_task
+                0x000054a8      0x142 obj_hhkb_rn42/common/mousekey.o
+                0x000054a8                mousekey_task
  .text.mousekey_clear
-                0x000055cc       0x18 obj_hhkb_rn42/common/mousekey.o
-                0x000055cc                mousekey_clear
+                0x000055ea       0x18 obj_hhkb_rn42/common/mousekey.o
+                0x000055ea                mousekey_clear
  .text.mousekey_console_help
-                0x000055e4       0x2e obj_hhkb_rn42/common/command.o
+                0x00005602       0x2e obj_hhkb_rn42/common/command.o
  .text.mousekey_param_inc
-                0x00005612      0x146 obj_hhkb_rn42/common/command.o
+                0x00005630      0x146 obj_hhkb_rn42/common/command.o
  .text.mousekey_param_dec
-                0x00005758       0xfc obj_hhkb_rn42/common/command.o
+                0x00005776       0xfc obj_hhkb_rn42/common/command.o
  .text.switch_default_layer
-                0x00005854       0x3c obj_hhkb_rn42/common/command.o
+                0x00005872       0x3c obj_hhkb_rn42/common/command.o
  .text.command_common
-                0x00005890      0x234 obj_hhkb_rn42/common/command.o
+                0x000058ae      0x234 obj_hhkb_rn42/common/command.o
  .text.command_proc
-                0x00005ac4      0x2a4 obj_hhkb_rn42/common/command.o
-                0x00005ac4                command_proc
+                0x00005ae2      0x2a4 obj_hhkb_rn42/common/command.o
+                0x00005ae2                command_proc
  .text.avr-libc.fplib
-                0x00005d68        0xa /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fixsfsi.o)
-                0x00005d68                __fixsfsi
+                0x00005d86        0xa /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fixsfsi.o)
+                0x00005d86                __fixsfsi
  .text.avr-libc.fplib
-                0x00005d72       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
-                0x00005d72                __fixunssfsi
+                0x00005d90       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
+                0x00005d90                __fixunssfsi
  .text.avr-libc.fplib
-                0x00005dca       0x7a /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(floatsisf.o)
-                0x00005dca                __floatunsisf
-                0x00005dce                __floatsisf
+                0x00005de8       0x7a /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(floatsisf.o)
+                0x00005de8                __floatunsisf
+                0x00005dec                __floatsisf
  .text.avr-libc.fplib
-                0x00005e44       0x44 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_split3.o)
-                0x00005e44                __fp_split3
-                0x00005e54                __fp_splitA
+                0x00005e62       0x44 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_split3.o)
+                0x00005e62                __fp_split3
+                0x00005e72                __fp_splitA
  .text.avr-libc.fplib
-                0x00005e88        0xe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_zero.o)
-                0x00005e88                __fp_zero
-                0x00005e8a                __fp_szero
+                0x00005ea6        0xe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_zero.o)
+                0x00005ea6                __fp_zero
+                0x00005ea8                __fp_szero
  .text.avr-libc.fplib
-                0x00005e96        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(mulsf3.o)
-                0x00005e96                __mulsf3
+                0x00005eb4        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(mulsf3.o)
+                0x00005eb4                __mulsf3
  .text.avr-libc.fplib
-                0x00005e9a       0xc2 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
-                0x00005eae                __mulsf3x
-                0x00005eb2                __mulsf3_pse
+                0x00005eb8       0xc2 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
+                0x00005ecc                __mulsf3x
+                0x00005ed0                __mulsf3_pse
  .text.avr-libc.fplib
-                0x00005f5c        0xc /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_inf.o)
-                0x00005f5c                __fp_inf
+                0x00005f7a        0xc /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_inf.o)
+                0x00005f7a                __fp_inf
  .text.avr-libc.fplib
-                0x00005f68        0x6 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_nan.o)
-                0x00005f68                __fp_nan
+                0x00005f86        0x6 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_nan.o)
+                0x00005f86                __fp_nan
  .text.avr-libc.fplib
-                0x00005f6e        0xe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
-                0x00005f6e                __fp_pscA
+                0x00005f8c        0xe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
+                0x00005f8c                __fp_pscA
  .text.avr-libc.fplib
-                0x00005f7c        0xe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
-                0x00005f7c                __fp_pscB
+                0x00005f9a        0xe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
+                0x00005f9a                __fp_pscB
  .text.avr-libc.fplib
-                0x00005f8a       0x22 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_round.o)
-                0x00005f8a                __fp_round
+                0x00005fa8       0x22 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(fp_round.o)
+                0x00005fa8                __fp_round
  .text.libgcc.div
-                0x00005fac       0x18 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodqi4.o)
-                0x00005fac                __udivmodqi4
+                0x00005fca       0x18 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodqi4.o)
+                0x00005fca                __udivmodqi4
  .text.libgcc.div
-                0x00005fc4       0x28 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodhi4.o)
-                0x00005fc4                __udivmodhi4
+                0x00005fe2       0x28 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodhi4.o)
+                0x00005fe2                __udivmodhi4
  .text.libgcc.div
-                0x00005fec       0x28 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_divmodhi4.o)
-                0x00005fec                __divmodhi4
-                0x00005fec                _div
+                0x0000600a       0x28 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_divmodhi4.o)
+                0x0000600a                __divmodhi4
+                0x0000600a                _div
  .text.libgcc.div
-                0x00006014       0x44 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodsi4.o)
-                0x00006014                __udivmodsi4
- .text.libgcc   0x00006058        0xc /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_tablejump.o)
-                0x00006058                __tablejump2__
-                0x0000605c                __tablejump__
-                0x00006064                . = ALIGN (0x2)
+                0x00006032       0x44 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodsi4.o)
+                0x00006032                __udivmodsi4
+ .text.libgcc   0x00006076        0xc /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_tablejump.o)
+                0x00006076                __tablejump2__
+                0x0000607a                __tablejump__
+                0x00006082                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00006064        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
-                0x00006064                exit
-                0x00006064                _exit
+ .fini9         0x00006082        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
+                0x00006082                exit
+                0x00006082                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -1619,11 +1619,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00006064        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
+ .fini0         0x00006082        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x00006068                _etext = .
+                0x00006086                _etext = .
 
-.data           0x00800100       0x9a load address 0x00006068
+.data           0x00800100       0x9a load address 0x00006086
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm32u4.o
@@ -1755,7 +1755,7 @@ END GROUP
  .bss           0x0080019a        0x2 obj_hhkb_rn42/common/avr/xprintf.o
                 0x0080019a                xfunc_out
  *(.bss*)
- .bss.ctrl_mod.2342
+ .bss.ctrl_mod.2343
                 0x0080019c        0x1 obj_hhkb_rn42/keymap_custom.o
  .bss._matrix1  0x0080019d        0x8 obj_hhkb_rn42/matrix.o
  .bss._matrix0  0x008001a5        0x8 obj_hhkb_rn42/matrix.o
@@ -1860,8 +1860,8 @@ END GROUP
                 0x00800357                USB_DeviceState
                 0x00800358                USB_ControlRequest
                 0x00800360                PROVIDE (__bss_end, .)
-                0x00006068                __data_load_start = LOADADDR (.data)
-                0x00006102                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00006086                __data_load_start = LOADADDR (.data)
+                0x00006120                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800360        0x4
                 0x00800360                PROVIDE (__noinit_start, .)
@@ -2077,58 +2077,58 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000    0x12569
+.debug_info     0x00000000    0x12581
  *(.debug_info)
- .debug_info    0x00000000     0x1111 obj_hhkb_rn42/keymap_custom.o
- .debug_info    0x00001111      0x5e5 obj_hhkb_rn42/matrix.o
- .debug_info    0x000016f6       0x91 obj_hhkb_rn42/led.o
- .debug_info    0x00001787      0x191 obj_hhkb_rn42/serial_uart.o
- .debug_info    0x00001918      0x9fe obj_hhkb_rn42/rn42/rn42.o
- .debug_info    0x00002316     0x144c obj_hhkb_rn42/rn42/rn42_task.o
- .debug_info    0x00003762      0x420 obj_hhkb_rn42/rn42/battery.o
- .debug_info    0x00003b82      0x73e obj_hhkb_rn42/rn42/main.o
- .debug_info    0x000042c0     0x14ee obj_hhkb_rn42/protocol/lufa/lufa.o
- .debug_info    0x000057ae      0x7c6 obj_hhkb_rn42/protocol/lufa/descriptor.o
- .debug_info    0x00005f74      0x73e obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Class/Common/HIDParser.o
- .debug_info    0x000066b2       0xd2 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.o
- .debug_info    0x00006784     0x17b4 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
- .debug_info    0x00007f38      0x614 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
- .debug_info    0x0000854c       0x56 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Host_AVR8.o
- .debug_info    0x000085a2       0x56 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/PipeStream_AVR8.o
- .debug_info    0x000085f8       0x56 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Pipe_AVR8.o
- .debug_info    0x0000864e      0x4cb obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
- .debug_info    0x00008b19      0x7c4 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
- .debug_info    0x000092dd      0x3cd obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/ConfigDescriptors.o
- .debug_info    0x000096aa      0xa57 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
- .debug_info    0x0000a101       0x78 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/Events.o
- .debug_info    0x0000a179       0x56 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/HostStandardReq.o
- .debug_info    0x0000a1cf      0x26b obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/USBTask.o
- .debug_info    0x0000a43a      0x4f8 obj_hhkb_rn42/common/host.o
- .debug_info    0x0000a932      0x456 obj_hhkb_rn42/common/keyboard.o
- .debug_info    0x0000ad88      0x19d obj_hhkb_rn42/common/matrix.o
- .debug_info    0x0000af25     0x1643 obj_hhkb_rn42/common/action.o
- .debug_info    0x0000c568      0xf70 obj_hhkb_rn42/common/action_tapping.o
- .debug_info    0x0000d4d8      0x9b4 obj_hhkb_rn42/common/action_macro.o
- .debug_info    0x0000de8c      0x7d3 obj_hhkb_rn42/common/action_layer.o
- .debug_info    0x0000e65f      0x611 obj_hhkb_rn42/common/action_util.o
- .debug_info    0x0000ec70       0xda obj_hhkb_rn42/common/print.o
- .debug_info    0x0000ed4a       0xfc obj_hhkb_rn42/common/debug.o
- .debug_info    0x0000ee46      0x29b obj_hhkb_rn42/common/util.o
- .debug_info    0x0000f0e1      0x1ff obj_hhkb_rn42/common/hook.o
- .debug_info    0x0000f2e0      0x288 obj_hhkb_rn42/common/avr/suspend.o
- .debug_info    0x0000f568      0x204 obj_hhkb_rn42/common/avr/timer.o
- .debug_info    0x0000f76c      0x18a obj_hhkb_rn42/common/avr/bootloader.o
- .debug_info    0x0000f8f6      0xf69 obj_hhkb_rn42/common/keymap.o
- .debug_info    0x0001085f      0x7b4 obj_hhkb_rn42/common/mousekey.o
- .debug_info    0x00011013      0xf66 obj_hhkb_rn42/common/command.o
- .debug_info    0x00011f79       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodqi4.o)
- .debug_info    0x00012037       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodhi4.o)
- .debug_info    0x000120f5       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_divmodhi4.o)
- .debug_info    0x000121b3       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodsi4.o)
- .debug_info    0x00012271       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
- .debug_info    0x0001232f       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_tablejump.o)
- .debug_info    0x000123ed       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
- .debug_info    0x000124ab       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
+ .debug_info    0x00000000     0x1129 obj_hhkb_rn42/keymap_custom.o
+ .debug_info    0x00001129      0x5e5 obj_hhkb_rn42/matrix.o
+ .debug_info    0x0000170e       0x91 obj_hhkb_rn42/led.o
+ .debug_info    0x0000179f      0x191 obj_hhkb_rn42/serial_uart.o
+ .debug_info    0x00001930      0x9fe obj_hhkb_rn42/rn42/rn42.o
+ .debug_info    0x0000232e     0x144c obj_hhkb_rn42/rn42/rn42_task.o
+ .debug_info    0x0000377a      0x420 obj_hhkb_rn42/rn42/battery.o
+ .debug_info    0x00003b9a      0x73e obj_hhkb_rn42/rn42/main.o
+ .debug_info    0x000042d8     0x14ee obj_hhkb_rn42/protocol/lufa/lufa.o
+ .debug_info    0x000057c6      0x7c6 obj_hhkb_rn42/protocol/lufa/descriptor.o
+ .debug_info    0x00005f8c      0x73e obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Class/Common/HIDParser.o
+ .debug_info    0x000066ca       0xd2 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.o
+ .debug_info    0x0000679c     0x17b4 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
+ .debug_info    0x00007f50      0x614 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
+ .debug_info    0x00008564       0x56 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Host_AVR8.o
+ .debug_info    0x000085ba       0x56 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/PipeStream_AVR8.o
+ .debug_info    0x00008610       0x56 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Pipe_AVR8.o
+ .debug_info    0x00008666      0x4cb obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
+ .debug_info    0x00008b31      0x7c4 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
+ .debug_info    0x000092f5      0x3cd obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/ConfigDescriptors.o
+ .debug_info    0x000096c2      0xa57 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
+ .debug_info    0x0000a119       0x78 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/Events.o
+ .debug_info    0x0000a191       0x56 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/HostStandardReq.o
+ .debug_info    0x0000a1e7      0x26b obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/USBTask.o
+ .debug_info    0x0000a452      0x4f8 obj_hhkb_rn42/common/host.o
+ .debug_info    0x0000a94a      0x456 obj_hhkb_rn42/common/keyboard.o
+ .debug_info    0x0000ada0      0x19d obj_hhkb_rn42/common/matrix.o
+ .debug_info    0x0000af3d     0x1643 obj_hhkb_rn42/common/action.o
+ .debug_info    0x0000c580      0xf70 obj_hhkb_rn42/common/action_tapping.o
+ .debug_info    0x0000d4f0      0x9b4 obj_hhkb_rn42/common/action_macro.o
+ .debug_info    0x0000dea4      0x7d3 obj_hhkb_rn42/common/action_layer.o
+ .debug_info    0x0000e677      0x611 obj_hhkb_rn42/common/action_util.o
+ .debug_info    0x0000ec88       0xda obj_hhkb_rn42/common/print.o
+ .debug_info    0x0000ed62       0xfc obj_hhkb_rn42/common/debug.o
+ .debug_info    0x0000ee5e      0x29b obj_hhkb_rn42/common/util.o
+ .debug_info    0x0000f0f9      0x1ff obj_hhkb_rn42/common/hook.o
+ .debug_info    0x0000f2f8      0x288 obj_hhkb_rn42/common/avr/suspend.o
+ .debug_info    0x0000f580      0x204 obj_hhkb_rn42/common/avr/timer.o
+ .debug_info    0x0000f784      0x18a obj_hhkb_rn42/common/avr/bootloader.o
+ .debug_info    0x0000f90e      0xf69 obj_hhkb_rn42/common/keymap.o
+ .debug_info    0x00010877      0x7b4 obj_hhkb_rn42/common/mousekey.o
+ .debug_info    0x0001102b      0xf66 obj_hhkb_rn42/common/command.o
+ .debug_info    0x00011f91       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodqi4.o)
+ .debug_info    0x0001204f       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodhi4.o)
+ .debug_info    0x0001210d       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_divmodhi4.o)
+ .debug_info    0x000121cb       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_info    0x00012289       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
+ .debug_info    0x00012347       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_tablejump.o)
+ .debug_info    0x00012405       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
+ .debug_info    0x000124c3       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev   0x00000000     0x49c1
@@ -2184,58 +2184,58 @@ END GROUP
  .debug_abbrev  0x00004999       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
  .debug_abbrev  0x000049ad       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
 
-.debug_line     0x00000000     0x6224
+.debug_line     0x00000000     0x6229
  *(.debug_line)
- .debug_line    0x00000000      0x164 obj_hhkb_rn42/keymap_custom.o
- .debug_line    0x00000164      0x2b5 obj_hhkb_rn42/matrix.o
- .debug_line    0x00000419       0x70 obj_hhkb_rn42/led.o
- .debug_line    0x00000489      0x112 obj_hhkb_rn42/serial_uart.o
- .debug_line    0x0000059b      0x361 obj_hhkb_rn42/rn42/rn42.o
- .debug_line    0x000008fc      0x459 obj_hhkb_rn42/rn42/rn42_task.o
- .debug_line    0x00000d55      0x183 obj_hhkb_rn42/rn42/battery.o
- .debug_line    0x00000ed8      0x3a0 obj_hhkb_rn42/rn42/main.o
- .debug_line    0x00001278      0x7b9 obj_hhkb_rn42/protocol/lufa/lufa.o
- .debug_line    0x00001a31      0x1f6 obj_hhkb_rn42/protocol/lufa/descriptor.o
- .debug_line    0x00001c27      0x258 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Class/Common/HIDParser.o
- .debug_line    0x00001e7f      0x139 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.o
- .debug_line    0x00001fb8      0xc7f obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
- .debug_line    0x00002c37      0x3e8 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
- .debug_line    0x0000301f       0x1a obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Host_AVR8.o
- .debug_line    0x00003039       0x1a obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/PipeStream_AVR8.o
- .debug_line    0x00003053       0x1a obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Pipe_AVR8.o
- .debug_line    0x0000306d      0x2f7 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
- .debug_line    0x00003364      0x4c4 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
- .debug_line    0x00003828      0x190 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/ConfigDescriptors.o
- .debug_line    0x000039b8      0x38c obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
- .debug_line    0x00003d44       0x6d obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/Events.o
- .debug_line    0x00003db1       0x1a obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/HostStandardReq.o
- .debug_line    0x00003dcb      0x1a0 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/USBTask.o
- .debug_line    0x00003f6b      0x19d obj_hhkb_rn42/common/host.o
- .debug_line    0x00004108      0x17b obj_hhkb_rn42/common/keyboard.o
- .debug_line    0x00004283      0x111 obj_hhkb_rn42/common/matrix.o
- .debug_line    0x00004394      0x451 obj_hhkb_rn42/common/action.o
- .debug_line    0x000047e5      0x278 obj_hhkb_rn42/common/action_tapping.o
- .debug_line    0x00004a5d      0x14b obj_hhkb_rn42/common/action_macro.o
- .debug_line    0x00004ba8      0x1dc obj_hhkb_rn42/common/action_layer.o
- .debug_line    0x00004d84      0x257 obj_hhkb_rn42/common/action_util.o
- .debug_line    0x00004fdb       0xa4 obj_hhkb_rn42/common/print.o
- .debug_line    0x0000507f       0x7c obj_hhkb_rn42/common/debug.o
- .debug_line    0x000050fb      0x191 obj_hhkb_rn42/common/util.o
- .debug_line    0x0000528c       0xdb obj_hhkb_rn42/common/hook.o
- .debug_line    0x00005367      0x1ae obj_hhkb_rn42/common/avr/suspend.o
- .debug_line    0x00005515      0x120 obj_hhkb_rn42/common/avr/timer.o
- .debug_line    0x00005635      0x18e obj_hhkb_rn42/common/avr/bootloader.o
- .debug_line    0x000057c3      0x188 obj_hhkb_rn42/common/keymap.o
- .debug_line    0x0000594b      0x2d2 obj_hhkb_rn42/common/mousekey.o
- .debug_line    0x00005c1d      0x2e7 obj_hhkb_rn42/common/command.o
- .debug_line    0x00005f04       0x62 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodqi4.o)
- .debug_line    0x00005f66       0x6a /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodhi4.o)
- .debug_line    0x00005fd0       0x69 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_divmodhi4.o)
- .debug_line    0x00006039       0x78 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodsi4.o)
- .debug_line    0x000060b1       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
- .debug_line    0x00006109       0x5c /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_tablejump.o)
- .debug_line    0x00006165       0x61 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
- .debug_line    0x000061c6       0x5e /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
+ .debug_line    0x00000000      0x169 obj_hhkb_rn42/keymap_custom.o
+ .debug_line    0x00000169      0x2b5 obj_hhkb_rn42/matrix.o
+ .debug_line    0x0000041e       0x70 obj_hhkb_rn42/led.o
+ .debug_line    0x0000048e      0x112 obj_hhkb_rn42/serial_uart.o
+ .debug_line    0x000005a0      0x361 obj_hhkb_rn42/rn42/rn42.o
+ .debug_line    0x00000901      0x459 obj_hhkb_rn42/rn42/rn42_task.o
+ .debug_line    0x00000d5a      0x183 obj_hhkb_rn42/rn42/battery.o
+ .debug_line    0x00000edd      0x3a0 obj_hhkb_rn42/rn42/main.o
+ .debug_line    0x0000127d      0x7b9 obj_hhkb_rn42/protocol/lufa/lufa.o
+ .debug_line    0x00001a36      0x1f6 obj_hhkb_rn42/protocol/lufa/descriptor.o
+ .debug_line    0x00001c2c      0x258 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Class/Common/HIDParser.o
+ .debug_line    0x00001e84      0x139 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.o
+ .debug_line    0x00001fbd      0xc7f obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
+ .debug_line    0x00002c3c      0x3e8 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
+ .debug_line    0x00003024       0x1a obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Host_AVR8.o
+ .debug_line    0x0000303e       0x1a obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/PipeStream_AVR8.o
+ .debug_line    0x00003058       0x1a obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Pipe_AVR8.o
+ .debug_line    0x00003072      0x2f7 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
+ .debug_line    0x00003369      0x4c4 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
+ .debug_line    0x0000382d      0x190 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/ConfigDescriptors.o
+ .debug_line    0x000039bd      0x38c obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
+ .debug_line    0x00003d49       0x6d obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/Events.o
+ .debug_line    0x00003db6       0x1a obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/HostStandardReq.o
+ .debug_line    0x00003dd0      0x1a0 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/USBTask.o
+ .debug_line    0x00003f70      0x19d obj_hhkb_rn42/common/host.o
+ .debug_line    0x0000410d      0x17b obj_hhkb_rn42/common/keyboard.o
+ .debug_line    0x00004288      0x111 obj_hhkb_rn42/common/matrix.o
+ .debug_line    0x00004399      0x451 obj_hhkb_rn42/common/action.o
+ .debug_line    0x000047ea      0x278 obj_hhkb_rn42/common/action_tapping.o
+ .debug_line    0x00004a62      0x14b obj_hhkb_rn42/common/action_macro.o
+ .debug_line    0x00004bad      0x1dc obj_hhkb_rn42/common/action_layer.o
+ .debug_line    0x00004d89      0x257 obj_hhkb_rn42/common/action_util.o
+ .debug_line    0x00004fe0       0xa4 obj_hhkb_rn42/common/print.o
+ .debug_line    0x00005084       0x7c obj_hhkb_rn42/common/debug.o
+ .debug_line    0x00005100      0x191 obj_hhkb_rn42/common/util.o
+ .debug_line    0x00005291       0xdb obj_hhkb_rn42/common/hook.o
+ .debug_line    0x0000536c      0x1ae obj_hhkb_rn42/common/avr/suspend.o
+ .debug_line    0x0000551a      0x120 obj_hhkb_rn42/common/avr/timer.o
+ .debug_line    0x0000563a      0x18e obj_hhkb_rn42/common/avr/bootloader.o
+ .debug_line    0x000057c8      0x188 obj_hhkb_rn42/common/keymap.o
+ .debug_line    0x00005950      0x2d2 obj_hhkb_rn42/common/mousekey.o
+ .debug_line    0x00005c22      0x2e7 obj_hhkb_rn42/common/command.o
+ .debug_line    0x00005f09       0x62 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodqi4.o)
+ .debug_line    0x00005f6b       0x6a /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodhi4.o)
+ .debug_line    0x00005fd5       0x69 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_divmodhi4.o)
+ .debug_line    0x0000603e       0x78 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_line    0x000060b6       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
+ .debug_line    0x0000610e       0x5c /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_tablejump.o)
+ .debug_line    0x0000616a       0x61 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_copy_data.o)
+ .debug_line    0x000061cb       0x5e /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_clear_bss.o)
 
 .debug_frame    0x00000000     0x1f20
  *(.debug_frame)
@@ -2280,7 +2280,7 @@ END GROUP
 .debug_str      0x00000000     0x4a20
  *(.debug_str)
  .debug_str     0x00000000     0x1096 obj_hhkb_rn42/keymap_custom.o
-                               0x1159 (size before relaxing)
+                               0x115f (size before relaxing)
  .debug_str     0x00001096      0x243 obj_hhkb_rn42/matrix.o
                                 0x3b9 (size before relaxing)
  .debug_str     0x000012d9       0x16 obj_hhkb_rn42/led.o
@@ -2364,40 +2364,40 @@ END GROUP
  .debug_str     0x000047e0      0x240 obj_hhkb_rn42/common/command.o
                                 0xd9d (size before relaxing)
 
-.debug_loc      0x00000000     0xa0b5
+.debug_loc      0x00000000     0xa0d5
  *(.debug_loc)
- .debug_loc     0x00000000      0x2ba obj_hhkb_rn42/keymap_custom.o
- .debug_loc     0x000002ba      0x175 obj_hhkb_rn42/matrix.o
- .debug_loc     0x0000042f      0x110 obj_hhkb_rn42/serial_uart.o
- .debug_loc     0x0000053f      0x485 obj_hhkb_rn42/rn42/rn42.o
- .debug_loc     0x000009c4     0x16d9 obj_hhkb_rn42/rn42/rn42_task.o
- .debug_loc     0x0000209d       0xfe obj_hhkb_rn42/rn42/battery.o
- .debug_loc     0x0000219b       0xce obj_hhkb_rn42/rn42/main.o
- .debug_loc     0x00002269      0x668 obj_hhkb_rn42/protocol/lufa/lufa.o
- .debug_loc     0x000028d1      0x20a obj_hhkb_rn42/protocol/lufa/descriptor.o
- .debug_loc     0x00002adb      0xab2 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Class/Common/HIDParser.o
- .debug_loc     0x0000358d     0x1db2 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
- .debug_loc     0x0000533f      0x3f2 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
- .debug_loc     0x00005731       0x49 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
- .debug_loc     0x0000577a      0x333 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
- .debug_loc     0x00005aad      0x5bd obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/ConfigDescriptors.o
- .debug_loc     0x0000606a      0x2a8 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
- .debug_loc     0x00006312       0x49 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/USBTask.o
- .debug_loc     0x0000635b      0x298 obj_hhkb_rn42/common/host.o
- .debug_loc     0x000065f3      0x179 obj_hhkb_rn42/common/keyboard.o
- .debug_loc     0x0000676c      0x162 obj_hhkb_rn42/common/matrix.o
- .debug_loc     0x000068ce      0xe1d obj_hhkb_rn42/common/action.o
- .debug_loc     0x000076eb      0x633 obj_hhkb_rn42/common/action_tapping.o
- .debug_loc     0x00007d1e      0x550 obj_hhkb_rn42/common/action_macro.o
- .debug_loc     0x0000826e      0x45a obj_hhkb_rn42/common/action_layer.o
- .debug_loc     0x000086c8      0x1be obj_hhkb_rn42/common/action_util.o
- .debug_loc     0x00008886      0x503 obj_hhkb_rn42/common/util.o
- .debug_loc     0x00008d89       0x69 obj_hhkb_rn42/common/hook.o
- .debug_loc     0x00008df2       0xc5 obj_hhkb_rn42/common/avr/suspend.o
- .debug_loc     0x00008eb7      0x20a obj_hhkb_rn42/common/avr/timer.o
- .debug_loc     0x000090c1      0x1bb obj_hhkb_rn42/common/keymap.o
- .debug_loc     0x0000927c      0x574 obj_hhkb_rn42/common/mousekey.o
- .debug_loc     0x000097f0      0x8c5 obj_hhkb_rn42/common/command.o
+ .debug_loc     0x00000000      0x2da obj_hhkb_rn42/keymap_custom.o
+ .debug_loc     0x000002da      0x175 obj_hhkb_rn42/matrix.o
+ .debug_loc     0x0000044f      0x110 obj_hhkb_rn42/serial_uart.o
+ .debug_loc     0x0000055f      0x485 obj_hhkb_rn42/rn42/rn42.o
+ .debug_loc     0x000009e4     0x16d9 obj_hhkb_rn42/rn42/rn42_task.o
+ .debug_loc     0x000020bd       0xfe obj_hhkb_rn42/rn42/battery.o
+ .debug_loc     0x000021bb       0xce obj_hhkb_rn42/rn42/main.o
+ .debug_loc     0x00002289      0x668 obj_hhkb_rn42/protocol/lufa/lufa.o
+ .debug_loc     0x000028f1      0x20a obj_hhkb_rn42/protocol/lufa/descriptor.o
+ .debug_loc     0x00002afb      0xab2 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Class/Common/HIDParser.o
+ .debug_loc     0x000035ad     0x1db2 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/EndpointStream_AVR8.o
+ .debug_loc     0x0000535f      0x3f2 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/Endpoint_AVR8.o
+ .debug_loc     0x00005751       0x49 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.o
+ .debug_loc     0x0000579a      0x333 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/AVR8/USBInterrupt_AVR8.o
+ .debug_loc     0x00005acd      0x5bd obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/ConfigDescriptors.o
+ .debug_loc     0x0000608a      0x2a8 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/DeviceStandardReq.o
+ .debug_loc     0x00006332       0x49 obj_hhkb_rn42/protocol/lufa/LUFA-git/LUFA/Drivers/USB/Core/USBTask.o
+ .debug_loc     0x0000637b      0x298 obj_hhkb_rn42/common/host.o
+ .debug_loc     0x00006613      0x179 obj_hhkb_rn42/common/keyboard.o
+ .debug_loc     0x0000678c      0x162 obj_hhkb_rn42/common/matrix.o
+ .debug_loc     0x000068ee      0xe1d obj_hhkb_rn42/common/action.o
+ .debug_loc     0x0000770b      0x633 obj_hhkb_rn42/common/action_tapping.o
+ .debug_loc     0x00007d3e      0x550 obj_hhkb_rn42/common/action_macro.o
+ .debug_loc     0x0000828e      0x45a obj_hhkb_rn42/common/action_layer.o
+ .debug_loc     0x000086e8      0x1be obj_hhkb_rn42/common/action_util.o
+ .debug_loc     0x000088a6      0x503 obj_hhkb_rn42/common/util.o
+ .debug_loc     0x00008da9       0x69 obj_hhkb_rn42/common/hook.o
+ .debug_loc     0x00008e12       0xc5 obj_hhkb_rn42/common/avr/suspend.o
+ .debug_loc     0x00008ed7      0x20a obj_hhkb_rn42/common/avr/timer.o
+ .debug_loc     0x000090e1      0x1bb obj_hhkb_rn42/common/keymap.o
+ .debug_loc     0x0000929c      0x574 obj_hhkb_rn42/common/mousekey.o
+ .debug_loc     0x00009810      0x8c5 obj_hhkb_rn42/common/command.o
 
 .debug_macinfo
  *(.debug_macinfo)

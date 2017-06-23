@@ -65,7 +65,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     [2] = \
     KEYMAP(ESC, TRNS, TRNS, TRNS, FN19, TRNS, FN20, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, INS, DEL, \
            TAB , TRNS, TRNS, FN17, TRNS, TRNS, TRNS, TRNS, PPLS, TRNS, TRNS, TRNS, TRNS, BSPC, \
-           TRNS  , TRNS, TRNS, FN15, FN14, FN16, FN10, FN11,  FN12,  FN13, TRNS, TRNS, ENT, \
+           TRNS  , TRNS, TRNS, FN15, FN14, FN16, FN10, FN11,  FN12,  FN13, TRNS, TRNS, FN8, \
            LSFT   , TRNS, TRNS, TRNS,   A , FN18, TRNS, TRNS, TRNS, TRNS, TRNS, RSFT, TRNS, \
                 LALT, LGUI,    /*SPC*/ FN9 /*SPC*/    , RGUI, RALT),
 
@@ -87,7 +87,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     [6] = \
     KEYMAP(PWR, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
            CAPS,  NO, MPRV, MPLY, MNXT,  NO,  NO,  NO,  NO, NO, NO, UP,  FN4,  BSPC, \
-           LCTL, VOLD,VOLU,MUTE,  NO,  NO, PAST, PSLS,HOME, PGUP, LEFT, RGHT, ENT, \
+           LCTL,   NO, VOLD, MUTE, VOLU,  NO, PAST, PSLS,HOME, PGUP, LEFT, RGHT, ENT, \
             LSFT,  NO,  NO,  NO,  NO,  NO, PPLS, PMNS, END, PGDN, DOWN, RSFT, FN6, \
                 LALT, LGUI,          TRNS,             RGUI, RALT),
 
@@ -202,6 +202,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
 /* id for user defined functions */
 enum function_id {
     SPACE,
+    ENTER,
 
     UP,
     DOWN,
@@ -243,6 +244,7 @@ const action_t fn_actions[] PROGMEM = {
     [6]  = ACTION_LAYER_MOMENTARY(6),                 // HHKB layer
     // [4] = ACTION_MACRO(ALT_TILDE),                    // Macro: CMD + Tilde
 
+    [8]  = ACTION_FUNCTION(ENTER),
     [9]  = ACTION_FUNCTION(SPACE),
     [10] = ACTION_FUNCTION(LEFT),
     [11] = ACTION_FUNCTION(DOWN),
@@ -331,6 +333,20 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
                 add_mods(ctrl_mod);
             } else {
                 del_key(KC_SPC);
+                register_mods(ctrl_mod);
+                send_keyboard_report();
+            }
+            return;
+
+        case ENTER:
+            ctrl_mod = get_mods()&MODS_CTRL_MASK;
+            if(record->event.pressed) {
+                del_mods(ctrl_mod);
+                add_key(KC_ENT);
+                send_keyboard_report();
+                add_mods(ctrl_mod);
+            } else {
+                del_key(KC_ENT);
                 register_mods(ctrl_mod);
                 send_keyboard_report();
             }
